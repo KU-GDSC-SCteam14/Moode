@@ -18,5 +18,11 @@
   "homepage": "https://github.com/KU-GDSC-SCteam14/Mindfulness-app#readme",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.4"
   }
 }
