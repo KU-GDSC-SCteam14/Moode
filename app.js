@@ -1,6 +1,8 @@
 const express = require('express')
+const cors = require('cors') // CORS 미들웨어를 위한 require
 const app = express()
 
+app.use(cors()) // CORS 미들웨어 사용
 app.use(express.json())
 
 // 구글 계정으로 로그인
@@ -35,14 +37,16 @@ app.post('/diary', (req, res) => {
   })
 })
 
+/*
+
 // 전체 일기 데이터 백업
 app.post('/backup', (req, res) => {
   // 사용자의 전체 일기 데이터 백업 로직
   res.json({
     success: true,
     message: 'Backup completed successfully',
-  })
-})
+  });
+});
 
 // 백업 데이터 복원
 app.post('/restore', (req, res) => {
@@ -52,7 +56,19 @@ app.post('/restore', (req, res) => {
   res.json({
     success: true,
     message: 'Data restored successfully',
-  })
+  });
+});
+
+*/
+
+// 에러 핸들링 미들웨어
+app.use((err, req, res, next) => {
+  console.error(err.stack) // 에러 로그 출력
+
+  const statusCode = err.statusCode || 500
+  const message = err.message || 'Internal Server Error'
+
+  res.status(statusCode).send(message)
 })
 
 // 서버 시작
