@@ -4,11 +4,21 @@ const morgan = require('morgan') // morgan 미들웨어를 위한 require
 const app = express()
 const passport = require('passport')
 require('./config/passport')(passport) // passport 설정을 별도의 파일로 관리
+const jwt = require('jsonwebtoken')
+const helmet = require('helmet')
+const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 
-app.use(cors()) // CORS 미들웨어 사용
+app.use(
+  cors({
+    origin: 'http://example.com', // 클라이언트의 도메인
+    credentials: true, // 쿠키를 전달하도록 설정
+  }),
+)
 app.use(express.json())
 app.use(morgan('dev')) // 개발용 로그 포맷 사용
 app.use(passport.initialize())
+app.use(helmet())
+app.use(cookieParser()) // cookie-parser 사용
 
 // Google OAuth
 app.get(
@@ -20,7 +30,11 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    // 성공적인 인증 후 로직
+    const token = jwt.sign({ id: req.user.id }, 'SECRET_KEY', {
+      expiresIn: '1h',
+    })
+    // 쿠키에 JWT 저장 및 클라이언트로 전송
+    res.cookie('jwt', token, { httpOnly: true, secure: true }) // secure: true는 HTTPS 환경에서만 쿠키를 전송
     res.redirect('/')
   },
 )
@@ -35,7 +49,11 @@ app.get(
   '/auth/apple/callback',
   passport.authenticate('apple', { failureRedirect: '/login' }),
   (req, res) => {
-    // 성공적인 인증 후 로직
+    const token = jwt.sign({ id: req.user.id }, 'SECRET_KEY', {
+      expiresIn: '1h',
+    })
+    // 쿠키에 JWT 저장 및 클라이언트로 전송
+    res.cookie('jwt', token, { httpOnly: true, secure: true })
     res.redirect('/')
   },
 )
