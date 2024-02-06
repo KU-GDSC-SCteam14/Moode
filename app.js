@@ -1,27 +1,44 @@
 const express = require('express')
 const cors = require('cors') // CORS 미들웨어를 위한 require
+const morgan = require('morgan') // morgan 미들웨어를 위한 require
 const app = express()
+const passport = require('passport')
+require('./config/passport')(passport) // passport 설정을 별도의 파일로 관리
 
 app.use(cors()) // CORS 미들웨어 사용
 app.use(express.json())
+app.use(morgan('dev')) // 개발용 로그 포맷 사용
+app.use(passport.initialize())
 
-// 구글 계정으로 로그인
-app.post('/auth/login/google', (req, res) => {
-  // 구글 로그인 처리 로직
-  res.json({
-    success: true,
-    token: 'google_generated_token',
-  })
-})
+// Google OAuth
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+)
 
-// 애플 계정으로 로그인
-app.post('/auth/login/apple', (req, res) => {
-  // 애플 로그인 처리 로직
-  res.json({
-    success: true,
-    token: 'apple_generated_token',
-  })
-})
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // 성공적인 인증 후 로직
+    res.redirect('/')
+  },
+)
+
+// Apple OAuth
+app.get(
+  '/auth/apple',
+  passport.authenticate('apple', { scope: ['name', 'email'] }),
+)
+
+app.get(
+  '/auth/apple/callback',
+  passport.authenticate('apple', { failureRedirect: '/login' }),
+  (req, res) => {
+    // 성공적인 인증 후 로직
+    res.redirect('/')
+  },
+)
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
 app.post('/diary', (req, res) => {
