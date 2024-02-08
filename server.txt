@@ -1,0 +1,59 @@
+-- User 테이블
+CREATE TABLE User (
+  User_ID INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(255),
+  Signup_date DATETIME,
+  is_Google BOOLEAN,
+  is_Apple BOOLEAN,
+  Provider_ID VARCHAR(255),
+  Access_Token TEXT,
+  Refresh_Token TEXT,
+  Token_Expiry_Date DATETIME,
+  Profile_Picture_URL TEXT
+);
+
+-- Diary 테이블
+CREATE TABLE Diary (
+  Diary_ID INT AUTO_INCREMENT PRIMARY KEY,
+  User_ID INT,
+  Title VARCHAR(255),
+  Content_1 TEXT,
+  Content_2 TEXT,
+  Content_3 TEXT,
+  Date DATETIME,
+  Mood_ID INT,
+  FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+  FOREIGN KEY (Mood_ID) REFERENCES Mood(Mood_ID)
+);
+
+-- Keyword 테이블
+CREATE TABLE Keyword (
+  Keyword_ID INT AUTO_INCREMENT PRIMARY KEY,
+  keyword TEXT
+);
+
+-- DiaryKeyword 테이블
+CREATE TABLE DiaryKeyword (
+  Diary_Keyword_ID INT AUTO_INCREMENT PRIMARY KEY,
+  Diary_ID INT,
+  Keyword_ID INT,
+  FOREIGN KEY (Diary_ID) REFERENCES Diary(Diary_ID),
+  FOREIGN KEY (Keyword_ID) REFERENCES Keyword(Keyword_ID)
+);
+
+-- Mood 테이블
+CREATE TABLE Mood (
+  Mood_ID INT AUTO_INCREMENT PRIMARY KEY,
+  Mood_name VARCHAR(255),
+  Mood_value_min DECIMAL(10,2),
+  Mood_value_max DECIMAL(10,2)
+);
+
+-- AI_Data 테이블 (서버 전용)
+CREATE TABLE AI_Data (
+  AI_Data_ID INT AUTO_INCREMENT PRIMARY KEY,
+  Diary_ID INT,
+  Keywords_Extract TEXT,
+  Mood_value DECIMAL(10,2),
+  FOREIGN KEY (Diary_ID) REFERENCES Diary(Diary_ID)
+);

@@ -7,10 +7,11 @@ require('./config/passport')(passport) // passport 설정을 별도의 파일로
 const jwt = require('jsonwebtoken')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser') // cookie-parser 불러오기
+require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
 
 app.use(
   cors({
-    origin: 'http://example.com', // 클라이언트의 도메인
+    origin: process.env.CORS_ORIGIN, // .env 파일에서 클라이언트 도메인을 설정할 수 있습니다.
     credentials: true, // 쿠키를 전달하도록 설정
   }),
 )
@@ -30,7 +31,7 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, 'SECRET_KEY', {
+    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: '1h',
     })
     // 쿠키에 JWT 저장 및 클라이언트로 전송
@@ -49,7 +50,7 @@ app.get(
   '/auth/apple/callback',
   passport.authenticate('apple', { failureRedirect: '/login' }),
   (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, 'SECRET_KEY', {
+    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET_KEY, {
       expiresIn: '1h',
     })
     // 쿠키에 JWT 저장 및 클라이언트로 전송
@@ -107,7 +108,7 @@ app.use((err, req, res, next) => {
 })
 
 // 서버 시작
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000 // .env 파일에서 포트 번호를 설정합니다.
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
 })
