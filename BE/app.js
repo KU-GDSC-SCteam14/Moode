@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(morgan('dev')) // 개발용 로그 포맷 사용
 app.use(passport.initialize())
 app.use(helmet())
-app.use(cookieParser()) // cookie-parser 사용
+app.use(cookieParser()) // cookie-parser사용
 
 // Google OAuth
 app.get(
