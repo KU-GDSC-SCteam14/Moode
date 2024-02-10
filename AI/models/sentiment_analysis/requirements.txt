@@ -1,0 +1,3 @@
+vaderSentiment
+google-cloud-translate
+nltk
