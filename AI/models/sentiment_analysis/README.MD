@@ -5,6 +5,11 @@
 3. PowerShell 등 명령어 창에
 ```powershell
 gcloud init
-``` 입력 후 프로젝트 선택, 로그인
-4. 오류 뜨면 [gcloud auth application-default print-access-token] 입력해서 다시 로그인
+```
+입력 후 프로젝트 선택, 로그인
+4. 오류 뜨면 
+```powershell
+gcloud auth application-default print-access-token
+```
+입력해서 다시 로그인
 (더 자세한 설명은 https://cloud.google.com/translate/docs/setup?hl=ko&_ga=2.194036137.-522249066.1705043250#python 참고)
