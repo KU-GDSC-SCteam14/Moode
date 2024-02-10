@@ -7,6 +7,7 @@
 gcloud init
 ```
 입력 후 프로젝트 선택, 로그인
+
 4. 오류 뜨면 
 ```powershell
 gcloud auth application-default print-access-token
