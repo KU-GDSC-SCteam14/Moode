@@ -1,2 +1,2 @@
-모델 bin 파일은 1기가 넘어서 깃허브 업로드 불가
-깃허브 README에 드라이브로 따로 올려야 할 듯
+# Mindfulness-app
+Mindfulness app that features AI-emotional diary
