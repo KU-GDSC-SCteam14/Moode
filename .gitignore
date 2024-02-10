@@ -1,3 +1,6 @@
+#모델 파일이 1기가 넘어서 임시로 업로드 안함
+AI/models/keyword_extraction/experiments/base_model_with_crf_val/best-epoch-16-step-1500-acc-0.993.bin
+
 # Logs
 logs
 *.log
