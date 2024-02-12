@@ -169,7 +169,7 @@ def main(parser):
                     k_word[0] = ner_word['word']
                     # 업데이트된 키워드를 res_keywords_dict에 추가
                     res_keywords_dict[ner_word['word']] = k_word
-                    print(ner_word['word'],":",k_word)
+                    #print(ner_word['word'],":",k_word)
                     if ner_word['tag'] in ['ORG', 'LOC']:
                         k_word[1] *= 1.4
                     elif ner_word['tag'] == 'PER':
