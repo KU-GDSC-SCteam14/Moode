@@ -1,0 +1,15 @@
+# 포트 3000을 사용하는 프로세스 찾기
+lsof -i :3000
+
+# 출력 예시:
+# COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+# node    12345 yourusername   23u  IPv6 0xabcdefghi      0t0  TCP *:3000 (LISTEN)
+
+# 해당 프로세스 종료하기 (PID는 위의 명령어의 출력에서 확인)
+kill -9 PID
+
+-- 'main' 사용자에게 'mysql_db' 데이터베이스에 대한 모든 권한 부여
+GRANT ALL PRIVILEGES ON mysql_db.* TO 'main'@'%';
+
+-- 권한 변경 적용
+FLUSH PRIVILEGES;

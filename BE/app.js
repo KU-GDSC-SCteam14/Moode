@@ -23,7 +23,17 @@ app.use(passport.initialize())
 app.use(helmet())
 app.use(cookieParser()) // cookie-parser사용
 
-// 여기에 DB 연결 코드 추가 (예: MySQL 연결 설정)
+async function testDBConnection() {
+  try {
+    await db.query('SELECT 1') // 간단한 쿼리를 실행하여 DB 연결을 테스트합니다.
+    console.log('Database connection successful')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
+
+// 앱 시작 시 DB 연결을 테스트합니다.
+testDBConnection()
 
 // Google OAuth
 app.get(
@@ -63,15 +73,55 @@ app.get(
   },
 )
 
+// 유저 저장 API
+app.post('/User', async (req, res) => {
+  console.log('User 저장 처리 시작')
+  const {
+    Name,
+    Signup_date,
+    is_Google,
+    is_Apple,
+    Provider_ID,
+    Access_Token,
+    Refresh_Token,
+    Token_Expiry_Date,
+    Profile_Picture_URL,
+  } = req.body
+
+  try {
+    console.log('User 저장 진입')
+    const result = await db.query(
+      `INSERT INTO User (Name, Signup_date, is_Google, is_Apple, Provider_ID, Access_Token, Refresh_Token, Token_Expiry_Date, Profile_Picture_URL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        Name,
+        Signup_date,
+        is_Google,
+        is_Apple,
+        Provider_ID,
+        Access_Token,
+        Refresh_Token,
+        Token_Expiry_Date,
+        Profile_Picture_URL,
+      ],
+    )
+    console.log('User 저장 성공')
+    console.log(result)
+    res.status(201).json({ success: true, userid: result.insertId })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+})
+
 // 일기 저장 API
 app.post('/diary', async (req, res) => {
-  const { userId, title, content_1, content_2, content_3, date, moodId } =
+  const { User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID } =
     req.body
 
   try {
     const [result] = await db.query(
       `INSERT INTO Diary (User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [userId, title, content_1, content_2, content_3, date, moodId],
+      [User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID],
     )
     res.status(201).json({ success: true, diaryId: result.insertId })
   } catch (error) {

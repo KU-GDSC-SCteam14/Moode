@@ -4,6 +4,7 @@ require('dotenv').config()
 // 데이터베이스 연결 정보 설정
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
@@ -12,10 +13,15 @@ const pool = mysql.createPool({
   queueLimit: 0, // 연결 요청 대기열의 최대 크기, 0은 무제한
 })
 
-// 데이터베이스 쿼리를 실행하는 함수 예시
+// 데이터베이스 쿼리를 실행하는 함수
 async function query(sql, params) {
-  const [rows, fields] = await pool.execute(sql, params)
-  return rows
+  try {
+    const [rows] = await pool.execute(sql, params)
+    console.log(rows)
+    return rows
+  } catch (error) {
+    console.error('Query error:', error)
+  }
 }
 
 // 데이터베이스 연결 풀 종료
