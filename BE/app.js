@@ -83,7 +83,7 @@ app.post('/diary', async (req, res) => {
 // 일기 목록 조회 API
 app.get('/diaries', async (req, res) => {
   try {
-    const [diaries] = await pool.query(`SELECT * FROM Diary`)
+    const [diaries] = await db.query(`SELECT * FROM Diary`)
     res.json({ success: true, diaries })
   } catch (error) {
     console.error(error)
