@@ -1,4 +1,4 @@
-const express = require('express') 
+const express = require('express')
 const cors = require('cors') // CORS 미들웨어를 위한 require
 const morgan = require('morgan') // morgan 미들웨어를 위한 require
 const passport = require('passport')
@@ -61,6 +61,34 @@ app.get(
     res.redirect('/')
   },
 )
+
+// 일기 저장 API
+app.post('/diary', async (req, res) => {
+  const { userId, title, content_1, content_2, content_3, date, moodId } =
+    req.body
+
+  try {
+    const [result] = await db.query(
+      `INSERT INTO Diary (User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [userId, title, content_1, content_2, content_3, date, moodId],
+    )
+    res.status(201).json({ success: true, diaryId: result.insertId })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+})
+
+// 일기 목록 조회 API
+app.get('/diaries', async (req, res) => {
+  try {
+    const diaries = await getDiaries()
+    res.json({ success: true, diaries })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+})
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
 app.post('/diary', (req, res) => {
