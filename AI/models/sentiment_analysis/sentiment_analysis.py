@@ -6,7 +6,7 @@ from translate import translate_text
 
 
 @timer
-def sentiment_analysis(text):
+def sentiment_analysis(text=' '):
 
   translated_text = translate_text(text, "valid-alpha-411719")
   text = translated_text.translations[0].translated_text

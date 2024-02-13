@@ -298,8 +298,8 @@ if __name__ == '__main__':
 
     bert_model, kw_model, model, tokenizer, decoder_from_res = main(parser)
     while(True) :
-        input_text = input("텍스트를 입력하세요: ")
-        keyword_extraction(bert_model, kw_model, model, tokenizer, decoder_from_res, input_text)
+        text = input("텍스트를 입력하세요: ")
+        keyword_extraction(bert_model, kw_model, model, tokenizer, decoder_from_res, text)
 
 
 
