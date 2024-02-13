@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
-require('./config/passport')(passport) // passport 설정을 별도의 파일로 관리
+require('./config/passport')(passport)
+const db = require('./db')
 
 const app = express()
 
@@ -91,7 +92,7 @@ app.get('/diaries', async (req, res) => {
 })
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
-app.post('/diary', (req, res) => {
+app.post('/AIdiary', (req, res) => {
   // 감정일기 내용 추출, AI를 사용한 키워드 추출 및 감정 분석
   // 감정일기 내용은 처리 후 서버에서 파기
 
