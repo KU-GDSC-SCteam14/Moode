@@ -180,7 +180,7 @@ app.post('/restore', (req, res) => {
 */
 
 // 에러 핸들링 미들웨어
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err.stack) // 에러 로그 출력
 
   const statusCode = err.statusCode || 500

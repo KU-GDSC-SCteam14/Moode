@@ -3,4 +3,4 @@ VALUES ('Testname', '2024-02-13 12:00:00', True, False, 'test_provider_id', 'tes
 
 SELECT * FROM User WHERE Name = 'Testname' AND Signup_date = '2024-02-13 12:00:00';
 
-DELETE FROM User WHERE User_ID = 1 AND Signup_date = '2024-02-13 12:00:00';
+DELETE FROM User WHERE User_ID = 14 AND Signup_date = '2024-02-13 12:00:00';
