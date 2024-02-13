@@ -37,10 +37,19 @@ def sentiment_analysis(text=' '):
 
   print("전체 평균 =", avg_compound)
 
-  return avg_compound # 0.1234... float로 반환
+  if avg_compound >= 0.7 :
+     sentiment = 'very happy'
+  elif avg_compound >= -0.2 :
+     sentiment = 'happy'
+  elif avg_compound >= -0.7 :
+     sentiment = 'sad'
+  else :
+     sentiment = 'very sad'
+
+  return sentiment # 'very happy' 'happy' 'sad' 'very sad' 중 하나
 
 
 
 while(True) :
   text = input("텍스트 입력: ")
-  sentiment_analysis(text) # 0.1234... float로 반환
+  sentiment = sentiment_analysis(text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
