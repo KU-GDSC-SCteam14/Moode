@@ -212,6 +212,10 @@ def keyword_extraction(bert_model, kw_model, model, tokenizer, decoder_from_res,
             top_4.append(w[0].strip())
         if len(unique_keywords) >= 4:
             break
+    print(top_4)
+    return top_4
+    # top_4: 리스트 형식의 4개 이하 키워드
+    # ex) ['해리포터', '유니버셜 스튜디오', '일본', '오사카']
 
 
 class DecoderFromNamedEntitySequence():
@@ -286,7 +290,7 @@ class DecoderFromNamedEntitySequence():
         return list_of_ner_word, decoding_ner_sentence
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # 스크립트 파일이 실행되면
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', default='./data_in', help="Directory containing config.json of data")
@@ -299,8 +303,9 @@ if __name__ == '__main__':
     bert_model, kw_model, model, tokenizer, decoder_from_res = main(parser)
     while(True) :
         text = input("텍스트를 입력하세요: ")
-        keyword_extraction(bert_model, kw_model, model, tokenizer, decoder_from_res, text)
-
+        top_4 = keyword_extraction(bert_model, kw_model, model, tokenizer, decoder_from_res, text)
+        # top_4: 리스트 형식의 4개 이하 키워드
+        # ex) ['해리포터', '유니버셜 스튜디오', '일본', '오사카']
 
 
 

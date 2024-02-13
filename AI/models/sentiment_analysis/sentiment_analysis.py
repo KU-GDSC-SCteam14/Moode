@@ -37,10 +37,10 @@ def sentiment_analysis(text=' '):
 
   print("전체 평균 =", avg_compound)
 
-  return avg_compound
+  return avg_compound # 0.1234... float로 반환
 
 
 
 while(True) :
   text = input("텍스트 입력: ")
-  sentiment_analysis(text)
+  sentiment_analysis(text) # 0.1234... float로 반환
