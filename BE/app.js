@@ -1,13 +1,14 @@
 const express = require('express') 
 const cors = require('cors') // CORS 미들웨어를 위한 require
 const morgan = require('morgan') // morgan 미들웨어를 위한 require
-const app = express()
 const passport = require('passport')
-require('./config/passport')(passport) // passport 설정을 별도의 파일로 관리
 const jwt = require('jsonwebtoken')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
+require('./config/passport')(passport) // passport 설정을 별도의 파일로 관리
+
+const app = express()
 
 app.use(
   cors({
@@ -20,6 +21,8 @@ app.use(morgan('dev')) // 개발용 로그 포맷 사용
 app.use(passport.initialize())
 app.use(helmet())
 app.use(cookieParser()) // cookie-parser사용
+
+// 여기에 DB 연결 코드 추가 (예: MySQL 연결 설정)
 
 // Google OAuth
 app.get(
