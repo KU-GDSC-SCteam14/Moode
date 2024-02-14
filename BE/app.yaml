@@ -1,4 +1,4 @@
-runtime: nodejs21 # 사용할 Node.js의 버전
+runtime: nodejs20 # 사용할 Node.js의 버전
 env: standard # 환경 설정 (standard 또는 flexible)
 
 handlers:
