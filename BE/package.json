@@ -4,6 +4,8 @@
   "description": "Mindfulness app that features AI-emotional diary",
   "main": "index.js",
   "scripts": {
+    "build": "echo \"No build step required\"",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

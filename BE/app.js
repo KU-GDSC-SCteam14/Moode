@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
 require('./config/passport')(passport)
 const db = require('./db')
+var spawn = require('child_process').spawn
 
 const app = express()
 
@@ -142,16 +143,19 @@ app.get('/diaries', async (req, res) => {
 })
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
-app.post('/AIdiary', (req, res) => {
-  // 감정일기 내용 추출, AI를 사용한 키워드 추출 및 감정 분석
-  // 감정일기 내용은 처리 후 서버에서 파기
+app.get('/AIdiary', (req, res) => {
+  var process = spawn('python', ['./your_model_script.py', req.query.input])
 
-  // 예시 응답
-  res.status(201).json({
-    success: true,
-    message: 'Diary created and analyzed successfully',
-    keywords: ['keyword1', 'keyword2'],
-    emotionScore: 0.8,
+  process.stdout.on('data', function (data) {
+    res.send(data.toString())
+  })
+
+  process.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`)
+  })
+
+  process.on('close', (code) => {
+    console.log(`child process exited with code ${code}`)
   })
 })
 
