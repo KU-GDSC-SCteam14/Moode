@@ -1,15 +1,15 @@
 steps:
   # 종속성 설치
   - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
+    args: ['install', '--no-fund']
     dir: 'BE'
-  
+
   # 빌드 실행
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
     dir: 'BE'
-  
+
   # Google App Engine 배포
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy', './BE/app.yaml']
+    args: ['app', 'deploy', './app.yaml']
     dir: 'BE'
