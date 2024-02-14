@@ -1,0 +1,24 @@
+runtime: nodejs21 # 사용할 Node.js의 버전
+env: standard # 환경 설정 (standard 또는 flexible)
+
+handlers:
+  - url: /.* # 모든 요청을 처리
+    script: auto # 자동으로 요청을 앱에 전달
+
+env_variables: # 환경 변수 설정
+  NODE_ENV: 'production'
+  API_KEY: 'your_api_key_here'
+  PORT: '3000'
+  CORS_ORIGIN: 'http://example.com'
+  DB_HOST: 'Oxytocin-MacBookPro.local'
+  DB_PORT: '3306'
+  DB_USER: 'main'
+  DB_PASSWORD: 'testmain1234'
+  DB_NAME: 'moode_db'
+  JWT_SECRET_KEY: 'your_jwt_secret_key'
+  GOOGLE_CLIENT_ID: 'your_google_client_id'
+  GOOGLE_CLIENT_SECRET: 'your_google_client_secret'
+  APPLE_CLIENT_ID: 'your_apple_client_id'
+  APPLE_TEAM_ID: 'your_apple_team_id'
+  APPLE_KEY_ID: 'your_apple_key_id'
+  APPLE_PRIVATE_KEY_PATH: 'path_to_your_apple_private_key'
