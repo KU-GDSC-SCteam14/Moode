@@ -1,0 +1,67 @@
+starting build "9fb0f540-537d-4240-819e-1300c340234e"
+
+FETCHSOURCE
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+Initialized empty Git repository in /workspace/.git/
+From https://source.developers.google.com/p/gdsc-solutionchallenge-team14/r/github_ku-gdsc-scteam14_mindfulness-app
+ * branch            2e65036de2bade587bce0edc70274b559706c6f8 -> FETCH_HEAD
+HEAD is now at 2e65036 Update app.yaml
+BUILD
+Starting Step #0
+Step #0: Already have image (with digest): gcr.io/cloud-builders/npm
+Step #0: 
+Step #0: added 231 packages, and audited 232 packages in 5s
+Step #0: 
+Step #0: found 0 vulnerabilities
+Finished Step #0
+Starting Step #1
+Step #1: Already have image (with digest): gcr.io/cloud-builders/npm
+Step #1: 
+Step #1: > mindfulness-app@1.0.0 build
+Step #1: > echo "No build step required"
+Step #1: 
+Step #1: No build step required
+Finished Step #1
+Starting Step #2
+Step #2: Already have image (with digest): gcr.io/cloud-builders/gcloud
+Step #2: Services to deploy:
+Step #2: 
+Step #2: descriptor:                  [/workspace/BE/app.yaml]
+Step #2: source:                      [/workspace/BE]
+Step #2: target project:              [gdsc-solutionchallenge-team14]
+Step #2: target service:              [default]
+Step #2: target version:              [20240214t122320]
+Step #2: target url:                  [https://gdsc-solutionchallenge-team14.du.r.appspot.com]
+Step #2: target service account:      [gdsc-solutionchallenge-team14@appspot.gserviceaccount.com]
+Step #2: 
+Step #2: 
+Step #2: Do you want to continue (Y/n)?  
+Step #2: Beginning deployment of service [default]...
+Step #2: Created .gcloudignore file. See `gcloud topic gcloudignore` for details.
+Step #2: ╔════════════════════════════════════════════════════════════╗
+Step #2: ╠═ Uploading 0 files to Google Cloud Storage                ═╣
+Step #2: ╚════════════════════════════════════════════════════════════╝
+Step #2: File upload done.
+Step #2: Updating service [default]...
+Step #2: ..................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................done.
+Step #2: Setting traffic split for service [default]...
+Step #2: ...................................done.
+Step #2: Deployed service [default] to [https://gdsc-solutionchallenge-team14.du.r.appspot.com]
+Step #2: 
+Step #2: You can stream logs from the command line by running:
+Step #2:   $ gcloud app logs tail -s default
+Step #2: 
+Step #2: To view your application in the web browser run:
+Step #2:   $ gcloud app browse --project=gdsc-solutionchallenge-team14
+Finished Step #2
+PUSH
+DONE
