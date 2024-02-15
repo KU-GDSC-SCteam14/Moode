@@ -52,4 +52,5 @@ def sentiment_analysis(text=' '):
 
 while(True) :
   text = input("텍스트 입력: ")
+  text = text.encode('utf-8', errors='replace')
   sentiment = sentiment_analysis(text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
