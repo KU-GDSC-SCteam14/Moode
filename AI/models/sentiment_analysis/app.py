@@ -14,10 +14,10 @@ def post():
     if not data or 'input' not in data:
         return jsonify({'error': 'Missing input text'}), 400
     
-    input_text = data['input']
+    text = data['input']
 
     # 감성 분석 수행
-    sentiment_result = sentiment_analysis(input_text)
+    sentiment_result = sentiment_analysis(text)
 
     # 처리 결과를 JSON 형태로 반환
     return jsonify({'sentiment': sentiment_result})
