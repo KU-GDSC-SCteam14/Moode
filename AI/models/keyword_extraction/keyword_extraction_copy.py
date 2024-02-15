@@ -1,4 +1,4 @@
-from timer import timer
+from estimate_time import timer
 
 from keybert import KeyBERT
 from kiwipiepy import Kiwi
