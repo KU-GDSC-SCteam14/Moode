@@ -165,7 +165,7 @@ app.get('/AIkeyword', (req, res) => {
     })
     .catch((error) => {
       console.error('Error:', error)
-      res.status(500).send('An error occurred')
+      res.status(500).json({ success: false, message: 'Internal Server Error' })
     })
 })
 
@@ -184,7 +184,7 @@ app.get('/AImood', (req, res) => {
     })
     .catch((error) => {
       console.error('Error:', error)
-      res.status(500).send('An error occurred')
+      res.status(500).json({ success: false, message: 'Internal Server Error' })
     })
 })
 
