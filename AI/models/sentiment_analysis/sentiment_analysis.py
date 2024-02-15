@@ -1,5 +1,5 @@
 import nltk
-from timer import timer
+from estimate_time import timer
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from nltk import sent_tokenize
 from translate import translate_text

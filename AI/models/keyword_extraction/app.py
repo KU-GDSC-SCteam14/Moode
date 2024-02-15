@@ -11,7 +11,7 @@ from data_utils.utils import Config
 from data_utils.vocab_tokenizer import Tokenizer
 from data_utils.pad_sequence import keras_pad_fn
 from pathlib import Path
-from timer import timer
+from estimate_time import timer
 from keyword_extraction import keyword_extraction
 
 from keybert import KeyBERT
@@ -78,7 +78,7 @@ kw_model = KeyBERT(bert_model)
 def post():
     data = request.json  # JSON 형식의 입력 데이터 받기
 
-    
+
     if not data or 'input' not in data:
         return jsonify({'error': 'Missing input text'}), 400
     

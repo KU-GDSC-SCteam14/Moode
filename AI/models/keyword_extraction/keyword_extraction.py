@@ -11,7 +11,7 @@ from data_utils.utils import Config
 from data_utils.vocab_tokenizer import Tokenizer
 from data_utils.pad_sequence import keras_pad_fn
 from pathlib import Path
-from timer import timer
+from estimate_time import timer
 
 from keybert import KeyBERT
 from kiwipiepy import Kiwi
