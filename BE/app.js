@@ -160,6 +160,8 @@ app.get('/AIkeyword', (req, res) => {
       // Flask에서 받은 응답을 그대로 클라이언트에게 전달
       console.log('전송완료')
       res.json(response.data)
+      console.log(response.data)
+      console.log(res.json(response.data))
     })
     .catch((error) => {
       console.error('Error:', error)
