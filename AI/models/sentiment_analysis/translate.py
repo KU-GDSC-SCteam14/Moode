@@ -3,7 +3,7 @@ from google.cloud import translate
 
 @timer
 def translate_text(
-    text: str = "YOUR_TEXT_TO_TRANSLATE", project_id: str = "valid-alpha-411719"
+    text: str = "YOUR_TEXT_TO_TRANSLATE", project_id: str = "gdsc-solutionchallenge-team14"
 ) -> translate.TranslationServiceClient:
     """Translating Text."""
 

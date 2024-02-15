@@ -8,7 +8,7 @@ from translate import translate_text
 @timer
 def sentiment_analysis(text=' '):
 
-  translated_text = translate_text(text, "valid-alpha-411719")
+  translated_text = translate_text(text, "gdsc-solutionchallenge-team14")
   text = translated_text.translations[0].translated_text
 
   sentences = sent_tokenize(text) # 텍스트 문장 단위로 분리
@@ -18,7 +18,7 @@ def sentiment_analysis(text=' '):
   res_compound = []
   analyzer = SentimentIntensityAnalyzer()
   for sentence in sentences:
-#    translated_text = translate_text(sentence, "valid-alpha-411719") # 번역
+#    translated_text = translate_text(sentence, "gdsc-solutionchallenge-team14") # 번역
     vs = analyzer.polarity_scores(sentence)
     print("{:-<65} {}".format(sentence, str(vs))) # neg: 부정, neu: 중립, pos: 긍정, compound: 통합(+:긍정 -:부정 -> 1 ~ -1)
 
