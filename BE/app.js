@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
 require('./config/passport')(passport)
 const db = require('./db')
-const request = require('request')
 const axios = require('axios')
 
 const app = express()
