@@ -18,7 +18,7 @@ def sentiment_analysis(text=' '):
   res_compound = []
   analyzer = SentimentIntensityAnalyzer()
   for sentence in sentences:
-#    translated_text = translate_text(sentence, "gdsc-solutionchallenge-team14") # 번역
+
     vs = analyzer.polarity_scores(sentence)
     print("{:-<65} {}".format(sentence, str(vs))) # neg: 부정, neu: 중립, pos: 긍정, compound: 통합(+:긍정 -:부정 -> 1 ~ -1)
 
@@ -49,11 +49,8 @@ def sentiment_analysis(text=' '):
   return sentiment # 'very happy' 'happy' 'sad' 'very sad' 중 하나
 
 
+if __name__ == "__main__":
+  while(True) :
+    input_text = input("텍스트 입력111: ")
 
-while(True) :
-  text = input("텍스트 입력: ")
-  # text = text.encode('utf-8', errors='replace')
-  # if isinstance(text, bytes):
-  #   text = text.decode('utf-8')
-
-  sentiment = sentiment_analysis(text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
+    sentiment = sentiment_analysis(input_text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
