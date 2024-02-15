@@ -120,7 +120,7 @@ app.post('/User', async (req, res) => {
 app.delete('/User/:id', async (req, res) => {
   const userId = req.params.id
   try {
-    await db.query(`DELETE FROM User WHERE id = ?`, [userId])
+    await db.query(`DELETE FROM User WHERE User_ID = ?`, [userId])
     res.json({
       success: true,
       message: `User with ID ${userId} has been deleted`,
@@ -163,7 +163,7 @@ app.get('/diaries', async (req, res) => {
 app.delete('/diary/:id', async (req, res) => {
   const diaryId = req.params.id
   try {
-    await db.query(`DELETE FROM Diary WHERE id = ?`, [diaryId])
+    await db.query(`DELETE FROM Diary WHERE Diary_ID = ?`, [diaryId])
     res.json({
       success: true,
       message: `Diary with ID ${diaryId} has been deleted`,
