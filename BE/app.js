@@ -9,6 +9,7 @@ require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config
 require('./config/passport')(passport)
 const db = require('./db')
 const request = require('request')
+const axios = require('axios')
 
 const app = express()
 
@@ -146,49 +147,41 @@ app.get('/diaries', async (req, res) => {
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
 app.get('/AIkeyword', (req, res) => {
-  const options = {
-    method: 'POST',
-    url: 'http://localhost:5000/post', // Flask 경로에 맞게 수정
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req.query),
-  }
+  // Flask 서버의 URL을 변수로 설정
+  const flaskServerUrl = 'http://localhost:5000/post'
 
-  request(options, (error, response, body) => {
-    if (error) {
+  // 요청 본문에 들어갈 데이터. req.query를 직접 사용
+  const requestData = req.query
+
+  axios
+    .post(flaskServerUrl, requestData)
+    .then((response) => {
+      // Flask에서 받은 응답을 그대로 클라이언트에게 전달
+      res.json(response.data)
+    })
+    .catch((error) => {
       console.error('Error:', error)
-      return res.status(500).send('An error occurred')
-    }
-    try {
-      const parsedBody = JSON.parse(body) // JSON 문자열을 객체로 변환
-      res.json(parsedBody) // JSON 형식으로 클라이언트에게 반환
-    } catch (parseError) {
-      console.error('Parse error:', parseError)
-      res.status(500).send('An error occurred while parsing the response')
-    }
-  })
+      res.status(500).send('An error occurred')
+    })
 })
 
 app.get('/AImood', (req, res) => {
-  const options = {
-    method: 'POST',
-    url: 'http://localhost:5000/post', // Flask 경로에 맞게 수정
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req.query),
-  }
+  // Flask 서버의 URL을 변수로 설정
+  const flaskServerUrl = 'http://localhost:5000/post'
 
-  request(options, (error, response, body) => {
-    if (error) {
+  // 요청 본문에 들어갈 데이터. req.query를 직접 사용
+  const requestData = req.query
+
+  axios
+    .post(flaskServerUrl, requestData)
+    .then((response) => {
+      // Flask에서 받은 응답을 그대로 클라이언트에게 전달
+      res.json(response.data)
+    })
+    .catch((error) => {
       console.error('Error:', error)
-      return res.status(500).send('An error occurred')
-    }
-    try {
-      const parsedBody = JSON.parse(body) // JSON 문자열을 객체로 변환
-      res.json(parsedBody) // JSON 형식으로 클라이언트에게 반환
-    } catch (parseError) {
-      console.error('Parse error:', parseError)
-      res.status(500).send('An error occurred while parsing the response')
-    }
-  })
+      res.status(500).send('An error occurred')
+    })
 })
 
 /*
