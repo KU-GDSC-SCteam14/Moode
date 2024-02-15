@@ -116,6 +116,21 @@ app.post('/User', async (req, res) => {
   }
 })
 
+// 유저 삭제 API
+app.delete('/User/:id', async (req, res) => {
+  const userId = req.params.id
+  try {
+    await db.query(`DELETE FROM User WHERE id = ?`, [userId])
+    res.json({
+      success: true,
+      message: `User with ID ${userId} has been deleted`,
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+})
+
 // 일기 저장 API
 app.post('/diary', async (req, res) => {
   const { User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID } =
@@ -138,6 +153,21 @@ app.get('/diaries', async (req, res) => {
   try {
     const [diaries] = await db.query(`SELECT * FROM Diary`)
     res.json({ success: true, diaries })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error' })
+  }
+})
+
+// 일기 삭제 API
+app.delete('/diary/:id', async (req, res) => {
+  const diaryId = req.params.id
+  try {
+    await db.query(`DELETE FROM Diary WHERE id = ?`, [diaryId])
+    res.json({
+      success: true,
+      message: `Diary with ID ${diaryId} has been deleted`,
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({ success: false, message: 'Internal Server Error' })
@@ -176,7 +206,7 @@ app.get('/AIkeyword', (req, res) => {
 
 app.get('/AImood', (req, res) => {
   // Flask 서버의 URL을 변수로 설정
-  const flaskServerUrl = 'http://localhost:5000/post'
+  const flaskServerUrl = 'http://localhost:5001/post'
   console.log(flaskServerUrl)
 
   // 요청 본문에 들어갈 데이터. req.query를 직접 사용
