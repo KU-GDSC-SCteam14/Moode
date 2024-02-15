@@ -148,28 +148,46 @@ app.get('/diaries', async (req, res) => {
 app.get('/AIkeyword', (req, res) => {
   const options = {
     method: 'POST',
-    url: 'http://localhost:5000/predict',
+    url: 'http://localhost:5000/post', // Flask 경로에 맞게 수정
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req.query),
   }
 
   request(options, (error, response, body) => {
-    if (error) throw new Error(error)
-    res.send(body)
+    if (error) {
+      console.error('Error:', error)
+      return res.status(500).send('An error occurred')
+    }
+    try {
+      const parsedBody = JSON.parse(body) // JSON 문자열을 객체로 변환
+      res.json(parsedBody) // JSON 형식으로 클라이언트에게 반환
+    } catch (parseError) {
+      console.error('Parse error:', parseError)
+      res.status(500).send('An error occurred while parsing the response')
+    }
   })
 })
 
 app.get('/AImood', (req, res) => {
   const options = {
     method: 'POST',
-    url: 'http://localhost:5000/predict',
+    url: 'http://localhost:5000/post', // Flask 경로에 맞게 수정
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(req.query),
   }
 
   request(options, (error, response, body) => {
-    if (error) throw new Error(error)
-    res.send(body)
+    if (error) {
+      console.error('Error:', error)
+      return res.status(500).send('An error occurred')
+    }
+    try {
+      const parsedBody = JSON.parse(body) // JSON 문자열을 객체로 변환
+      res.json(parsedBody) // JSON 형식으로 클라이언트에게 반환
+    } catch (parseError) {
+      console.error('Parse error:', parseError)
+      res.status(500).send('An error occurred while parsing the response')
+    }
   })
 })
 
