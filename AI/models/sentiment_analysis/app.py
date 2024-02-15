@@ -23,4 +23,4 @@ def post():
     return jsonify({'sentiment': sentiment_result})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # 원하는 포트 번호로 설정
+    app.run(host='0.0.0.0', port=5001)  # 원하는 포트 번호로 설정
