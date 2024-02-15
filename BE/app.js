@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser') // cookie-parser 불러오기
 require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config() 호출
 require('./config/passport')(passport)
 const db = require('./db')
-var spawn = require('child_process').spawn
+const request = require('request')
 
 const app = express()
 
@@ -145,19 +145,31 @@ app.get('/diaries', async (req, res) => {
 })
 
 // 감정일기 작성 및 키워드 추출, 감정 분석
-app.get('/AIdiary', (req, res) => {
-  var process = spawn('python', ['./your_model_script.py', req.query.input])
+app.get('/AIkeyword', (req, res) => {
+  const options = {
+    method: 'POST',
+    url: 'http://localhost:5000/predict',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req.query),
+  }
 
-  process.stdout.on('data', function (data) {
-    res.send(data.toString())
+  request(options, (error, response, body) => {
+    if (error) throw new Error(error)
+    res.send(body)
   })
+})
 
-  process.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`)
-  })
+app.get('/AImood', (req, res) => {
+  const options = {
+    method: 'POST',
+    url: 'http://localhost:5000/predict',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(req.query),
+  }
 
-  process.on('close', (code) => {
-    console.log(`child process exited with code ${code}`)
+  request(options, (error, response, body) => {
+    if (error) throw new Error(error)
+    res.send(body)
   })
 })
 
