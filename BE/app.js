@@ -164,6 +164,7 @@ app.get('/AIkeyword', (req, res) => {
       console.log(res.json(response.data))
     })
     .catch((error) => {
+      console.log('전송실패')
       console.error('Error:', error)
       res.status(500).json({ success: false, message: 'Internal Server Error' })
     })
