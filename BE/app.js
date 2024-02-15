@@ -148,14 +148,17 @@ app.get('/diaries', async (req, res) => {
 app.get('/AIkeyword', (req, res) => {
   // Flask 서버의 URL을 변수로 설정
   const flaskServerUrl = 'http://localhost:5000/post'
+  console.log(flaskServerUrl)
 
   // 요청 본문에 들어갈 데이터. req.query를 직접 사용
   const requestData = req.query
+  console.log(requestData)
 
   axios
     .post(flaskServerUrl, requestData)
     .then((response) => {
       // Flask에서 받은 응답을 그대로 클라이언트에게 전달
+      console.log('전송완료')
       res.json(response.data)
     })
     .catch((error) => {
