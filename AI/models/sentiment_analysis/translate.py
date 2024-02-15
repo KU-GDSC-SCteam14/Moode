@@ -1,4 +1,4 @@
-from timer import timer
+from estimate_time import timer
 from google.cloud import translate
 
 @timer
