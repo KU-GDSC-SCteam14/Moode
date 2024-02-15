@@ -49,11 +49,8 @@ def sentiment_analysis(text=' '):
   return sentiment # 'very happy' 'happy' 'sad' 'very sad' 중 하나
 
 
+if __name__ == "__main__":
+  while(True) :
+    input_text = input("텍스트 입력111: ")
 
-while(True) :
-  text = input("텍스트 입력111: ")
-  # text = text.encode('utf-8', errors='replace')
-  # if isinstance(text, bytes):
-  #   text = text.decode('utf-8')
-
-  sentiment = sentiment_analysis(text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
+    sentiment = sentiment_analysis(input_text) # 'very happy' 'happy' 'sad' 'very sad' 중 하나
