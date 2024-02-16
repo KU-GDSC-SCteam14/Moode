@@ -134,14 +134,31 @@ app.delete('/User/:id', async (req, res) => {
 // 일기 저장 API
 app.post('/diary', async (req, res) => {
   console.log('Diary 저장 처리 시작')
-  const { User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID } =
-    req.body
+  const {
+    User_ID,
+    Title,
+    Content_1,
+    Content_2,
+    Content_3,
+    Content_4,
+    Date,
+    Mood_ID,
+  } = req.body
 
   try {
     console.log('Diary 저장 진입')
     const result = await db.query(
-      `INSERT INTO Diary (User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID],
+      `INSERT INTO Diary (User_ID, Title, Content_1, Content_2, Content_3, Content_4, Date, Mood_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        User_ID,
+        Title,
+        Content_1,
+        Content_2,
+        Content_3,
+        Content_4,
+        Date,
+        Mood_ID,
+      ],
     )
     console.log('Diary 저장 성공')
     console.log(result)
