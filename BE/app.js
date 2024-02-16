@@ -133,14 +133,18 @@ app.delete('/User/:id', async (req, res) => {
 
 // 일기 저장 API
 app.post('/diary', async (req, res) => {
+  console.log('Diary 저장 처리 시작')
   const { User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID } =
     req.body
 
   try {
-    const [result] = await db.query(
+    console.log('Diary 저장 진입')
+    const result = await db.query(
       `INSERT INTO Diary (User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [User_ID, Title, Content_1, Content_2, Content_3, Date, Mood_ID],
     )
+    console.log('Diary 저장 성공')
+    console.log(result)
     res.status(201).json({ success: true, diaryId: result.insertId })
   } catch (error) {
     console.error(error)
@@ -149,9 +153,12 @@ app.post('/diary', async (req, res) => {
 })
 
 // 일기 목록 조회 API
-app.get('/diaries', async (req, res) => {
+app.get('/diaries/:id', async (req, res) => {
+  const userId = req.params.id
   try {
-    const [diaries] = await db.query(`SELECT * FROM Diary`)
+    const diaries = await db.query(`SELECT * FROM Diary WHERE User_ID = ?`, [
+      userId,
+    ])
     res.json({ success: true, diaries })
   } catch (error) {
     console.error(error)
@@ -160,13 +167,27 @@ app.get('/diaries', async (req, res) => {
 })
 
 // 일기 삭제 API
-app.delete('/diary/:id', async (req, res) => {
-  const diaryId = req.params.id
+app.delete('/user/:userId/diary/:diaryId', async (req, res) => {
+  const { userId, diaryId } = req.params // URL에서 userId와 diaryId 파라미터를 추출
+
   try {
-    await db.query(`DELETE FROM Diary WHERE Diary_ID = ?`, [diaryId])
+    // 특정 사용자의 특정 일기를 삭제
+    const result = await db.query(
+      `DELETE FROM Diary WHERE User_ID = ? AND Diary_ID = ?`,
+      [userId, diaryId],
+    )
+
+    // 삭제된 행이 없는 경우, 존재하지 않는 일기 ID이거나 사용자 ID에 해당하는 일기가 아님
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Diary not found or not authorized to delete this diary',
+      })
+    }
+
     res.json({
       success: true,
-      message: `Diary with ID ${diaryId} has been deleted`,
+      message: `Diary with ID ${diaryId} for user ${userId} has been deleted`,
     })
   } catch (error) {
     console.error(error)
