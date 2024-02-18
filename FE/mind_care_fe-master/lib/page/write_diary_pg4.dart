@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 final titleController = TextEditingController();
 var now = DateTime.now();
 final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(now);
-final String Z = 'Z';
+const String Z = 'Z';
 final String Date = Now + Z;
 
 Future<void> modifyDiary(BuildContext context) async {
@@ -86,7 +86,7 @@ class _Result extends State<Result> {
   //   }
   // }
 
-  void onPressedHandler() {
+  void onPressedHandler() async {
     //uploadDiaryToServer();
 
     // Get the CalendarData instance from the provider
@@ -94,6 +94,11 @@ class _Result extends State<Result> {
 
     // Update the selected date
     //calendarData.updateSelectedDate(DateTime.now());
+
+    // 데이터베이스에 키워드 데이터 연결
+    List<int> keywordIds = await DatabaseService.getKeywordIds(keywords);
+    await DatabaseService.insertDiaryKeywords(diaryId, keywordIds);
+    print('Keyword $keywords saved with ID $keywordIds in DiaryID: $diaryId');
 
     modifyDiary(context);
   }
@@ -165,7 +170,7 @@ class _Result extends State<Result> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // 위 : 글(제목, 날짜), 감정 이모티콘
-                        Container(
+                        SizedBox(
                             width: 334,
                             height: 64,
                             child: Row(
@@ -176,7 +181,7 @@ class _Result extends State<Result> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // 제목
-                                    Container(
+                                    SizedBox(
                                       width: 250,
                                       height: 26,
                                       child: TextField(
@@ -190,7 +195,7 @@ class _Result extends State<Result> {
                                       ),
                                     ),
                                     // 여백
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 14,
                                     ),
                                     // 날짜
@@ -216,13 +221,13 @@ class _Result extends State<Result> {
                                 // 감정 이름
                                 Container(
                                     child: Text(moodName,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                         ))),
                               ],
                             )),
                         // 여백
-                        SizedBox(
+                        const SizedBox(
                           height: 18,
                         ),
                         // 아래 : 키워드들
