@@ -11,18 +11,8 @@ class SelectedDiaryList extends StatefulWidget {
   const SelectedDiaryList({required this.selectedDate, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: DatabaseService.getDiariesByDate(selectedDate.toString()),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // 데이터 로딩 중에 보여질 위젯
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            // 에러가 발생했을 때 보여질 위젯
-            return Text('Error: ${snapshot.error}');
-          } else {
-            List<int> diaryIDs = snapshot.data!;
+  _SelectedDiaryListState createState() => _SelectedDiaryListState();
+}
 
 class _SelectedDiaryListState extends State<SelectedDiaryList> {
   late Future<List<int>> diaryIds;
