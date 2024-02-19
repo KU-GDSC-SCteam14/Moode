@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/simple_diary_card.dart';
 
-class ShowDiaryfromSearch extends StatelessWidget {
+class ShowDiaryfromSearch extends StatefulWidget {
   final int diaryID;
+  const ShowDiaryfromSearch({Key? key, required this.diaryID})
+      : super(key: key);
 
-  ShowDiaryfromSearch({
-    required this.diaryID,
-    super.key,
-  });
+  @override
+  State<ShowDiaryfromSearch> createState() => _ShowDiaryfromSearch();
+}
 
+class _ShowDiaryfromSearch extends State<ShowDiaryfromSearch> {
   @override
   Widget build(BuildContext context) {
     //***********************diaryID 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
@@ -34,130 +36,7 @@ class ShowDiaryfromSearch extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: [
-                // 감정일기 제목 붙이기
-                Column(
-                  // 감정일기 페이지 요소
-                  children: [
-                    Container(
-                        width: 374,
-                        height: 169,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(0xfff3f3f4),
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            Container(
-                                // 위
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    // 감정일기 제목
-                                    child: Text(
-                                  '감정일기의 제목',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(83, 83, 84, 1.0),
-                                  ),
-                                )),
-                                Container(
-                                  // 여백
-                                  height: 14,
-                                ),
-                                Container(
-                                    // 본문 미리보기 두 줄
-                                    child: Text(
-                                  '9:00, Mar 16, 2024',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromRGBO(136, 136, 136, 1.0),
-                                  ),
-                                )),
-                                Container(// 감정 아이콘
-
-                                    ),
-                              ],
-                            )),
-                            Container(
-                              // 여백
-                              height: 18,
-                            ),
-                            Container(
-                              // 아래
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                      // 키워드
-                                      child: Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: Color.fromRGBO(
-                                                211, 212, 212, 1.0),
-                                          ),
-                                          child: Text(
-                                            '키워드',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color.fromRGBO(
-                                                  0, 122, 255, 1.0),
-                                            ),
-                                          )),
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: Color.fromRGBO(
-                                                211, 212, 212, 1.0),
-                                          ),
-                                          child: Text(
-                                            '키워드',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color.fromRGBO(
-                                                  0, 122, 255, 1.0),
-                                            ),
-                                          )),
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: Color.fromRGBO(
-                                                211, 212, 212, 1.0),
-                                          ),
-                                          child: Text(
-                                            '키워드',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color.fromRGBO(
-                                                  0, 122, 255, 1.0),
-                                            ),
-                                          )),
-                                    ],
-                                  )),
-                                  Container(
-                                      // 작성 시간
-                                      child: Text(
-                                    '09:00',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color.fromRGBO(136, 136, 136, 1.0),
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ))
-                  ],
-                ),
+                DiaryCard(diaryID: widget.diaryID),
                 Container(
                     padding: EdgeInsets.all(24),
                     decoration: BoxDecoration(
