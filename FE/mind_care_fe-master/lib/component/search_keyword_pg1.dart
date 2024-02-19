@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:mind_care/page/show_selectedfromsearch_diary.dart';
 import 'package:mind_care/page/collect_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
+import 'package:mind_care/page/diary_from_search.dart';
 
 String searchText = '';
 
@@ -12,11 +13,23 @@ class SearchKeyword extends StatefulWidget {
 
   @override
   _SearchKeyword createState() => _SearchKeyword();
+
 }
 
 // 메인 클래스의 상태 상속
 class _SearchKeyword extends State<SearchKeyword> {
   String searchText = '';
+
+  // 감정일기 카드 클릭 이벤트 핸들러
+  void cardClickEvent(BuildContext context){
+        Navigator.push(
+      context,
+      MaterialPageRoute(
+        // 정의한 ContentPage의 폼 호출
+        builder: (context) => ShowDiaryfromSearch(),
+      ),
+    );
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +66,20 @@ class _SearchKeyword extends State<SearchKeyword> {
         ),
       ),
       body: Column(
-        children: [
-          Expanded(
-              child: SingleChildScrollView(
-                  child: Column(children: [
+        children: <Widget>[
+          // Expanded(
+          //     child: SingleChildScrollView(
+          //         child: Column(children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
-                style: TextStyle(
+                onChanged: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                style: const TextStyle(
                   fontSize: 14,
-                ),
+                );
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.search,
