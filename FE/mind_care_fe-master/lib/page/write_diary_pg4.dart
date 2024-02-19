@@ -231,37 +231,38 @@ class _Result extends State<Result> {
                           height: 18,
                         ),
                         // 아래 : 키워드들
-                        //Container(child: Text(keywords[0])
-                        // child: Row(
-                        //   children: [
-                        //     Container(
-                        //         child: Row(
-                        //               children: [
-                        //                 ListView.builder(
-                        //                   itemCount: keywords.length,
-                        //                   itemBuilder: (context, index) {
-                        //                     return Container(
-                        //                       // 로컬 keywords 쓰기
-                        //                       decoration: BoxDecoration(
-                        //                         borderRadius:
-                        //                         BorderRadius.circular(100),
-                        //                         color: const Color.fromRGBO(
-                        //                             211, 212, 212, 1.0),
-                        //                       ),
-                        //                       child: Text(
-                        //                         keywords[index],
-                        //                         style: const TextStyle(
-                        //                           fontSize: 14,
-                        //                           color: Color.fromRGBO(
-                        //                               0, 122, 255, 1.0),
-                        //                         ),
-                        //                       ),
-                        //                     );
-                        //                   },
-                        //                 ),
-                        //               ],
-                        //             )
-                        //),
+                        Container(
+                          child: Text(keywords[0]),
+                          // child: Row(
+                          //   children: [
+                          //     Container(
+                          //         child: Row(
+                          //               children: [
+                          //                 ListView.builder(
+                          //                   itemCount: keywords.length,
+                          //                   itemBuilder: (context, index) {
+                          //                     return Container(
+                          //                       // 로컬 keywords 쓰기
+                          //                       decoration: BoxDecoration(
+                          //                         borderRadius:
+                          //                         BorderRadius.circular(100),
+                          //                         color: const Color.fromRGBO(
+                          //                             211, 212, 212, 1.0),
+                          //                       ),
+                          //                       child: Text(
+                          //                         keywords[index],
+                          //                         style: const TextStyle(
+                          //                           fontSize: 14,
+                          //                           color: Color.fromRGBO(
+                          //                               0, 122, 255, 1.0),
+                          //                         ),
+                          //                       ),
+                          //                     );
+                          //                   },
+                          //                 ),
+                          //               ],
+                          //             )
+                        ),
                       ],
                     ),
                   ),
