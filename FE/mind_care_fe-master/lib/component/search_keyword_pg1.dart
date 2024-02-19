@@ -11,7 +11,7 @@ String searchText = '';
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 
 class SearchKeyword extends StatefulWidget {
-  const SearchKeyword({Key? key}) : super(key: key);
+  const SearchKeyword({super.key});
 
   @override
   _SearchKeyword createState() => _SearchKeyword();
@@ -35,17 +35,17 @@ class _SearchKeyword extends State<SearchKeyword> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(42.0),
+          preferredSize: const Size.fromHeight(42.0),
           child: AppBar(
             leading: IconButton(
-                icon: Icon(Icons.arrow_back), // 아이콘
+                icon: const Icon(Icons.arrow_back), // 아이콘
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
                   );
                 }),
-            title: Text(
+            title: const Text(
               '검색',
               style: TextStyle(
                 fontSize: 17,
@@ -61,7 +61,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                       MaterialPageRoute(builder: (context) => CollectKeyword()),
                     );
                   }, // floating
-                  child: Text('관리'))
+                  child: const Text('관리'))
             ],
           ),
         ),
@@ -80,15 +80,15 @@ class _SearchKeyword extends State<SearchKeyword> {
               //   fontSize: 14,
               // );
               decoration: InputDecoration(
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: Color.fromRGBO(60, 60, 67, 0.6),
                 ),
-                suffixIcon: Icon(
+                suffixIcon: const Icon(
                   Icons.mic,
                   color: Color.fromRGBO(60, 60, 67, 0.6),
                 ),
-                fillColor: Color(0xffA19FA1),
+                fillColor: const Color(0xffA19FA1),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -107,12 +107,12 @@ class _SearchKeyword extends State<SearchKeyword> {
             height: 32,
           ),
           Container(
-            padding: EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, // 최근 검색한 키워드
               children: [
                 Container(
-                  child: Text(
+                  child: const Text(
                     '최근 검색한 키워드',
                     style: TextStyle(
                       fontSize: 17,
@@ -150,7 +150,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                   crossAxisAlignment: CrossAxisAlignment.start, // 가장 많이 작성된 키워드
                   children: [
                     Container(
-                      child: Text(
+                      child: const Text(
                         '가장 많이 작성된 키워드',
                         style: TextStyle(
                           fontSize: 17,

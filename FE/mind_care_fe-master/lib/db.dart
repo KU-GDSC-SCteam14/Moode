@@ -93,7 +93,6 @@ class DatabaseService {
       await db.execute('''
         INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (4, 'very sad', 0.0, 0.0);
       ''');
-      await DatabaseService.printTableContents('Mood');
     });
     return _database!;
   }

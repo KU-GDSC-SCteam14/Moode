@@ -180,8 +180,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
 
   saveUser();
-  // await DatabaseService.printTableContents('Mood');
-  print('test1');
+  await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
 }
 
