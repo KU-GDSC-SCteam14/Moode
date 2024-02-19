@@ -12,13 +12,20 @@ import 'package:flutter/material.dart';
 
 // }
 
-// 날짜가 형식이 다 같아서 안되고, 제목 기준으로 조회
+//
 
 class ShowDiaryfromList extends StatelessWidget {
-  const ShowDiaryfromList({super.key});
+  final int diaryID;
+
+  const ShowDiaryfromList({
+    required this.diaryID,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    //***********************diaryID 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
