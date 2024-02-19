@@ -3,6 +3,8 @@ import 'package:mind_care/component/body_calendar.dart';
 import 'package:mind_care/page/diary_from_list.dart';
 import 'package:intl/intl.dart';
 
+// 날짜 기준 조회
+
 // ignore: must_be_immutable
 class SelectedDiaryList extends StatelessWidget {
   final DateTime selectedDate;
