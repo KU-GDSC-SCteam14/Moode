@@ -12,8 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
-
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp();
 //   print('Handling a background message ${message.messageId}');
@@ -124,9 +122,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 // });
 // }
 
-
-
-
 Future<void> saveUser() async {
   final url = Uri.parse('http://34.64.250.30:3000/User');
   final headers = {'Content-Type': 'application/json'};
@@ -182,9 +177,11 @@ void main() async {
 
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // String? firebaseToken = await fcmSetting();
+  WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
 
   saveUser();
-
+  // await DatabaseService.printTableContents('Mood');
+  print('test1');
   runApp(const MyApp());
 }
 
@@ -217,7 +214,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
-
     });
   }
 

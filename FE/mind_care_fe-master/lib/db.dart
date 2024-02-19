@@ -1,4 +1,3 @@
-// 임시 DB 페이지
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -17,7 +16,9 @@ class DatabaseService {
     if (_database != null) return _database!;
 
     // 데이터베이스 경로 설정
-    String path = join(await getDatabasesPath(), 'mydatabase.db');
+    String path = join(await getDatabasesPath(), 'local.db');
+    // String path = join(await getDatabasesPath(), 'moode_localDB.db');
+
     // 데이터베이스 열기 또는 생성
     _database =
         await openDatabase(path, version: 1, onCreate: (db, version) async {
@@ -40,7 +41,7 @@ class DatabaseService {
 
       await db.execute('''
         CREATE TABLE Mood (
-          Mood_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+          Mood_ID INTEGER PRIMARY KEY,
           Mood_name TEXT NOT NULL,
           Mood_value_min REAL NOT NULL,
           Mood_value_max REAL NOT NULL
@@ -79,6 +80,20 @@ class DatabaseService {
           FOREIGN KEY (Keyword_ID) REFERENCES Keyword(Keyword_ID)
         );
       ''');
+
+      await db.execute('''
+        INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (1, 'very happy', 0.0, 0.0);
+      ''');
+      await db.execute('''
+        INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (2, 'happy', 0.0, 0.0);
+      ''');
+      await db.execute('''
+        INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (3, 'sad', 0.0, 0.0);
+      ''');
+      await db.execute('''
+        INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (4, 'very sad', 0.0, 0.0);
+      ''');
+      await DatabaseService.printTableContents('Mood');
     });
     return _database!;
   }
@@ -156,6 +171,18 @@ class DatabaseService {
           'Keyword_ID': keywordId,
         },
       );
+    }
+  }
+
+  // 테이블 내용을 콘솔에 출력하는 메서드
+  static Future<void> printTableContents(String tableName) async {
+    final db = await database; // 데이터베이스 인스턴스를 가져옵니다.
+    List<Map<String, dynamic>> results =
+        await db.query(tableName); // 테이블의 모든 데이터를 조회합니다.
+
+    print("Contents of the $tableName table:");
+    for (var row in results) {
+      print(row); // 각 행을 콘솔에 출력합니다.
     }
   }
 
