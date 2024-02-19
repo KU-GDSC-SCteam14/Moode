@@ -4,15 +4,15 @@ import 'package:mind_care/page/diary_from_search.dart';
 
 // 키워드 기준 조회
 
-class SearchKeyword extends StatefulWidget {
-  const SearchKeyword({super.key});
+class ResultKeyword extends StatefulWidget {
+  const ResultKeyword({super.key});
 
   @override
-  _SearchKeyword createState() => _SearchKeyword();
+  _ResultKeyword createState() => _ResultKeyword();
 }
 
 // 메인 클래스의 상태 상속
-class _SearchKeyword extends State<SearchKeyword> {
+class _ResultKeyword extends State<ResultKeyword> {
   String searchText = '';
   // 리스트뷰 카드 클릭 이벤트 핸들러
   void cardClickEvent(BuildContext context) {

@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 //import 'package:mind_care/page/show_selectedfromsearch_diary.dart';
 import 'package:mind_care/page/collect_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
-import 'package:mind_care/page/diary_from_search.dart';
+import 'package:mind_care/component/search_keyword_pg2.dart';
 
 String searchText = '';
 
-// 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
-// keyword 기준 조회 ->
-// 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
+// ********************!!! keywords 리스트 받아와야 합니다 !!! *****************************
+// 아래 keywords에 저장하는 함수 넣어주세요
+List<String> keywords = [];
+
+//
+
+// 요 부분!
+
+//
 
 class SearchKeyword extends StatefulWidget {
   const SearchKeyword({Key? key}) : super(key: key);
@@ -19,66 +25,65 @@ class SearchKeyword extends StatefulWidget {
 
 // 메인 클래스의 상태 상속
 class _SearchKeyword extends State<SearchKeyword> {
-  String searchText = '';
+  // 키워드 누르면
+  void cardClickEvent(BuildContext context, String keyword) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // 정의한 ContentPage의 폼 호출
+        builder: (context) => ResultKeyword(
+            // diary Id 넘겨주기
 
-  // // 감정일기 카드 클릭 이벤트 핸들러
-  // void cardClickEvent(BuildContext context){
-  //       Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       // 정의한 ContentPage의 폼 호출
-  //       builder: (context) => ShowDiaryfromSearch(),
-  //     ),
-  //   );
+            ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(42.0),
-          child: AppBar(
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back), // 아이콘
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(42.0),
+        child: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back), // 아이콘
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              }),
+          title: Text(
+            '검색',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => CollectKeyword()),
                   );
-                }),
-            title: Text(
-              '검색',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            centerTitle: true,
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CollectKeyword()),
-                    );
-                  }, // floating
-                  child: Text('관리'))
-            ],
-          ),
+                }, // floating
+                child: Text('관리'))
+          ],
         ),
-        body: Column(children: <Widget>[
+      ),
+      body: Column(
+        children: <Widget>[
           // Expanded(
           //     child: SingleChildScrollView(
           //         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextField(
-              // onChanged: (value) {
-              //   setState(() {
-              //     searchText = value;
-              //   });
-              // style: const TextStyle(
-              //   fontSize: 14,
-              // );
+              style: const TextStyle(
+                fontSize: 14,
+              ),
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.search,
@@ -106,85 +111,37 @@ class _SearchKeyword extends State<SearchKeyword> {
           Container(
             height: 32,
           ),
-          Container(
-            padding: EdgeInsets.only(left: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 최근 검색한 키워드
-              children: [
-                Container(
-                  child: Text(
-                    '최근 검색한 키워드',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
+          // 키워드 리스트 보여주기
+          Expanded(
+            child: ListView.builder(
+              // items 변수에 저장되어 있는 모든 값 출력
+              itemCount: keywords.length,
+              itemBuilder: (BuildContext context, int index) {
+                // 검색 기능, 검색어가 있을 경우
+                if (searchText.isNotEmpty &&
+                    !keywords[index]
+                        .toLowerCase()
+                        .contains(searchText.toLowerCase())) {
+                  return SizedBox.shrink();
+                }
+                // 검색어가 없을 경우, 모든 항목 표시
+                else {
+                  return Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.elliptical(20, 20))),
+                    child: ListTile(
+                      title: Text(keywords[index]),
+                      onTap: () => cardClickEvent(context, keywords[index]),
                     ),
-                  ),
-                ),
-                Container(
-                  height: 16,
-                ),
-
-                // ListView.builder(
-                //   itemCount: recentKeywords.length,
-                //   itemBuilder: (context, index) {
-                //     // 리스트의 각 항목을 가져와서 사용
-                //     String currentItem = recentKeywords[index];
-                //
-                //     return ListTile(
-                //       title: Container(
-                //         // 텍스트를 컨테이너에 넣음
-                //         child: Text(currentItem,
-                //           style: TextStyle(
-                //             fontSize: 14,
-                //             color: Color(0xff007AFF),
-                //           ),),
-                //       ),
-                //     );
-                //   },
-                // ),
-
-                Container(
-                  height: 32,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // 가장 많이 작성된 키워드
-                  children: [
-                    Container(
-                      child: Text(
-                        '가장 많이 작성된 키워드',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 16,
-                    ),
-                    // ListView.builder(
-                    //   itemCount: multipleKeywords.length,
-                    //   itemBuilder: (context, index) {
-                    //     // 리스트의 각 항목을 가져와서 사용
-                    //     String currentItem = multipleKeywords[index];
-                    //
-                    //     return ListTile(
-                    //       title: Container(
-                    //         // 텍스트를 컨테이너에 넣음
-                    //         child: Text(currentItem,
-                    //           style: TextStyle(
-                    //             fontSize: 14,
-                    //             color: Color(0xff007AFF),
-                    //           ),),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                  ],
-                ),
-              ],
+                  );
+                }
+              },
             ),
-          )
-        ]));
+          ),
+        ],
+      ),
+    );
   }
 }
-//}

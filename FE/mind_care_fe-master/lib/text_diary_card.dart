@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+// 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
 // footer_diary_list
 
