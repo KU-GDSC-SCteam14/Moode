@@ -8,6 +8,8 @@ String searchText = '';
 
 // 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
 // keyword 기준 조회 ->
+// String date = "2023-01-01"; // 조회하고자 하는 날짜
+// List<int> diaryIds = await DatabaseService.getDiariesByDate(date);
 
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 

@@ -185,5 +185,21 @@ class DatabaseService {
     }
   }
 
+  // 특정 날짜의 일기 ID들을 리스트로 반환하는 함수
+  static Future<List<int>> getDiariesByDate(String date) async {
+    final db = await database;
+    // 입력받은 날짜와 일치하는 모든 일기 조회
+    final List<Map<String, dynamic>> result = await db.query(
+      'Diary',
+      columns: ['Diary_ID'], // 조회할 컬럼
+      where: 'Date LIKE ?', // 날짜가 일치하는 조건
+      whereArgs: ['$date%'], // 날짜 입력. LIKE 연산자 사용 시 '%'는 와일드카드로 사용됩니다.
+    );
+
+    // 조회 결과에서 일기 ID들을 추출하여 리스트로 반환
+    List<int> diaryIds = result.map((row) => row['Diary_ID'] as int).toList();
+    return diaryIds;
+  }
+
   // 여기에 추가 할거에요!!
 }

@@ -4,6 +4,8 @@ import 'package:mind_care/page/diary_from_list.dart';
 import 'package:intl/intl.dart';
 
 // 날짜 기준 조회
+// String date = "2023-01-01"; // 조회하고자 하는 날짜
+// List<int> diaryIds = await DatabaseService.getDiariesByDate(date);
 
 // ignore: must_be_immutable
 class SelectedDiaryList extends StatelessWidget {
