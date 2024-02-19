@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mind_care/db.dart';
+
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
 // footer_diary_list
@@ -7,14 +9,35 @@ class DiaryCard extends StatelessWidget {
   final int diaryID;
 
 //***************diaryID 기준으로 title, content1, Date, keywords, moodName 조회해야 합니다!!!
+// ****************  꼭 'widget.find_keyword' 이 형식으로 불러와주세요. 그래야 불려요.
 
   const DiaryCard({
     required this.diaryID,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // FutureBuilder를 사용하여 비동기적으로 데이터를 불러온 후 위젯을 구성
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: DatabaseService.getDiaryDetailsById(diaryID),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // 데이터 로딩 중인 경우
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          // 데이터 로딩에 실패한 경우
+          return const Center(child: Text("Error loading diary details"));
+        } else if (snapshot.hasData) {
+          // 데이터 로딩에 성공한 경우, 상세 정보를 표시
+          final diaryDetails = snapshot.data!;
+          // 일기의 제목, 내용, 날짜, 키워드, 기분 이름을 추출
+          final titleController = diaryDetails['Title'];
+          final experienceTextController = diaryDetails['Content_1'];
+          final Date = diaryDetails['Date'];
+          final keywords = diaryDetails['Keywords']?.split(',') ?? [];
+          final moodName = diaryDetails['Mood_name'] ?? 'Soso';
+
     return Container(
       width: 374,
       //height: 169,
@@ -31,7 +54,7 @@ class DiaryCard extends StatelessWidget {
             experienceTextController: experienceTextController,
             moodName: moodName,
           ),
-          SizedBox(
+          const SizedBox(
             // 여백
             height: 18,
           ),
@@ -41,6 +64,11 @@ class DiaryCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  } else {
+          return const Center(child: Text("No diary details available"));
+        }
+      },
     );
   }
 }
@@ -53,8 +81,8 @@ class DiaryBottom extends StatelessWidget {
   const DiaryBottom({
     required this.Date,
     required this.keywords,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +123,7 @@ class DiaryBottom extends StatelessWidget {
         //                 ),
         //               ],
         //             )
-        SizedBox(
+        const SizedBox(
           width: 35,
         ),
         Container(
@@ -122,12 +150,12 @@ class DiaryTop extends StatelessWidget {
     required this.experienceTextController,
     // 이모티콘
     required this.moodName,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 334,
         height: 64,
         child: Row(
@@ -138,26 +166,26 @@ class DiaryTop extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 제목
-                Container(
+                SizedBox(
                     width: 250,
                     height: 26,
                     child: Text(
                       titleController,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(83, 83, 84, 1.0),
                       ),
                     )),
                 // 여백
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
-                Container(
+                SizedBox(
                   width: 250,
                   child: Text(
                     experienceTextController,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -178,7 +206,7 @@ class DiaryTop extends StatelessWidget {
             // 감정 이름
             Container(
                 child: Text(moodName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ))),
           ],

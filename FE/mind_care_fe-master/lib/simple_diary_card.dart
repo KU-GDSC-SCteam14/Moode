@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:mind_care/db.dart';
 
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
 // diary_from_list, diary_from_search, happy_week_diary, search_keyword_page2
 class DiaryCard extends StatefulWidget {
   final int diaryID;
-  const DiaryCard({Key? key, required this.diaryID}) : super(key: key);
+  const DiaryCard({super.key, required this.diaryID});
 
   @override
-  State<DiaryCard> createState() => _DiaryCard();
+  State<DiaryCard> createState() => _DiaryCardState();
 }
 
-class _DiaryCard extends State<DiaryCard> {
-//***************diaryID 기준으로 title, content1, Date, keywords, moodName 조회해야 합니다!!!
+class _DiaryCardState extends State<DiaryCard> {
+  String titleController = "";
+  String Date = "";
+  String moodName = "";
+  List<String> keywords = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDiaryDetails();
+  }
+
+  Future<void> _fetchDiaryDetails() async {
+    final diaryDetails = await DatabaseService.getDiaryDetailsById(widget.diaryID);
+    if (diaryDetails != null) {
+      setState(() {
+        titleController = diaryDetails['Title'];
+        Date = diaryDetails['Date'];
+        moodName = diaryDetails['Mood_name'] ?? 'Soso';
+        keywords = diaryDetails['Keywords']?.split(',') ?? [];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +53,7 @@ class _DiaryCard extends State<DiaryCard> {
           DiaryTop(
               titleController: titleController, date: Date, moodName: moodName),
           // 여백
-          SizedBox(
+          const SizedBox(
             height: 18,
           ),
           // 아래 : 키워드들 좌우로 스크롤할 수 있게
@@ -48,8 +70,8 @@ class DiaryBottom extends StatelessWidget {
 
   const DiaryBottom({
     required this.keywords,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +122,12 @@ class DiaryTop extends StatelessWidget {
     required this.date,
     // 이모티콘
     required this.moodName,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 334,
         height: 64,
         child: Row(
@@ -116,13 +138,13 @@ class DiaryTop extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 제목
-                Container(
+                SizedBox(
                   width: 250,
                   height: 26,
                   child: Text(titleController),
                 ),
                 // 여백
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 // 날짜
@@ -147,7 +169,7 @@ class DiaryTop extends StatelessWidget {
             // 감정 이름
             Container(
                 child: Text(moodName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ))),
           ],

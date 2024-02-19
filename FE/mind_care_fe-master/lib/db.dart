@@ -201,5 +201,34 @@ class DatabaseService {
     return diaryIds;
   }
 
+  // 일기 ID를 기준으로 일기 세부 정보 조회
+  static Future<Map<String, dynamic>?> getDiaryDetailsById(int diaryId) async {
+    final db = await database;
+    // Diary, Mood, 그리고 Keyword 테이블을 조인하여 필요한 정보를 조회하는 쿼리 실행
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+      SELECT 
+        Diary.Title, 
+        Diary.Content_1,
+        Diary.Content_2,
+        Diary.Content_3, 
+        Diary.Content_4,
+        Diary.Date, 
+        Mood.Mood_name,
+        GROUP_CONCAT(Keyword.keyword) AS Keywords
+      FROM Diary
+      LEFT JOIN Mood ON Diary.Mood_ID = Mood.Mood_ID
+      LEFT JOIN DiaryKeyword ON Diary.Diary_ID = DiaryKeyword.Diary_ID
+      LEFT JOIN Keyword ON DiaryKeyword.Keyword_ID = Keyword.Keyword_ID
+      WHERE Diary.Diary_ID = ?
+      GROUP BY Diary.Diary_ID
+    ''', [diaryId]);
+
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      return null;
+    }
+  }
+
   // 여기에 추가 할거에요!!
 }
