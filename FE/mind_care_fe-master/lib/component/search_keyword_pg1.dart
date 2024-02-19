@@ -6,6 +6,7 @@ import 'package:mind_care/component/search_keyword_pg2.dart';
 
 String searchText = '';
 
+<<<<<<< HEAD
 // ********************!!! keywords 리스트 받아와야 합니다 !!! *****************************
 // 아래 keywords에 저장하는 함수 넣어주세요
 List<String> keywords = [];
@@ -15,9 +16,17 @@ List<String> keywords = [];
 // 요 부분!
 
 //
+=======
+// 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
+// keyword 기준 조회 ->
+// String date = "2023-01-01"; // 조회하고자 하는 날짜
+// List<int> diaryIds = await DatabaseService.getDiariesByDate(date);
+
+// 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
+>>>>>>> a7ca9d32287255e4cfc751478d96c86dfe1b9233
 
 class SearchKeyword extends StatefulWidget {
-  const SearchKeyword({Key? key}) : super(key: key);
+  const SearchKeyword({super.key});
 
   @override
   _SearchKeyword createState() => _SearchKeyword();
@@ -42,6 +51,7 @@ class _SearchKeyword extends State<SearchKeyword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(42.0),
         child: AppBar(
@@ -71,6 +81,38 @@ class _SearchKeyword extends State<SearchKeyword> {
                 }, // floating
                 child: Text('관리'))
           ],
+=======
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(42.0),
+          child: AppBar(
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back), // 아이콘
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  );
+                }),
+            title: const Text(
+              '검색',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CollectKeyword()),
+                    );
+                  }, // floating
+                  child: const Text('관리'))
+            ],
+          ),
+>>>>>>> a7ca9d32287255e4cfc751478d96c86dfe1b9233
         ),
       ),
       body: Column(
@@ -85,15 +127,15 @@ class _SearchKeyword extends State<SearchKeyword> {
                 fontSize: 14,
               ),
               decoration: InputDecoration(
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: Color.fromRGBO(60, 60, 67, 0.6),
                 ),
-                suffixIcon: Icon(
+                suffixIcon: const Icon(
                   Icons.mic,
                   color: Color.fromRGBO(60, 60, 67, 0.6),
                 ),
-                fillColor: Color(0xffA19FA1),
+                fillColor: const Color(0xffA19FA1),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -111,6 +153,7 @@ class _SearchKeyword extends State<SearchKeyword> {
           Container(
             height: 32,
           ),
+<<<<<<< HEAD
           // 키워드 리스트 보여주기
           Expanded(
             child: ListView.builder(
@@ -138,6 +181,84 @@ class _SearchKeyword extends State<SearchKeyword> {
                   );
                 }
               },
+=======
+          Container(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // 최근 검색한 키워드
+              children: [
+                Container(
+                  child: const Text(
+                    '최근 검색한 키워드',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 16,
+                ),
+
+                // ListView.builder(
+                //   itemCount: recentKeywords.length,
+                //   itemBuilder: (context, index) {
+                //     // 리스트의 각 항목을 가져와서 사용
+                //     String currentItem = recentKeywords[index];
+                //
+                //     return ListTile(
+                //       title: Container(
+                //         // 텍스트를 컨테이너에 넣음
+                //         child: Text(currentItem,
+                //           style: TextStyle(
+                //             fontSize: 14,
+                //             color: Color(0xff007AFF),
+                //           ),),
+                //       ),
+                //     );
+                //   },
+                // ),
+
+                Container(
+                  height: 32,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // 가장 많이 작성된 키워드
+                  children: [
+                    Container(
+                      child: const Text(
+                        '가장 많이 작성된 키워드',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 16,
+                    ),
+                    // ListView.builder(
+                    //   itemCount: multipleKeywords.length,
+                    //   itemBuilder: (context, index) {
+                    //     // 리스트의 각 항목을 가져와서 사용
+                    //     String currentItem = multipleKeywords[index];
+                    //
+                    //     return ListTile(
+                    //       title: Container(
+                    //         // 텍스트를 컨테이너에 넣음
+                    //         child: Text(currentItem,
+                    //           style: TextStyle(
+                    //             fontSize: 14,
+                    //             color: Color(0xff007AFF),
+                    //           ),),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                  ],
+                ),
+              ],
+>>>>>>> a7ca9d32287255e4cfc751478d96c86dfe1b9233
             ),
           ),
         ],
