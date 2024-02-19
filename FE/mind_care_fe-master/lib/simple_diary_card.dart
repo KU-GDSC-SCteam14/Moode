@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-
+// 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
 // diary_from_list, diary_from_search, happy_week_diary, search_keyword_page2
 
 class DiaryCard extends StatelessWidget {
-  final String titleController;
-  final String Date;
-  final List<String> keywords;
-  final String moodName;
+  final int diaryID;
+
+  //***************diaryID 기준으로 title, Date, keywords, moodName 조회해야 합니다!!!
+
+  // final String titleController;
+  // final String Date;
+  // final List<String> keywords;
+  // final String moodName;
 
   const DiaryCard({
-    required this.titleController,
-    required this.Date,
-    required this.keywords,
-    // 이모티콘
-    required this.moodName,
+    required this.diaryID,
     Key? key,
   }) : super(key: key);
 

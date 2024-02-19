@@ -8,6 +8,8 @@ class CollectKeyword extends StatefulWidget {
 }
 
 class _CollectKeyword extends State<CollectKeyword> {
+  //*********************** keywords 리스트 받아와야 합니다 !!! ******************
+
   // 30개의 스트링 타입의 아이템을 가지는 리스트 생성
   final items = List<String>.generate(30, (i) => "Item ${i + 1}");
 

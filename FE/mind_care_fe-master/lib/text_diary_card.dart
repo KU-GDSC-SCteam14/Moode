@@ -4,19 +4,12 @@ import 'package:flutter/material.dart';
 // footer_diary_list
 
 class DiaryCard extends StatelessWidget {
-  final String titleController;
-  final String experienceTextController;
-  final String Date;
-  final List<String> keywords;
-  final String moodName;
+  final int diaryID;
+
+//***************diaryID 기준으로 title, content1, Date, keywords, moodName 조회해야 합니다!!!
 
   const DiaryCard({
-    required this.titleController,
-    required this.experienceTextController,
-    required this.Date,
-    required this.keywords,
-    // 이모티콘
-    required this.moodName,
+    required this.diaryID,
     Key? key,
   }) : super(key: key);
 

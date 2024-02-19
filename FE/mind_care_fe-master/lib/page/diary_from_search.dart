@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-
-// 제목 기준 조회(같은 날짜에 키워드 같은 게 있을 수 있음음)
+import 'package:mind_care/simple_diary_card.dart';
 
 class ShowDiaryfromSearch extends StatelessWidget {
+  final int diaryID;
+
+  ShowDiaryfromSearch({
+    required this.diaryID,
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
+    //***********************diaryID 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(42.0),
@@ -17,20 +25,6 @@ class ShowDiaryfromSearch extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          actions: [
-            TextButton(
-              onPressed: () {
-                // 버튼이 클릭되었을 때 수행할 작업 추가
-              },
-              child: Text(
-                '수정',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
       body: Column(
