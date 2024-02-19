@@ -25,7 +25,7 @@ class WeekCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
       child: Expanded(
         child: TableCalendar(
           calendarFormat: _calendarFormat,
