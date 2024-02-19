@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 
 // }
 
+// 날짜가 형식이 다 같아서 안되고, 제목 기준으로 조회
+
 class ShowDiaryfromList extends StatelessWidget {
   const ShowDiaryfromList({super.key});
 

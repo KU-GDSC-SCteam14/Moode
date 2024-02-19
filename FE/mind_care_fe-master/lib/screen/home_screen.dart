@@ -66,10 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
           body: SafeArea(
             child: ListView(
               children: [
-                BodyCalendar(
-                  selectedDate: selectedDate, // 날짜 전달하기
-                  onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
-                ),
+                // BodyCalendar(
+                //   selectedDate: selectedDate, // 날짜 전달하기
+                //   onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
+                // ),
                 SelectedDiaryList(
                   selectedDate: selectedDate,
                 ),

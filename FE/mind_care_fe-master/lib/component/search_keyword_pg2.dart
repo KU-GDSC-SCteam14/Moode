@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mind_care/page/diary_from_search.dart';
 //import 'package:mind_care/component/search_keyword_pg1.dart';
 
+// 키워드 기준 조회
+
 class SearchKeyword extends StatefulWidget {
   const SearchKeyword({super.key});
 
