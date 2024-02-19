@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mind_care/component/body_calendar.dart';
 import 'package:mind_care/page/diary_from_list.dart';
 import 'package:intl/intl.dart';
+import 'package:mind_care/db.dart';
 
 // 날짜 기준 조회
 // String date = "2023-01-01"; // 조회하고자 하는 날짜
@@ -10,6 +11,10 @@ import 'package:intl/intl.dart';
 // ignore: must_be_immutable
 class SelectedDiaryList extends StatelessWidget {
   final DateTime selectedDate;
+
+  // String date = selectedDate.toString();
+  //   List<int> diaryIds = await DatabaseService.getDiariesByDate(date);
+  //   print(diaryIds);
 
   SelectedDiaryList({
     required this.selectedDate,
