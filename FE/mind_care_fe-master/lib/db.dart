@@ -230,5 +230,20 @@ class DatabaseService {
     }
   }
 
+  // Method to find Mood_ID by mood name
+  static Future<int?> getMoodIdByName(String moodName) async {
+    final db = await database;
+    final List<Map<String, dynamic>> result = await db.query(
+      'Mood',
+      where: 'Mood_name = ?',
+      whereArgs: [moodName],
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['Mood_ID'] as int;
+    }
+    return null; // Return null if the mood name was not found
+  }
+
   // 여기에 추가 할거에요!!
 }

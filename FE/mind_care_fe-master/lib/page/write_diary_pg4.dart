@@ -22,6 +22,13 @@ Future<void> modifyDiary(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userid = prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
 
+  int? moodId = await DatabaseService.getMoodIdByName(moodName);
+
+  if (moodId == null) {
+      print('Mood name "$moodName" not found in the database.');
+      return; // Exit the function if no corresponding moodId
+    }
+
   if (userid != null) {
     // 사용자로부터 수정된 일기 데이터
     Map<String, dynamic> updatedDiaryData = {
@@ -32,6 +39,7 @@ Future<void> modifyDiary(BuildContext context) async {
       //'Content_3': reasonTextController.text,
       //'Content_4': thinkTextController.text,
       'Date': Date, // 09:00, Mar 16, 2024
+      'Mood_ID': moodId, // Include the found Mood_ID in the update
     };
     // 데이터베이스에서 일기 데이터 업데이트
     await DatabaseService.updateDiary(diaryId, updatedDiaryData);
