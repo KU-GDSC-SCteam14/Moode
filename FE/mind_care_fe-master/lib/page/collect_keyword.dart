@@ -13,9 +13,6 @@ class _CollectKeyword extends State<CollectKeyword> {
 
   //*******************keyword 삭제, 수정 필요
 
-  // 30개의 스트링 타입의 아이템을 가지는 리스트 생성
-  final items = List<String>.generate(30, (i) => "Item ${i + 1}");
-
   void _deleteitem() {}
 
   @override
@@ -32,7 +29,8 @@ class _CollectKeyword extends State<CollectKeyword> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SearchKeyword()),
+                    MaterialPageRoute(
+                        builder: (context) => const SearchKeyword()),
                   );
                 }),
             title: const Text(
