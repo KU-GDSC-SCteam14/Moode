@@ -3,6 +3,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 
 class Event {
+  // String diaryID
+  //
   String title;
   bool complete;
   Event(this.title, this.complete);
@@ -20,8 +22,10 @@ class BodyCalendar extends StatelessWidget {
     required this.selectedDate,
   });
 
+  // DB를 불러오는 것임, eventSource 리스트 만드는 형식을 정해줘야 할 듯
+  // 여기다가 추가를 해줘야 함.
   Map<DateTime, dynamic> eventSource = {
-    DateTime(2022, 1, 3): [
+    DateTime(2024, 1, 3): [
       Event('5분 기도하기', false),
       Event('교회 가서 인증샷 찍기', true),
       Event('QT하기', true),

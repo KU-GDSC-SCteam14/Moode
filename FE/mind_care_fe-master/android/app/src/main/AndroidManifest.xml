@@ -27,13 +27,12 @@
               android:resource="@style/NormalTheme"
 
               />
-            <service android:name=".MyFirebaseMessagingService">
+            
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN"/>
                     <category android:name="android.intent.category.LAUNCHER"/>
-                    <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 </intent-filter>
-            </service>
+            
         </activity>
 <!--        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" >-->
 <!--            <intent-filter>-->
