@@ -20,7 +20,19 @@ class _ContentsCard extends State<ContentsCard> {
   @override
   void initState() {
     super.initState();
-    //_fetchDiaryDetails();
+    _fetchDiaryDetails();
+  }
+
+  void _fetchDiaryDetails() async {
+    final diaryDetails = await DatabaseService.getDiaryDetailsById(widget.diaryID);
+    if (diaryDetails != null) {
+      setState(() {
+        experienceTextController = diaryDetails['Content_1'] ?? "";
+        emotionTextController = diaryDetails['Content_2'] ?? "";
+        reasonTextController = diaryDetails['Content_3'] ?? "";
+        thinkTextController = diaryDetails['Content_4'] ?? "";
+      });
+    }
   }
 
   @override
@@ -36,13 +48,13 @@ class _ContentsCard extends State<ContentsCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('오늘 어떤 일이 있었나요?'),
+          const Text('오늘 어떤 일이 있었나요?'),
           Text(experienceTextController),
-          Text('그 때의 감정을 자세히 들려주세요.'),
+          const Text('그 때의 감정을 자세히 들려주세요.'),
           Text(emotionTextController),
-          Text('왜 그런 감정이 든 것 같나요?'),
+          const Text('왜 그런 감정이 든 것 같나요?'),
           Text(reasonTextController),
-          Text('나에게 해주고 싶은 말을 자유롭게 적어주세요.'),
+          const Text('나에게 해주고 싶은 말을 자유롭게 적어주세요.'),
           Text(thinkTextController),
         ],
       ),
