@@ -11,7 +11,7 @@ class SelectedDiaryList extends StatefulWidget {
   const SelectedDiaryList({required this.selectedDate, super.key});
 
   @override
-  _SelectedDiaryListState createState() => _SelectedDiaryListState();
+  State<SelectedDiaryList> createState() => _SelectedDiaryListState();
 }
 
 class _SelectedDiaryListState extends State<SelectedDiaryList> {

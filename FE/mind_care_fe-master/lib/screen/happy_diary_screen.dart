@@ -62,7 +62,9 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
               selectedDate: selectedDate,
               onDaySelected: onDaySelected,
             ),
-            ShowDiaryfromList(),
+            ShowDiaryfromList(
+              selectedDate: selectedDate,
+            ),
           ],
         ),
       ),

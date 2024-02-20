@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 //import 'package:mind_care/screen/home_screen.dart';
 
+// selectedDate 기준으로 moodName이 긍정인 일기들의 DiaryIds 리스트 필요
+
+// 그리고 이 리스트 순회하면서 DiaryId를 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
+
 class ShowDiaryfromList extends StatefulWidget {
-  ShowDiaryfromList({Key? key}) : super(key: key);
+  final DateTime selectedDate;
+
+  ShowDiaryfromList({required this.selectedDate, super.key});
 
   State<ShowDiaryfromList> createState() => _ShowDiaryfromList();
 }
