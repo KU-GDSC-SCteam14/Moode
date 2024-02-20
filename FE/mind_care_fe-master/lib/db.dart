@@ -413,5 +413,15 @@ class DatabaseService {
     return results.map((row) => row['Diary_ID'] as int).toList();
   }
 
+  // diaryId를 가진 일기 데이터를 삭제하는 메서드
+  static Future<void> deleteDiary(int diaryId) async {
+    final db = await database; // 데이터베이스 인스턴스를 얻음
+    await db.delete(
+      'Diary', // 일기 데이터가 저장된 테이블 이름
+      where: 'Diary_ID = ?', // 삭제 조건
+      whereArgs: [diaryId], // 조건에 사용될 diaryId
+    );
+  }
+
   // 여기에 추가 할거에요!!
 }

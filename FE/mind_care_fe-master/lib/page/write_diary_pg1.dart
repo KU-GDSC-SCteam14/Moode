@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/page/write_diary_pg2.dart';
+import 'package:mind_care/page/write_diary_pg3.dart';
+import 'package:mind_care/page/write_diary_pg4.dart';
 //import 'package:flutter/src/material/progress_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mind_care/db.dart';
@@ -70,6 +72,37 @@ Future<void> modifyDiary(BuildContext context) async {
     MaterialPageRoute(builder: (context) => const WriteEmotion()),
   );
 }
+
+Future<void> clearDataAndResetFields() async {
+
+  // 로컬 데이터베이스에서 diaryId를 가진 데이터 삭제
+  if (diaryId != 0) { // diaryId가 초기값(0)이 아닌 경우에만 삭제 수행
+    await DatabaseService.deleteDiary(diaryId);
+    print('diaryId:$diaryId deleted');
+    diaryId = 0; // diaryId를 초기화
+  }
+
+  final prefs = await SharedPreferences.getInstance();
+
+  // UserID 값을 임시 변수에 저장
+  final int? userId = prefs.getInt('userid');
+  
+  // SharedPreferences에서 모든 데이터 삭제
+  await prefs.clear();
+  
+  // UserID를 제외한 모든 데이터를 초기화한 후, UserID 값을 다시 저장
+  if (userId != null) {
+    await prefs.setInt('userid', userId);
+  }
+
+  // 필드 초기화
+  titleController.clear();
+  experienceTextController.clear();
+  emotionTextController.clear();
+  reasonTextController.clear();
+  thinkTextController.clear();
+}
+
 
 class WriteExperience extends StatefulWidget {
   const WriteExperience({super.key});
@@ -224,7 +257,8 @@ class _WriteExperienceSate extends State<WriteExperience> {
                           // 가운데 정렬
                           children: [
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                await clearDataAndResetFields();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -246,6 +280,7 @@ class _WriteExperienceSate extends State<WriteExperience> {
                                       ? isCompleted = false
                                       : isCompleted = true;
                                 });
+                                
                                 Navigator.of(context).pop();
                               },
                               child: const Text(
