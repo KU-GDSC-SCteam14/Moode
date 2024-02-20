@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/component/search_keyword_pg1.dart';
+import 'package:mind_care/db.dart';
 
 class CollectKeyword extends StatefulWidget {
   const CollectKeyword({super.key});
@@ -11,7 +12,15 @@ class CollectKeyword extends StatefulWidget {
 class _CollectKeyword extends State<CollectKeyword> {
   //*********************** keywords 리스트 받아와야 합니다 !!! ******************
 
+  Future<List<String>>? keywordsFuture;
+
   //*******************keyword 삭제, 수정 필요
+
+  @override
+  void initState() {
+    super.initState();
+    keywordsFuture = DatabaseService.getAllKeywords(); // 데이터베이스에서 모든 키워드를 불러옵니다.
+  }
 
   void _deleteitem() {}
 
@@ -44,12 +53,19 @@ class _CollectKeyword extends State<CollectKeyword> {
           ),
         ),
         // 리스트뷰를 생성
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            // 리스트의 index번째의 앨리먼트를 item으로 할당
-            final item = items[index];
-
+        body: FutureBuilder<List<String>>(
+          future: keywordsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              final keywords = snapshot.data!;
+              return ListView.builder(
+                itemCount: keywords.length,
+                itemBuilder: (context, index) {
+                  final item = keywords[index];
             return Dismissible(
               /**
                * Key 클래스는 위젯이나 앨리먼트 등을 식별할 때 사용한다.
@@ -76,6 +92,11 @@ class _CollectKeyword extends State<CollectKeyword> {
               // Dismissible의 자식으로 리스트타일을 생성. 리스튜뷰에 타일로 등록
               child: ListTile(title: Text(item)),
             );
+          },
+        );
+        } else {
+              return const Center(child: Text('키워드가 없습니다.'));
+        }
           },
         ),
       ),
