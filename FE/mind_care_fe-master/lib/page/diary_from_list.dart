@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mind_care/simple_diary_card.dart';
+import 'package:mind_care/card/simple_diary_card.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mind_care/db.dart';
 // import 'package:http/http.dart' as http;
@@ -25,7 +25,7 @@ class ShowDiaryfromList extends StatefulWidget {
 
 class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   //***********************diaryID 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
-  
+
   String content1 = "";
   String content2 = "";
   String content3 = "";
@@ -38,7 +38,8 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   }
 
   Future<void> _loadDiaryDetails() async {
-    final diaryDetails = await DatabaseService.getDiaryDetailsById(widget.diaryID);
+    final diaryDetails =
+        await DatabaseService.getDiaryDetailsById(widget.diaryID);
     if (diaryDetails != null) {
       setState(() {
         content1 = diaryDetails['Content_1'] ?? '';
@@ -51,7 +52,6 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
