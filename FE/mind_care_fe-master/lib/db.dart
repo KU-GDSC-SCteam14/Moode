@@ -283,5 +283,119 @@ class DatabaseService {
     return diaryIds;
   }
 
+  // 주어진 키워드를 삭제하는 메서드
+  static Future<void> deleteKeywordAndReferences(String keyword) async {
+    final db = await database;
+    // 먼저 키워드 ID를 찾습니다.
+    final List<Map<String, dynamic>> keywordResult = await db.query(
+      'Keyword',
+      where: 'keyword = ?',
+      whereArgs: [keyword],
+    );
+
+    if (keywordResult.isNotEmpty) {
+      final keywordId = keywordResult.first['Keyword_ID'] as int;
+
+      // 해당 키워드 ID를 가진 모든 DiaryKeyword 데이터를 삭제합니다.
+      await db.delete(
+        'DiaryKeyword',
+        where: 'Keyword_ID = ?',
+        whereArgs: [keywordId],
+      );
+
+      // 마지막으로 Keyword 테이블에서 키워드 자체를 삭제합니다.
+      await db.delete(
+        'Keyword',
+        where: 'Keyword_ID = ?',
+        whereArgs: [keywordId],
+      );
+    }
+  }
+
+  // 키워드 수정 메서드
+  static Future<void> updateKeyword(String oldKeyword, String newKeyword) async {
+    final db = await database;
+    // 먼저 oldKeyword의 Keyword_ID를 찾습니다.
+    final List<Map<String, dynamic>> oldKeywordResult = await db.query(
+      'Keyword',
+      where: 'keyword = ?',
+      whereArgs: [oldKeyword],
+    );
+
+    if (oldKeywordResult.isEmpty) {
+      // oldKeyword가 존재하지 않으면 종료
+      return;
+    }
+    final oldKeywordId = oldKeywordResult.first['Keyword_ID'] as int;
+
+    // newKeyword가 Keyword 테이블에 이미 존재하는지 확인합니다.
+    final List<Map<String, dynamic>> newKeywordResult = await db.query(
+      'Keyword',
+      where: 'keyword = ?',
+      whereArgs: [newKeyword],
+    );
+
+    if (newKeywordResult.isNotEmpty) {
+      // newKeyword가 이미 존재하면, 해당 Keyword_ID로 DiaryKeyword 테이블을 업데이트
+      final newKeywordId = newKeywordResult.first['Keyword_ID'] as int;
+      await db.update(
+        'DiaryKeyword',
+        {'Keyword_ID': newKeywordId},
+        where: 'Keyword_ID = ?',
+        whereArgs: [oldKeywordId],
+      );
+
+      // oldKeyword를 Keyword 테이블에서 삭제
+      await db.delete(
+        'Keyword',
+        where: 'Keyword_ID = ?',
+        whereArgs: [oldKeywordId],
+      );
+    } else {
+      // newKeyword가 존재하지 않으면, oldKeyword를 newKeyword로 업데이트
+      await db.update(
+        'Keyword',
+        {'keyword': newKeyword},
+        where: 'Keyword_ID = ?',
+        whereArgs: [oldKeywordId],
+      );
+    }
+  }
+
+    // 키워드 추가 메서드
+  static Future<void> addKeyword(String keyword, int diaryId) async {
+    final db = await database;
+    // 키워드가 Keyword 테이블에 이미 존재하는지 확인합니다.
+    final List<Map<String, dynamic>> keywordResult = await db.query(
+      'Keyword',
+      where: 'keyword = ?',
+      whereArgs: [keyword],
+    );
+
+    int keywordId;
+
+    if (keywordResult.isNotEmpty) {
+      // 키워드가 이미 존재하면, 해당 Keyword_ID를 사용
+      keywordId = keywordResult.first['Keyword_ID'] as int;
+    } else {
+      // 새로운 키워드라면, Keyword 테이블에 추가하고 Keyword_ID를 받아옵니다.
+      keywordId = await db.insert(
+        'Keyword',
+        {'keyword': keyword},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+
+    // DiaryKeyword 테이블에 연결합니다.
+    await db.insert(
+      'DiaryKeyword',
+      {
+        'Diary_ID': diaryId,
+        'Keyword_ID': keywordId,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
   // 여기에 추가 할거에요!!
 }
