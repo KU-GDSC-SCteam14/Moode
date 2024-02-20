@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:mind_care/component/body_calendar.dart';
+import 'package:mind_care/component/body_calendar.dart';
 import 'package:mind_care/component/footer_diary_list.dart';
 import 'package:mind_care/page/write_diary_pg1.dart';
 import 'package:mind_care/component/search_keyword_pg1.dart';
@@ -86,10 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ]),
                 ),
 
-                // BodyCalendar(
-                //   selectedDate: selectedDate, // 날짜 전달하기
-                //   onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
-                // ),
+                BodyCalendar(
+                  selectedDate: selectedDate, // 날짜 전달하기
+                  onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
+                ),
                 SelectedDiaryList(
                   selectedDate: selectedDate,
                 ),

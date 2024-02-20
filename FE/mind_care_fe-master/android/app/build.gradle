@@ -73,3 +73,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:19.0.0' // 예시 버전, 최신 버전으로 변경해야 함
     implementation 'com.google.firebase:firebase-messaging:23.0.0' 
 }
+
+apply plugin: 'com.google.gms.google-services'
