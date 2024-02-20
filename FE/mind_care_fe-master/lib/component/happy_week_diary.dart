@@ -29,37 +29,35 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
 
   Future<void> _loadDiaries() async {
     String dateString = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
-    List<int> diaryIds = await DatabaseService.getDiariesByDateAndMood(dateString);
+    List<int> diaryIds =
+        await DatabaseService.getDiariesByDateAndMood(dateString);
     setState(() {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
-          // 감정일기 페이지 요소
-          children: [
-            ListView.builder(
-                        shrinkWrap: true, // 추가된 부분: ListView가 부모 위젯의 크기에 맞게 조절
-                        physics:
-                            const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
-                        itemCount: diaryIds.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              DiaryCard(diaryID: diaryIds[index]),
-                              ContentsCard(diaryID: diaryIds[index]),
-                            ],);
-                        },
-                      ),
-
-              ],
-          
-            
-      
-    
-  
+            // 감정일기 페이지 요소
+            children: [
+              ListView.builder(
+                shrinkWrap: true, // 추가된 부분: ListView가 부모 위젯의 크기에 맞게 조절
+                physics:
+                    const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
+                itemCount: diaryIds.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      DiaryCard(diaryID: diaryIds[index]),
+                      ContentsCard(diaryID: diaryIds[index]),
+                    ],
+                  );
+                },
+              )
+            ]),
+      ],
+    );
   }
 }
