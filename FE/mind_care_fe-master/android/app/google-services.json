@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140030920865",
+    "project_id": "gdsc-solutionchallenge-team14",
+    "storage_bucket": "gdsc-solutionchallenge-team14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140030920865:android:32f494a7161b544f3208e0",
+        "android_client_info": {
+          "package_name": "com.example.mind_care"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVo81cR1L1hzpAfV3Rf-jJ20ADclqjmTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

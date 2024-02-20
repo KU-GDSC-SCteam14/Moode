@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.9.20'
     repositories {
         google()
         mavenCentral()
@@ -7,6 +7,11 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.1'
+        classpath 'com.google.firebase:firebase-bom:32.7.2'
+        // Firebase Analytics 및 Firebase Messaging 종속성 추가
+        // classpath 'com.google.firebase:firebase-analytics'
+        // classpath 'com.google.firebase:firebase-messaging'
     }
 }
 

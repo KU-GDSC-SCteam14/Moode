@@ -1,5 +1,5 @@
-//import 'package:firebase_core/firebase_core.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 //import 'package:provider/provider.dart';
@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp();
@@ -177,7 +178,9 @@ void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // String? firebaseToken = await fcmSetting();
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
-
+  await Firebase.initializeApp();
+  String? token = await FirebaseMessaging.instance.getToken();
+  print('현재 등록된 토큰: $token');
   saveUser();
   await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
