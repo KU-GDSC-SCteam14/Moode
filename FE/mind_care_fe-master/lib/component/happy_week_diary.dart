@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mind_care/db.dart';
+import 'package:intl/intl.dart';
 //import 'package:mind_care/screen/home_screen.dart';
 
 // selectedDate 기준으로 moodName이 긍정인 일기들의 DiaryIds 리스트 필요
@@ -8,12 +10,33 @@ import 'package:flutter/material.dart';
 class ShowDiaryfromList extends StatefulWidget {
   final DateTime selectedDate;
 
-  ShowDiaryfromList({required this.selectedDate, super.key});
+  const ShowDiaryfromList({required this.selectedDate, super.key});
 
+  @override
   State<ShowDiaryfromList> createState() => _ShowDiaryfromList();
 }
 
 class _ShowDiaryfromList extends State<ShowDiaryfromList> {
+  List<Map<String, dynamic>> diaryDetailsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDiaries();
+  }
+
+  Future<void> _loadDiaries() async {
+    String dateString = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
+    List<int> diaryIds = await DatabaseService.getDiariesByDateAndMood(dateString);
+    for (int diaryId in diaryIds) {
+      Map<String, dynamic>? details = await DatabaseService.getDiaryDetailsById(diaryId);
+      if (details != null) {
+        diaryDetailsList.add(details);
+      }
+    }
+    setState(() {});
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Column(

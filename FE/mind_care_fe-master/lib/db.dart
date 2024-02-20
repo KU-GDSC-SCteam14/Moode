@@ -397,5 +397,21 @@ class DatabaseService {
     );
   }
 
+  // Method to get diaries by date with Mood_ID 1 or 2
+  static Future<List<int>> getDiariesByDateAndMood(String dateString) async {
+    final db = await database;
+
+    // Query to select diaries that match the date and have a Mood_ID of 1 or 2
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT Diary_ID
+      FROM Diary
+      WHERE Date LIKE ?
+      AND (Mood_ID = 1 OR Mood_ID = 2)
+    ''', ['$dateString%']);
+    
+    // Extracting and returning the diary IDs from the query results
+    return results.map((row) => row['Diary_ID'] as int).toList();
+  }
+
   // 여기에 추가 할거에요!!
 }
