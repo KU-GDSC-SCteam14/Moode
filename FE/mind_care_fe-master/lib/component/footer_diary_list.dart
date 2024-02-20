@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:mind_care/component/body_calendar.dart';
 import 'package:mind_care/page/diary_from_list.dart';
 import 'package:intl/intl.dart';
-import 'package:mind_care/text_diary_card.dart';
+import 'package:mind_care/card/text_diary_card.dart';
 import 'package:mind_care/db.dart';
 
 class SelectedDiaryList extends StatefulWidget {

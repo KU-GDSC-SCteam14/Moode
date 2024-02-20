@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/page/diary_from_search.dart';
-import 'package:mind_care/simple_diary_card.dart';
+import 'package:mind_care/card/simple_diary_card.dart';
 import 'package:mind_care/db.dart';
 
 class ResultKeyword extends StatefulWidget {
@@ -26,7 +26,8 @@ class _ResultKeyword extends State<ResultKeyword> {
   }
 
   Future<void> _loadDiaryIds() async {
-    List<int> loadedDiaryIds = await DatabaseService.getDiaryIdsByKeyword(widget.find_keyword);
+    List<int> loadedDiaryIds =
+        await DatabaseService.getDiaryIdsByKeyword(widget.find_keyword);
     setState(() {
       diaryIDs = loadedDiaryIds;
     });
