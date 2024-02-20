@@ -34,7 +34,8 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           List<int> diaryIDs = snapshot.data!;
-          String weekday = DateFormat('E').format(widget.selectedDate).toUpperCase();
+          String weekday =
+              DateFormat('E').format(widget.selectedDate).toUpperCase();
 
           return Container(
             decoration: BoxDecoration(
@@ -48,7 +49,8 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 32),
                         child: Text(
                           '$weekday ${widget.selectedDate.day}, ${widget.selectedDate.month} ${widget.selectedDate.year}',
                           style: const TextStyle(fontSize: 14),
@@ -57,17 +59,17 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                       const SizedBox(height: 20),
                       ListView.builder(
                         shrinkWrap: true, // 추가된 부분: ListView가 부모 위젯의 크기에 맞게 조절
-                        physics: const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
+                        physics:
+                            const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
                         itemCount: diaryIDs.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowDiaryfromList(diaryID: diaryIDs[index])
-                                )
-                              );
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ShowDiaryfromList(
+                                          diaryID: diaryIDs[index])));
                             },
                             child: DiaryCard(diaryID: diaryIDs[index]),
                           );
