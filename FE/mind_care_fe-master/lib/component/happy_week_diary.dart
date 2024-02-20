@@ -49,6 +49,7 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                 itemCount: diaryIds.length,
                 itemBuilder: (context, index) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       DiaryCard(diaryID: diaryIds[index]),
                       ContentsCard(diaryID: diaryIds[index]),

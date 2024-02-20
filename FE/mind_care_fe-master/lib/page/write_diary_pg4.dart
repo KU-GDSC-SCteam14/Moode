@@ -25,9 +25,9 @@ Future<void> modifyDiary(BuildContext context) async {
   int? moodId = await DatabaseService.getMoodIdByName(moodName);
 
   if (moodId == null) {
-      print('Mood name "$moodName" not found in the database.');
-      return; // Exit the function if no corresponding moodId
-    }
+    print('Mood name "$moodName" not found in the database.');
+    return; // Exit the function if no corresponding moodId
+  }
 
   if (userid != null) {
     // 사용자로부터 수정된 일기 데이터
@@ -118,10 +118,8 @@ class _Result extends State<Result> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back), // 아이콘
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const WriteEmotion()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const WriteThink()));
             }),
         title:
             const Text('작성완료', style: TextStyle(fontWeight: FontWeight.bold)),
