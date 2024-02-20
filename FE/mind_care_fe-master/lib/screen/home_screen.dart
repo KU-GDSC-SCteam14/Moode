@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mind_care/component/body_calendar.dart';
+//import 'package:mind_care/component/body_calendar.dart';
 import 'package:mind_care/component/footer_diary_list.dart';
 import 'package:mind_care/page/write_diary_pg1.dart';
 import 'package:mind_care/component/search_keyword_pg1.dart';
@@ -8,6 +8,8 @@ import 'package:mind_care/component/search_keyword_pg1.dart';
 //import 'package:mind_care/component/setting.dart';
 import 'package:mind_care/screen/happy_diary_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:mind_care/notification.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class CalendarData extends ChangeNotifier {
   DateTime _selectedDate = DateTime.now();
@@ -37,6 +39,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    showNotification() async {
+      var androidDetails = AndroidNotificationDetails(
+        '유니크한 알림 채널 ID',
+        '알림종류 설명',
+        priority: Priority.high,
+        importance: Importance.max,
+        color: Color.fromARGB(255, 255, 0, 0),
+      );
+
+      var iosDetails = DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      );
+
+      // 알림 id, 제목, 내용 맘대로 채우기
+      notifications.show(1, '주간 긍정일기를 확인해보세요.', '확인하기',
+          NotificationDetails(android: androidDetails, iOS: iosDetails),
+          payload: '부가정보' // 부가정보
+          );
+    }
+
     return ChangeNotifierProvider(
         create: (context) => CalendarData(),
         child: Scaffold(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 //import 'package:mind_care/screen/home_screen.dart';
 
-class ShowDiaryfromList extends StatelessWidget {
-  const ShowDiaryfromList({super.key});
+class ShowDiaryfromList extends StatefulWidget {
+  ShowDiaryfromList({Key? key}) : super(key: key);
 
+  State<ShowDiaryfromList> createState() => _ShowDiaryfromList();
+}
+
+class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -3,14 +3,13 @@
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 //import 'package:provider/provider.dart';
-//import 'package:mind_care/global_variables.dart';
 //import 'package:mind_care/login_page.dart';
 import 'dart:async';
 import 'db.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp();
