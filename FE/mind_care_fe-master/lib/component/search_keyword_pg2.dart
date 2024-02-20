@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/page/diary_from_search.dart';
 import 'package:mind_care/simple_diary_card.dart';
+import 'package:mind_care/db.dart';
 
 class ResultKeyword extends StatefulWidget {
   final String find_keyword;
 
-  ResultKeyword({Key? key, required this.find_keyword}) : super(key: key);
+  const ResultKeyword({super.key, required this.find_keyword});
 
   @override
   _ResultKeyword createState() => _ResultKeyword();
@@ -17,6 +18,19 @@ class _ResultKeyword extends State<ResultKeyword> {
   // ****************  꼭 'widget.find_keyword' 이 형식으로 불러와주세요. 그래야 불려요.
 
   List<int> diaryIDs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDiaryIds();
+  }
+
+  Future<void> _loadDiaryIds() async {
+    List<int> loadedDiaryIds = await DatabaseService.getDiaryIdsByKeyword(widget.find_keyword);
+    setState(() {
+      diaryIDs = loadedDiaryIds;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +56,7 @@ class _ResultKeyword extends State<ResultKeyword> {
               Container(
                 child: Text(
                   '\'${widget.find_keyword}\'이 포함된 감정일기',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),

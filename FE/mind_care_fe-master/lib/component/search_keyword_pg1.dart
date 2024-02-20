@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mind_care/page/collect_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
+import 'package:mind_care/db.dart';
 
 String searchText = '';
 
@@ -18,6 +19,20 @@ class SearchKeyword extends StatefulWidget {
 
 // 메인 클래스의 상태 상속
 class _SearchKeyword extends State<SearchKeyword> {
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadAllKeywords();
+  }
+
+  Future<void> _loadAllKeywords() async {
+    List<String> loadedKeywords = await DatabaseService.getAllKeywords();
+    setState(() {
+      keywords = loadedKeywords;
+    });
+  }
+  
   // 키워드 누르면
   void cardClickEvent(BuildContext context, String keyword) {
     Navigator.push(
@@ -36,17 +51,17 @@ class _SearchKeyword extends State<SearchKeyword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(42.0),
+        preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
           leading: IconButton(
-              icon: Icon(Icons.arrow_back), // 아이콘
+              icon: const Icon(Icons.arrow_back), // 아이콘
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               }),
-          title: Text(
+          title: const Text(
             '검색',
             style: TextStyle(
               fontSize: 17,
@@ -62,7 +77,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                     MaterialPageRoute(builder: (context) => CollectKeyword()),
                   );
                 }, // floating
-                child: Text('관리'))
+                child: const Text('관리'))
           ],
         ),
       ),
@@ -115,13 +130,13 @@ class _SearchKeyword extends State<SearchKeyword> {
                     !keywords[index]
                         .toLowerCase()
                         .contains(searchText.toLowerCase())) {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
                 // 검색어가 없을 경우, 모든 항목 표시
                 else {
                   return Card(
                     elevation: 3,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.all(Radius.elliptical(20, 20))),
                     child: ListTile(

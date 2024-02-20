@@ -245,5 +245,43 @@ class DatabaseService {
     return null; // Return null if the mood name was not found
   }
 
+  // 모든 고유 키워드를 리스트로 반환하는 메서드
+  static Future<List<String>> getAllKeywords() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db.query('Keyword', orderBy: 'keyword ASC'); // 키워드를 알파벳 순으로 정렬
+
+    // 결과에서 키워드만 추출하여 리스트로 변환
+    List<String> keywords = results.map((row) => row['keyword'] as String).toList();
+    return keywords;
+  }
+
+  // 주어진 키워드를 포함하는 모든 일기의 ID를 리스트로 반환하는 메서드
+  static Future<List<int>> getDiaryIdsByKeyword(String keyword) async {
+    final db = await database;
+    // 먼저 키워드 ID를 찾습니다.
+    final List<Map<String, dynamic>> keywordResult = await db.query(
+      'Keyword',
+      where: 'keyword = ?',
+      whereArgs: [keyword],
+    );
+
+    if (keywordResult.isEmpty) {
+      return []; // 키워드가 존재하지 않으면 빈 리스트를 반환
+    }
+
+    final keywordId = keywordResult.first['Keyword_ID'];
+
+    // 해당 키워드 ID를 가진 모든 일기의 ID를 찾습니다.
+    final List<Map<String, dynamic>> diaryKeywordResult = await db.query(
+      'DiaryKeyword',
+      where: 'Keyword_ID = ?',
+      whereArgs: [keywordId],
+    );
+
+    // 결과에서 일기 ID만 추출하여 리스트로 변환
+    List<int> diaryIds = diaryKeywordResult.map((row) => row['Diary_ID'] as int).toList();
+    return diaryIds;
+  }
+
   // 여기에 추가 할거에요!!
 }
