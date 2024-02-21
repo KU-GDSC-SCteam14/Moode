@@ -54,6 +54,7 @@ class _SettingState extends State<Setting> {
         },
         body: jsonEncode(<String, dynamic>{
           'User_ID': userId,
+          'Notifyday': _selectedDay,
           'NotifyTime': formattedTime,
           'FCM_Token': fcmToken,
         }),

@@ -97,6 +97,7 @@ class DatabaseService {
           Messaging_ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
           User_ID BIGINT UNSIGNED NOT NULL,
           FCM_Token VARCHAR(255) NOT NULL,
+          Notifyday VARCHAR(255) NOT NULL,
           NotifyTime DATETIME NOT NULL,
           FOREIGN KEY (User_ID) REFERENCES User(User_ID),
           FOREIGN KEY (FCM_Token) REFERENCES User(FCM_Token)
