@@ -9,6 +9,13 @@ require('dotenv').config() // 환경 변수를 로드하기 위해 dotenv.config
 require('./config/passport')(passport)
 const db = require('./db')
 const axios = require('axios')
+const admin = require('firebase-admin')
+const cron = require('node-cron')
+
+const serviceAccount = require('./path/to/your-firebase-adminsdk.json')
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+})
 
 const app = express()
 
@@ -35,6 +42,57 @@ async function testDBConnection() {
 
 // 앱 시작 시 DB 연결을 테스트합니다.
 testDBConnection()
+
+// 매일 23:59에 알림 예약
+cron.schedule('59 23 * * *', async () => {
+  console.log('알림 예약을 처리합니다.')
+
+  try {
+    // 전날 알림 예약 데이터 조회 (예: '2024-02-20 00:00:00')
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    const formattedDate = yesterday.toISOString().split('T')[0] + ' 00:00:00'
+
+    const notifications = await db.query(
+      'SELECT * FROM Messaging WHERE NotifyTime = ?',
+      [formattedDate],
+    )
+
+    // 각 알림 예약에 대해 FCM 메시지 전송
+    notifications.forEach(async (notification) => {
+      const { User_ID, NotifyTime } = notification
+
+      // 사용자 ID로 사용자 토큰 조회
+      const user = await db.query(
+        'SELECT FCM_Token FROM User WHERE User_ID = ?',
+        [User_ID],
+      )
+      const FCM_Token = user[0].FCM_Token
+
+      // FCM 메시지 구성
+      const message = {
+        notification: {
+          title: '주간 긍정일기 알림',
+          body: '주간 긍정일기가 도착했어요!',
+        },
+        token: FCM_Token,
+      }
+
+      // FCM 메시지 전송
+      admin
+        .messaging()
+        .send(message)
+        .then((response) => {
+          console.log('성공적으로 메시지를 보냈습니다:', response)
+        })
+        .catch((error) => {
+          console.log('메시지 전송 실패:', error)
+        })
+    })
+  } catch (error) {
+    console.error('알림 예약 처리 중 오류 발생:', error)
+  }
+})
 
 // Google OAuth
 app.get(
@@ -269,6 +327,45 @@ app.get('/AImood', (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred' })
       }
     })
+})
+
+app.post('/schedule-notification', async (req, res) => {
+  const { User_ID, NotifyTime } = req.body
+
+  try {
+    // User 테이블에서 해당 User_ID의 FCM_Token 조회
+    const userResult = await db.query(
+      'SELECT FCM_Token FROM User WHERE User_ID = ?',
+      [User_ID],
+    )
+
+    if (userResult.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: '해당 사용자의 토큰을 찾을 수 없습니다.',
+      })
+    }
+
+    const FCM_Token = userResult[0].FCM_Token
+
+    // Messaging 테이블에 알림 예약 정보 및 FCM_Token 저장
+    const insertResult = await db.query(
+      'INSERT INTO Messaging (User_ID, NotifyTime, FCM_Token) VALUES (?, ?, ?)',
+      [User_ID, NotifyTime, FCM_Token],
+    )
+    console.log('알림 예약 정보가 성공적으로 저장되었습니다:', insertResult)
+
+    res.status(201).json({
+      success: true,
+      message: '알림 예약이 성공적으로 저장되었습니다.',
+    })
+  } catch (error) {
+    console.error('알림 예약 정보 저장 중 오류 발생:', error)
+    res.status(500).json({
+      success: false,
+      message: '알림 예약 정보를 저장하는 동안 오류가 발생했습니다.',
+    })
+  }
 })
 
 /*
