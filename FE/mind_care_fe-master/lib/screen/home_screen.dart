@@ -57,6 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // 주간 긍정일기 확인버튼 배너
             Container(
+              width: 390,
+              height: 77,
+              padding: EdgeInsets.all(8),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

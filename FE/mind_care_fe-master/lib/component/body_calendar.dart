@@ -53,12 +53,15 @@ class _BodyCalendarState extends State<BodyCalendar> {
             child: Container(
               width: 390,
               height: 358,
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 2),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+              ),
               child: TableCalendar(
-                rowHeight: 44,
-                daysOfWeekHeight: 44,
+                rowHeight: 48,
+                daysOfWeekHeight: 17,
                 eventLoader: (day) {
                   return getEventsForDay(day);
                 },
@@ -125,8 +128,9 @@ class _BodyCalendarState extends State<BodyCalendar> {
                   if (event.isNotEmpty) {
                     return Container(
                       width: 48,
+                      height: 44,
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Colors.red,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     );
@@ -155,7 +159,7 @@ class _BodyCalendarState extends State<BodyCalendar> {
                 ),
                 calendarStyle: CalendarStyle(
                   outsideDaysVisible: false,
-                  cellPadding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                  //cellPadding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                   cellAlignment: Alignment.center,
                   // 캘린더 스타일
                   isTodayHighlighted: false,
