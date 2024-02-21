@@ -23,10 +23,8 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-
-              />
+android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme" />
             
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN"/>
@@ -34,6 +32,7 @@
                 </intent-filter>
             
         </activity>
+
 <!--        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" >-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.BOOT_COMPLETED"></action>-->

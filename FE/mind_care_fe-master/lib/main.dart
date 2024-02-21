@@ -52,6 +52,7 @@ Future<void> saveUser() async {
           "Profile_Picture_URL": "test_profile_picture_url"
         });
         print('Local DB fetched');
+// ******
       }
     } else {
       print('Failed to save user.');
@@ -61,6 +62,35 @@ Future<void> saveUser() async {
   }
 }
 
+//****************
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("백그라운드 메시지 처리.. ${message.notification!.body!}");
+}
+
+// ******************
+void initializeNotification() async {
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(const AndroidNotificationChannel(
+          'high_importance_channel', 'high_importance_notification',
+          importance: Importance.max));
+
+  await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
+    android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+  ));
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+}
+
 Future<void> main() async {
   // Database db = await DatabaseService.database;
 
@@ -68,6 +98,7 @@ Future<void> main() async {
   // String? firebaseToken = await fcmSetting();
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
   await Firebase.initializeApp();
+  initializeNotification();
 
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
@@ -96,8 +127,37 @@ class LaunchScreen extends StatefulWidget {
 }
 
 class _LaunchScreenState extends State<LaunchScreen> {
+// *************
+  var messageString = "";
+
   @override
   void initState() {
+// *************
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+
+      if (notification != null) {
+        FlutterLocalNotificationsPlugin().show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'high_importance_notification',
+              importance: Importance.max,
+            ),
+          ),
+        );
+
+        setState(() {
+          messageString = message.notification!.body!;
+
+          print("Foreground 메시지 수신: $messageString");
+        });
+      }
+    });
+
     super.initState();
     //타이머를 사용하여 2초 후에 홈 화면으로 이동
     Timer(const Duration(seconds: 1), () {
