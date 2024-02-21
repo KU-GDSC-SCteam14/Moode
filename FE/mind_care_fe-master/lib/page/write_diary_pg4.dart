@@ -8,12 +8,14 @@ import 'package:mind_care/db.dart';
 import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:provider/provider.dart';
+import 'package:mind_care/component/body_calendar.dart';
+import 'package:mind_care/component/happy_week_calendar.dart';
 //import 'dart:convert';
 //import 'package:http/http.dart' as http;
 
 final titleController = TextEditingController();
-var now = DateTime.now();
-final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(now);
+DateTime pick_date = DateTime.now();
+final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(pick_date);
 const String Z = 'Z';
 final String Date = Now + Z;
 
@@ -44,11 +46,12 @@ Future<void> modifyDiary(BuildContext context) async {
     // 데이터베이스에서 일기 데이터 업데이트
     await DatabaseService.updateDiary(diaryId, updatedDiaryData);
     print('Diary with ID: $diaryId has been updated');
-    print(now);
+    print(pick_date);
     print(Date);
   } else {
     print('User ID not found in SharedPreferences.');
   }
+
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -63,46 +66,7 @@ class Result extends StatefulWidget {
 }
 
 class _Result extends State<Result> {
-  // Future<void> uploadDiaryToServer() async {
-  //   final String apiUrl = "http://34.64.58.86:3000/Diary";
-
-  //   // 사용자 데이터를 Map 형식으로 정의
-  //   Map<String, dynamic> userData = {
-  //     'Title': titleController.text,
-  //     'Date': date,
-  //   };
-
-  //   // Map을 JSON 문자열로 변환
-  //   String jsonData = jsonEncode(userData);
-
-  //   try {
-  //     // HTTP POST 요청 보내기
-  //     final response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonData,
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       print('User created successfully.');
-  //     } else {
-  //       print('Error creating user. Status code: ${response.statusCode}');
-  //       print('Response body: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //   }
-  // }
-
   void onPressedHandler() async {
-    //uploadDiaryToServer();
-
-    // Get the CalendarData instance from the provider
-    //CalendarData calendarData = Provider.of<CalendarData>(context, listen: false);
-
-    // Update the selected date
-    //calendarData.updateSelectedDate(DateTime.now());
-
     // 데이터베이스에 키워드 데이터 연결
     List<int> keywordIds = await DatabaseService.getKeywordIds(keywords);
     await DatabaseService.insertDiaryKeywords(diaryId, keywordIds);
@@ -114,15 +78,15 @@ class _Result extends State<Result> {
     final prefs = await SharedPreferences.getInstance();
 
     // UserID 값을 임시 변수에 저장
-  final int? userId = prefs.getInt('userid');
-  
-  // SharedPreferences에서 모든 데이터 삭제
-  await prefs.clear();
-  
-  // UserID를 제외한 모든 데이터를 초기화한 후, UserID 값을 다시 저장
-  if (userId != null) {
-    await prefs.setInt('userid', userId);
-  }
+    final int? userId = prefs.getInt('userid');
+
+    // SharedPreferences에서 모든 데이터 삭제
+    await prefs.clear();
+
+    // UserID를 제외한 모든 데이터를 초기화한 후, UserID 값을 다시 저장
+    if (userId != null) {
+      await prefs.setInt('userid', userId);
+    }
 
     // 필드 초기화
     titleController.clear(); // 제목 컨트롤러 초기화
@@ -222,19 +186,29 @@ class _Result extends State<Result> {
                                       ),
                                     ),
                                     // 여백
-                                    const SizedBox(
-                                      height: 14,
-                                    ),
+                                    // const SizedBox(
+                                    //   height: 14,
+                                    // ),
                                     // 날짜
-                                    Container(
-                                        child: Text(
-                                      DateFormat('hh:mm, MMM dd, yyyy')
-                                          .format(now),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xff86858A),
-                                      ),
-                                    )),
+                                    TextButton(
+                                      onPressed: () async {
+                                        final selectedDate =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: pick_date,
+                                          firstDate:
+                                              DateTime(1900, 1, 1), // 첫째 날
+                                          lastDate: DateTime.now(),
+                                        );
+                                        if (selectedDate != null) {
+                                          setState(() {
+                                            pick_date = selectedDate;
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                          '날짜를 선택하세요 : ${DateFormat('MMM dd, yyyy').format(pick_date)}'),
+                                    ),
                                   ],
                                 ),
 
@@ -259,37 +233,37 @@ class _Result extends State<Result> {
                         ),
                         // 아래 : 키워드들
                         Container(
-                          child: Text(keywords[0]),
-                          // child: Row(
-                          //   children: [
-                          //     Container(
-                          //         child: Row(
-                          //               children: [
-                          //                 ListView.builder(
-                          //                   itemCount: keywords.length,
-                          //                   itemBuilder: (context, index) {
-                          //                     return Container(
-                          //                       // 로컬 keywords 쓰기
-                          //                       decoration: BoxDecoration(
-                          //                         borderRadius:
-                          //                         BorderRadius.circular(100),
-                          //                         color: const Color.fromRGBO(
-                          //                             211, 212, 212, 1.0),
-                          //                       ),
-                          //                       child: Text(
-                          //                         keywords[index],
-                          //                         style: const TextStyle(
-                          //                           fontSize: 14,
-                          //                           color: Color.fromRGBO(
-                          //                               0, 122, 255, 1.0),
-                          //                         ),
-                          //                       ),
-                          //                     );
-                          //                   },
-                          //                 ),
-                          //               ],
-                          //             )
-                        ),
+                            //child: Text(keywords[0]),
+                            // child: Row(
+                            //   children: [
+                            //     Container(
+                            //         child: Row(
+                            //               children: [
+                            //                 ListView.builder(
+                            //                   itemCount: keywords.length,
+                            //                   itemBuilder: (context, index) {
+                            //                     return Container(
+                            //                       // 로컬 keywords 쓰기
+                            //                       decoration: BoxDecoration(
+                            //                         borderRadius:
+                            //                         BorderRadius.circular(100),
+                            //                         color: const Color.fromRGBO(
+                            //                             211, 212, 212, 1.0),
+                            //                       ),
+                            //                       child: Text(
+                            //                         keywords[index],
+                            //                         style: const TextStyle(
+                            //                           fontSize: 14,
+                            //                           color: Color.fromRGBO(
+                            //                               0, 122, 255, 1.0),
+                            //                         ),
+                            //                       ),
+                            //                     );
+                            //                   },
+                            //                 ),
+                            //               ],
+                            //             )
+                            ),
                       ],
                     ),
                   ),

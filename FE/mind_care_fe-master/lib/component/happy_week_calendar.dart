@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_calendar_week/flutter_calendar_week.dart';
-//import 'package:weekly_date_picker/weekly_date_picker.dart';
 //import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:mind_care/component/body_calendar.dart';
+import 'dart:collection';
 
 // class WeekCalendar extends StatefulWidget {
 //   const WeekCalendar({super.key});
 //   @override
 //   _WeekCalendar createState() => _WeekCalendar();
 // }
+
+// 로컬 불러오기
+// 일기 쓴 모든 날짜 : [그 날의 모든 " 행복한"diaryIds] 식으로
+// 아래는 불러오는 형식 예시
+Map<DateTime, dynamic> happyeventSource = {
+  DateTime(2024, 2, 3): [
+    Event(1561),
+    Event(1563),
+  ],
+  DateTime(2024, 2, 8): [
+    Event(1568),
+    Event(1593),
+  ],
+  DateTime(2024, 2, 6): [
+    Event(1534),
+    Event(1555),
+  ],
+};
 
 class WeekCalendar extends StatelessWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
@@ -25,9 +43,32 @@ class WeekCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final events = LinkedHashMap(
+      equals: isSameDay,
+    )..addAll(happyeventSource);
+    List<Event> getEventsForDay(DateTime day) {
+      return events[day] ?? [];
+    }
+
     return Container(
       child: Expanded(
         child: TableCalendar(
+          eventLoader: (day) {
+            return getEventsForDay(day);
+          },
+          calendarBuilders:
+              CalendarBuilders(markerBuilder: (context, date, dynamic event) {
+            if (event.isNotEmpty) {
+              return Container(
+                width: 35,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0),
+                  //shape: BoxShape.circle
+                ),
+              );
+            }
+          }),
           calendarFormat: _calendarFormat,
           onFormatChanged: (format) {
             _calendarFormat = format;

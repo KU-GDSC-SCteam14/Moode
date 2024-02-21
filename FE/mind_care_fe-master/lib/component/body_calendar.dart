@@ -1,17 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
+import 'package:mind_care/page/write_diary_pg4.dart';
+import 'package:mind_care/component/happy_week_calendar.dart';
 
 class Event {
-  // String diaryID
-  //
-  String title;
-  bool complete;
-  Event(this.title, this.complete);
+  int diaryID;
 
-  @override
-  String toString() => title;
+  // String title;
+  // bool complete;
+  Event(this.diaryID);
+
+  // @override
+  // String toString() => title;
 }
+
+// 로컬 불러오기
+// 일기 쓴 모든 날짜 : [그 날의 모든 diaryIds] 식으로
+// 아래는 불러오는 형식 예시
+// 시간이 된다면 감정도 불러오기
+Map<DateTime, List<Event>> eventSource = {
+  DateTime(2024, 2, 3): [
+    // Event(1561),
+    // Event(1563),
+  ],
+  DateTime(2024, 2, 8): [
+    Event(1568),
+    Event(1593),
+  ],
+  DateTime(2024, 2, 6): [
+    Event(1534),
+    Event(1555),
+  ],
+};
 
 class BodyCalendar extends StatelessWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
@@ -21,63 +42,6 @@ class BodyCalendar extends StatelessWidget {
     required this.onDaySelected,
     required this.selectedDate,
   });
-
-  // DB를 불러오는 것임, eventSource 리스트 만드는 형식을 정해줘야 할 듯
-  // 여기다가 추가를 해줘야 함.
-  Map<DateTime, dynamic> eventSource = {
-    DateTime(2024, 1, 3): [
-      Event('5분 기도하기', false),
-      Event('교회 가서 인증샷 찍기', true),
-      Event('QT하기', true),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 5): [
-      Event('5분 기도하기', false),
-      Event('치킨 먹기', true),
-      Event('QT하기', true),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 8): [
-      Event('5분 기도하기', false),
-      Event('자기 셀카 올리기', true),
-      Event('QT하기', false),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 11): [
-      Event('5분 기도하기', false),
-      Event('가족과 저녁식사 하기', true),
-      Event('QT하기', true)
-    ],
-    DateTime(2022, 1, 13): [
-      Event('5분 기도하기', false),
-      Event('교회 가서 인증샷 찍기', true),
-      Event('QT하기', false),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 15): [
-      Event('5분 기도하기', false),
-      Event('치킨 먹기', false),
-      Event('QT하기', true),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 18): [
-      Event('5분 기도하기', false),
-      Event('자기 셀카 올리기', true),
-      Event('QT하기', false),
-      Event('셀 모임하기', false),
-    ],
-    DateTime(2022, 1, 20): [
-      Event('5분 기도하기', true),
-      Event('자기 셀카 올리기', true),
-      Event('QT하기', true),
-      Event('셀 모임하기', true),
-    ],
-    DateTime(2022, 1, 21): [
-      Event('5분 기도하기', false),
-      Event('가족과 저녁식사 하기', true),
-      Event('QT하기', false)
-    ]
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +58,19 @@ class BodyCalendar extends StatelessWidget {
           eventLoader: (day) {
             return getEventsForDay(day);
           },
+          calendarBuilders:
+              CalendarBuilders(markerBuilder: (context, date, dynamic event) {
+            if (event.isNotEmpty) {
+              return Container(
+                width: 35,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10.0),
+                  //shape: BoxShape.circle
+                ),
+              );
+            }
+          }),
           onDaySelected: onDaySelected,
           // 날짜 선택 시 실행할 함수
           selectedDayPredicate: (date) =>

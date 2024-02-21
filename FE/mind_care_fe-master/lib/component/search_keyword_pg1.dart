@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:mind_care/page/show_selectedfromsearch_diary.dart';
-import 'package:mind_care/page/collect_keyword.dart';
+import 'package:mind_care/page/manage_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
 import 'package:mind_care/db.dart';
@@ -19,7 +19,6 @@ class SearchKeyword extends StatefulWidget {
 
 // 메인 클래스의 상태 상속
 class _SearchKeyword extends State<SearchKeyword> {
-  
   @override
   void initState() {
     super.initState();
@@ -32,7 +31,7 @@ class _SearchKeyword extends State<SearchKeyword> {
       keywords = loadedKeywords;
     });
   }
-  
+
   // 키워드 누르면
   void cardClickEvent(BuildContext context, String keyword) {
     Navigator.push(
