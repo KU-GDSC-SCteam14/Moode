@@ -49,7 +49,7 @@ class _WriteEmotion extends State<WriteEmotion> {
   Future<void> sendMoodRequestMood(String inputText) async {
     try {
       // url 바꿔야 함
-      String url = "http://34.64.250.30:3000/AImood?input=$inputText";
+      String url = "http://34.22.109.189:3000/AImood?input=$inputText";
       http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {

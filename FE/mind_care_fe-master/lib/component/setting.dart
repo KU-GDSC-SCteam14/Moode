@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 bool _dummy = false;
 bool _isChecked = false;
@@ -8,9 +10,34 @@ final _days = ['월요일', '화요일', '수요일', '목요일', '금요일', 
 String _selectedDay = '';
 TimeOfDay pick_time = TimeOfDay.now();
 
-class Setting extends StatefulWidget {
-  Setting({Key? key}) : super(key: key);
+Future<void> saveNotificationSetting(String userId, TimeOfDay notifyTime) async {
+  // 서버 URL
+  final Uri serverUrl = Uri.parse('http://34.22.109.189:3000/schedule-notification');
+  // 로컬 데이터베이스에 알림 정보 저장 로직 (생략)
 
+  // 서버에 알림 설정 정보 전송
+  final response = await http.post(
+    serverUrl,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'User_ID': userId,
+      'NotifyTime': '${notifyTime.hour}:${notifyTime.minute}:00', // 예: '9:00:00'
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    print('알림 설정 정보가 서버에 성공적으로 저장되었습니다.');
+  } else {
+    print('서버에 알림 설정 정보를 저장하는 데 실패했습니다: ${response.body}');
+  }
+}
+
+class Setting extends StatefulWidget {
+  const Setting({super.key});
+
+  @override
   State<Setting> createState() => _Setting();
 }
 
@@ -145,14 +172,14 @@ class _Setting extends State<Setting> {
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(42.0),
+          preferredSize: const Size.fromHeight(42.0),
           child: AppBar(
             leading: IconButton(
-                icon: Icon(Icons.arrow_back), // 아이콘
+                icon: const Icon(Icons.arrow_back), // 아이콘
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
                   );
                 }),
             title: const Text(

@@ -12,8 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'screen/home_screen.dart';
 
-Future<void> saveUser() async {
-  final url = Uri.parse('http://34.64.250.30:3000/User');
+// 사용자 정보 및 FCM 토큰을 서버에 저장
+Future<void> saveUserAndFCMToken() async {
+  final fcmToken = await FirebaseMessaging.instance.getToken(); // FCM 토큰 획득
+
+  final url = Uri.parse('http://34.22.109.189:3000/User');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     "Name": "Testname",
@@ -25,6 +28,7 @@ Future<void> saveUser() async {
     "Access_Token": "test_access_token",
     "Refresh_Token": "test_refresh_token",
     "Token_Expiry_Date": "2024-02-13 12:00:00",
+    "FCM_Token": fcmToken, // FCM 토큰 추가
     "Profile_Picture_URL": "test_profile_picture_url"
   });
 
@@ -34,11 +38,11 @@ Future<void> saveUser() async {
       final responseData = json.decode(response.body);
       if (responseData['success']) {
         final userid = responseData['userid'];
-        final prefs =
-            await SharedPreferences.getInstance(); // 이 부분(await)때문에 유저가 기다려야함.
+        final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('userid', userid);
         print('User saved with ID: $userid');
-        // SQLite 데이터베이스에 유저 데이터 저장
+
+        // SQLite 데이터베이스에 유저 데이터와 FCM 토큰 저장
         await DatabaseService.insertUser({
           "User_ID": userid,
           "Name": "Testname",
@@ -50,16 +54,16 @@ Future<void> saveUser() async {
           "Access_Token": "test_access_token",
           "Refresh_Token": "test_refresh_token",
           "Token_Expiry_Date": "2024-02-13 12:00:00",
+          "FCM_Token": fcmToken, // 로컬 DB에도 FCM 토큰 저장
           "Profile_Picture_URL": "test_profile_picture_url"
         });
-        print('Local DB fetched');
-// ******
+        print('Local DB fetched and FCM token saved');
       }
     } else {
-      print('Failed to save user.');
+      print('Failed to save user and FCM token.');
     }
   } catch (e) {
-    print('Error saving user: $e');
+    print('Error saving user and FCM token: $e');
   }
 }
 
@@ -76,7 +80,8 @@ void initializeNotification() async {
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 
@@ -131,10 +136,9 @@ Future<void> main() async {
   initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
-  saveUser();
+  saveUserAndFCMToken();
   await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
 }
@@ -144,9 +148,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(fontFamily: "Pretendard"),
       // 앱의 런치 스크린을 나타내는 위젯
-      home: LaunchScreen(),
+      home: const LaunchScreen(),
     );
   }
 }
@@ -165,8 +170,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
   @override
   void initState() {
 // *************
-    
-    
 
     super.initState();
     //타이머를 사용하여 2초 후에 홈 화면으로 이동

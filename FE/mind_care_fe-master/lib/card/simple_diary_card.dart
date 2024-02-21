@@ -42,10 +42,10 @@ class _DiaryCardState extends State<DiaryCard> {
   Widget build(BuildContext context) {
     return Container(
       width: 374,
-      //height: 151,
+      height: 151,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: const Color(0xfff0f1f1),
+        color: Color.fromRGBO(225, 226, 226, 0.8),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -79,9 +79,8 @@ class DiaryBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[0])
+        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[i])
       ],
-
       // child: Row(
       //   children: [
       //     Container(

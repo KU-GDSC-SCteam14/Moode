@@ -24,7 +24,8 @@ class _ContentsCard extends State<ContentsCard> {
   }
 
   void _fetchDiaryDetails() async {
-    final diaryDetails = await DatabaseService.getDiaryDetailsById(widget.diaryID);
+    final diaryDetails =
+        await DatabaseService.getDiaryDetailsById(widget.diaryID);
     if (diaryDetails != null) {
       setState(() {
         experienceTextController = diaryDetails['Content_1'] ?? "";
@@ -38,24 +39,104 @@ class _ContentsCard extends State<ContentsCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 374,
-      //height: 151,
+      width: 390,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: const Color(0xfff0f1f1),
+        color: const Color.fromRGBO(255, 255, 255, 0.8),
       ),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 56),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('오늘 어떤 일이 있었나요?'),
-          Text(experienceTextController),
-          const Text('그 때의 감정을 자세히 들려주세요.'),
-          Text(emotionTextController),
-          const Text('왜 그런 감정이 든 것 같나요?'),
-          Text(reasonTextController),
-          const Text('나에게 해주고 싶은 말을 자유롭게 적어주세요.'),
-          Text(thinkTextController),
+          const Text(
+            '오늘 어떤 일이 있었나요?',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xffABB0BC),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            experienceTextController,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.normal,
+              color: Color(0xff272727),
+              height: 1.4,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          const Text(
+            '그 때의 감정을 자세히 들려주세요.',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xffABB0BC),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            emotionTextController,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.normal,
+              color: Color(0xff272727),
+              height: 1.4,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          const Text(
+            '왜 그런 감정이 든 것 같나요?',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xffABB0BC),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            reasonTextController,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.normal,
+              color: Color(0xff272727),
+              height: 1.4,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          const Text(
+            '나에게 해주고 싶은 말을 자유롭게 적어주세요.',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xffABB0BC),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            thinkTextController,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.normal,
+              color: Color(0xff272727),
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );

@@ -44,7 +44,7 @@ class DiaryCard extends StatelessWidget {
             //height: 169,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color(0xfff8f8f8),
+              color: Color.fromRGBO(225, 226, 226, 0.8),
             ),
             padding: const EdgeInsets.all(20),
             child: Column(
