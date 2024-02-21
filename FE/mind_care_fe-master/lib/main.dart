@@ -32,7 +32,7 @@ Future<void> saveUserAndFCMToken() async {
     "Access_Token": "test_access_token",
     "Refresh_Token": "test_refresh_token",
     "Token_Expiry_Date": "2024-02-13 12:00:00",
-    "FCM_Token": fcmToken, // FCM 토큰 추가
+    "FCM_Token": "fcmToken", // FCM 토큰 추가
     "Profile_Picture_URL": "test_profile_picture_url"
   });
 
