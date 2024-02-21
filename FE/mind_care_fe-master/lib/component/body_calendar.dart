@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
+import 'package:mind_care/db.dart';
 import 'package:mind_care/page/write_diary_pg4.dart';
 import 'package:mind_care/component/happy_week_calendar.dart';
 
@@ -15,39 +16,47 @@ class Event {
   // String toString() => title;
 }
 
-// 로컬 불러오기
-// 일기 쓴 모든 날짜 : [그 날의 모든 diaryIds] 식으로
-// 아래는 불러오는 형식 예시
-// 시간이 된다면 감정도 불러오기
-Map<DateTime, List<Event>> eventSource = {
-  DateTime(2024, 2, 3): [
-    // Event(1561),
-    // Event(1563),
-  ],
-  DateTime(2024, 2, 8): [
-    Event(1568),
-    Event(1593),
-  ],
-  DateTime(2024, 2, 6): [
-    Event(1534),
-    Event(1555),
-  ],
-};
-
-class BodyCalendar extends StatelessWidget {
+class BodyCalendar extends StatefulWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
   final DateTime selectedDate; // 선택된 날짜
 
-  BodyCalendar({
+  const BodyCalendar({super.key, 
     required this.onDaySelected,
     required this.selectedDate,
   });
 
   @override
+  _BodyCalendarState createState() => _BodyCalendarState();
+}
+
+class _BodyCalendarState extends State<BodyCalendar> {
+  late Future<Map<DateTime, List<Event>>> eventSourceFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    eventSourceFuture = DatabaseService.getDiariesByDateForEvents() as Future<Map<DateTime, List<Event>>>;
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    
+    return FutureBuilder<Map<DateTime, List<Event>>>(
+      future: eventSourceFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (!snapshot.hasData) {
+          return const Center(child: Text('No events found'));
+        }
+
     final events = LinkedHashMap(
       equals: isSameDay,
-    )..addAll(eventSource);
+      hashCode: getHashCode,
+    )..addAll(snapshot.data!);
     List<Event> getEventsForDay(DateTime day) {
       return events[day] ?? [];
     }
@@ -70,13 +79,14 @@ class BodyCalendar extends StatelessWidget {
                 ),
               );
             }
+            return null;
           }),
-          onDaySelected: onDaySelected,
+          onDaySelected: widget.onDaySelected,
           // 날짜 선택 시 실행할 함수
           selectedDayPredicate: (date) =>
-              date.year == selectedDate.year &&
-              date.month == selectedDate.month &&
-              date.day == selectedDate.day,
+              date.year == widget.selectedDate.year &&
+              date.month == widget.selectedDate.month &&
+              date.day == widget.selectedDate.day,
           focusedDay: DateTime.now(), // 화면에 보여지는 날
           firstDay: DateTime(1900, 1, 1), // 첫째 날
           lastDay: DateTime(2999, 12, 31), // 마지막 날
@@ -95,17 +105,17 @@ class BodyCalendar extends StatelessWidget {
             defaultDecoration: BoxDecoration(
               // 기본 평일 날짜 스타일
               borderRadius: BorderRadius.circular(10.0),
-              color: Color(0xffEAEAF0),
+              color: const Color(0xffEAEAF0),
             ),
             weekendDecoration: BoxDecoration(
               // 주말 날짜 스타일
               borderRadius: BorderRadius.circular(10.0),
-              color: Color(0xffEAEAF0),
+              color: const Color(0xffEAEAF0),
             ),
             selectedDecoration: BoxDecoration(
               // 선택한 날짜 스타일
               borderRadius: BorderRadius.circular(10.0),
-              color: Color(0xff007AFF),
+              color: const Color(0xff007AFF),
             ),
             defaultTextStyle: const TextStyle(
               // 기본 평일 글꼴
@@ -129,5 +139,11 @@ class BodyCalendar extends StatelessWidget {
         ),
       ),
     );
-  }
+    // 이 함수는 `TableCalendar`의 `hashCode` 설정을 위해 필요합니다.
+      }
+    );
+}
+    int getHashCode(DateTime key) {
+      return key.day * 1000000 + key.month * 10000 + key.year;
+    }
 }

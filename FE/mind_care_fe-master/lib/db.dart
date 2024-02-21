@@ -1,6 +1,12 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+class Event {
+  final int diaryId;
+
+  Event(this.diaryId);
+}
+
 class DatabaseService {
   static Database? _database;
 
@@ -421,6 +427,53 @@ class DatabaseService {
       where: 'Diary_ID = ?', // 삭제 조건
       whereArgs: [diaryId], // 조건에 사용될 diaryId
     );
+  }
+
+  static Future<Map<DateTime, List<Event>>> getDiariesByDateForEvents() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT Date, GROUP_CONCAT(Diary_ID) as DiaryIDs
+      FROM Diary
+      GROUP BY Date
+    ''');
+
+    Map<DateTime, List<Event>> eventSource = {};
+    for (var row in results) {
+      // 날짜 문자열을 DateTime 객체로 변환
+      DateTime date = DateTime.parse(row['Date']);
+      // DiaryIDs 문자열을 분리하여 각각의 ID로 변환
+      List<String> diaryIds = (row['DiaryIDs'] as String).split(',');
+      // Event 객체 리스트로 변환
+      List<Event> events = diaryIds.map((id) => Event(int.parse(id))).toList();
+      // 결과 맵에 추가
+      eventSource[date] = events;
+    }
+
+    return eventSource;
+  }
+
+  static Future<Map<DateTime, List<Event>>> gethappyDiariesByDateForEvents() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT Date, GROUP_CONCAT(Diary_ID) as DiaryIDs
+      FROM Diary
+      WHERE Mood_ID = 1 OR Mood_ID = 2
+      GROUP BY Date
+    ''');
+
+    Map<DateTime, List<Event>> eventSource = {};
+    for (var row in results) {
+      // 날짜 문자열을 DateTime 객체로 변환
+      DateTime date = DateTime.parse(row['Date']);
+      // DiaryIDs 문자열을 분리하여 각각의 ID로 변환
+      List<String> diaryIds = (row['DiaryIDs'] as String).split(',');
+      // Event 객체 리스트로 변환
+      List<Event> events = diaryIds.map((id) => Event(int.parse(id))).toList();
+      // 결과 맵에 추가
+      eventSource[date] = events;
+    }
+
+    return eventSource;
   }
 
   // 여기에 추가 할거에요!!
