@@ -213,18 +213,11 @@ class _Result extends State<Result> {
                                 ),
 
                                 // 감정 이모티콘
-                                // Container(
-                                //   child: Image.asset(
-                                //     'asset/img/logo.png',
-                                //     width: 50,
-                                //   ),
-                                // ),
-                                // 감정 이름
                                 Container(
-                                    child: Text(moodName,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                        ))),
+                                  width: 64,
+                                  height: 64,
+                                  child: getImageWidget(moodName),
+                                )
                               ],
                             )),
                         // 여백
@@ -403,5 +396,20 @@ class _Result extends State<Result> {
         ],
       ),
     );
+  }
+
+  Widget getImageWidget(String moodName) {
+    switch (moodName) {
+      case 'very happy':
+        return Image.asset('asset/img/very_happy.png');
+      case 'happy':
+        return Image.asset('asset/img/happy.png');
+      case 'sad':
+        return Image.asset('asset/img/sad.png');
+      case 'very sad':
+        return Image.asset('asset/img/very_sad.png');
+      default:
+        return Container(); // 예외 처리 혹은 기본값 설정
+    }
   }
 }

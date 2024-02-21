@@ -4,6 +4,7 @@ import 'package:mind_care/page/manage_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
 import 'package:mind_care/db.dart';
+import 'package:mind_care/page/manage_keyword.dart';
 
 String searchText = '';
 
@@ -69,14 +70,14 @@ class _SearchKeyword extends State<SearchKeyword> {
           ),
           centerTitle: true,
           actions: [
-            // TextButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(builder: (context) => CollectKeyword()),
-            //       );
-            //     }, // floating
-            //     child: const Text('관리'))
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ManageKeyword()),
+                  );
+                }, // floating
+                child: const Text('관리'))
           ],
         ),
       ),
