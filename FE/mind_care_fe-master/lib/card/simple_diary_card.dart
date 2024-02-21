@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/db.dart';
-import 'dart:math';
 
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
@@ -77,41 +76,37 @@ class DiaryBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[0])
-      ],
-
-      // child: Row(
-      //   children: [
-      //     Container(
-      //         child: Row(
-      //               children: [
-      //                 ListView.builder(
-      //                   itemCount: keywords.length,
-      //                   itemBuilder: (context, index) {
-      //                     return Container(
-      //                       // 로컬 keywords 쓰기
-      //                       decoration: BoxDecoration(
-      //                         borderRadius:
-      //                         BorderRadius.circular(100),
-      //                         color: const Color.fromRGBO(
-      //                             211, 212, 212, 1.0),
-      //                       ),
-      //                       child: Text(
-      //                         keywords[index],
-      //                         style: const TextStyle(
-      //                           fontSize: 14,
-      //                           color: Color.fromRGBO(
-      //                               0, 122, 255, 1.0),
-      //                         ),
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               ],
-      //             )
-    );
+    return Container(child: Text(keywords[0])
+        // child: Row(
+        //   children: [
+        //     Container(
+        //         child: Row(
+        //               children: [
+        //                 ListView.builder(
+        //                   itemCount: keywords.length,
+        //                   itemBuilder: (context, index) {
+        //                     return Container(
+        //                       // 로컬 keywords 쓰기
+        //                       decoration: BoxDecoration(
+        //                         borderRadius:
+        //                         BorderRadius.circular(100),
+        //                         color: const Color.fromRGBO(
+        //                             211, 212, 212, 1.0),
+        //                       ),
+        //                       child: Text(
+        //                         keywords[index],
+        //                         style: const TextStyle(
+        //                           fontSize: 14,
+        //                           color: Color.fromRGBO(
+        //                               0, 122, 255, 1.0),
+        //                         ),
+        //                       ),
+        //                     );
+        //                   },
+        //                 ),
+        //               ],
+        //             )
+        );
   }
 }
 
