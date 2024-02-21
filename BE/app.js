@@ -48,28 +48,60 @@ testDBConnection()
 cron.schedule('59 23 * * *', async () => {
   console.log('알림 예약을 처리합니다.')
 
+  function getTomorrow() {
+    const days = [
+      '일요일',
+      '월요일',
+      '화요일',
+      '수요일',
+      '목요일',
+      '금요일',
+      '토요일',
+    ]
+    const todayIndex = new Date().getDay() // 0(일요일)부터 6(토요일)까지의 숫자
+    const tomorrowIndex = (todayIndex + 1) % 7 // 내일 요일의 인덱스를 계산
+    return days[tomorrowIndex]
+  }
+
   try {
     // 전날 알림 예약 데이터 조회 (예: '2024-02-20 00:00:00')
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-    const formattedDate = yesterday.toISOString().split('T')[0] + ' 00:00:00'
+    const Tommorrow = getTomorrow()
 
     const notifications = await db.query(
-      'SELECT * FROM Messaging WHERE NotifyTime = ?',
-      [formattedDate],
+      'SELECT * FROM Messaging WHERE Notifyday = ?',
+      [Tommorrow],
     )
 
-    // 각 알림 예약에 대해 FCM 메시지 전송
-    notifications.forEach(async (notification) => {
-      const { User_ID, NotifyTime } = notification
+// 각 알림 예약에 대해 FCM 메시지 전송
+notifications.forEach(async (notification) => {
+  const { User_ID, NotifyTime } = notification;
 
-      // 사용자 ID로 사용자 토큰 조회
-      const user = await db.query(
-        'SELECT FCM_Token FROM User WHERE User_ID = ?',
-        [User_ID],
-      )
-      const FCM_Token = user[0].FCM_Token
+  // 시간과 분 추출
+  const [dateString, timeString] = NotifyTime.split(' '); // 날짜와 시간을 분리
+  const [hours, minutes] = timeString.split(':'); // 시간과 분을 추출
 
+  // 사용자 ID로 사용자 토큰 조회
+  const user = await db.query(
+    'SELECT FCM_Token FROM User WHERE User_ID = ?',
+    [User_ID]
+  );
+  const FCM_Token = user[0].FCM_Token;
+
+  // 현재 날짜와 시간을 가져오기
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
+  const currentDate = now.getDate();
+
+  // 예약 시간 설정
+  const scheduleTime = new Date(
+    `${currentYear}-${currentMonth}-${currentDate} ${hours}:${minutes}:00`
+  );
+
+  // 현재 시간과 예약 시간을 비교하여 알림을 보냅니다.
+  if (now < scheduleTime) {
+    const delay = scheduleTime.getTime() - now.getTime();
+    setTimeout(() => {
       // FCM 메시지 구성
       const message = {
         notification: {
@@ -77,7 +109,7 @@ cron.schedule('59 23 * * *', async () => {
           body: '주간 긍정일기가 도착했어요!',
         },
         token: FCM_Token,
-      }
+      };
 
       // FCM 메시지 전송
       admin
@@ -85,15 +117,13 @@ cron.schedule('59 23 * * *', async () => {
         .send(message)
         .then((response) => {
           console.log('성공적으로 메시지를 보냈습니다:', response)
-        })
-        .catch((error) => {
-          console.log('메시지 전송 실패:', error)
-        })
-    })
-  } catch (error) {
-    console.error('알림 예약 처리 중 오류 발생:', error)
-  }
+      }, delay).catch((error) => {
+        console.log('메시지 전송 실패:', error)
+      })
+  })
+}
 })
+        
 
 // Google OAuth
 app.get(
@@ -333,7 +363,7 @@ app.get('/AImood', (req, res) => {
 })
 
 app.post('/schedule-notification', async (req, res) => {
-  const { User_ID, NotifyTime } = req.body
+  const { User_ID, Notifyday, NotifyTime } = req.body
 
   try {
     // User 테이블에서 해당 User_ID의 FCM_Token 조회
@@ -353,8 +383,8 @@ app.post('/schedule-notification', async (req, res) => {
 
     // Messaging 테이블에 알림 예약 정보 및 FCM_Token 저장
     const insertResult = await db.query(
-      'INSERT INTO Messaging (User_ID, NotifyTime, FCM_Token) VALUES (?, ?, ?)',
-      [User_ID, NotifyTime, FCM_Token],
+      'INSERT INTO Messaging (User_ID, Notifyday, NotifyTime, FCM_Token) VALUES (?, ?, ?, ?)',
+      [User_ID, Notifyday, NotifyTime, FCM_Token],
     )
     console.log('알림 예약 정보가 성공적으로 저장되었습니다:', insertResult)
 
