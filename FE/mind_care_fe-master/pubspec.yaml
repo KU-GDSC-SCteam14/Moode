@@ -104,41 +104,41 @@ flutter:
   fonts:
     - family: Pretendard
       fonts:
-        - asset: assets/fonts/Pretendard-Thin.ttf
+        - asset: asset/fonts/Pretendard-Thin.ttf
           weight: 100
-        - asset: assets/fonts/Pretendard-ExtraLight.ttf
+        - asset: asset/fonts/Pretendard-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Pretendard-Light.ttf
+        - asset: asset/fonts/Pretendard-Light.ttf
           weight: 300
-        - asset: assets/fonts/Pretendard-Regular.ttf
+        - asset: asset/fonts/Pretendard-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Pretendard-Medium.ttf
+        - asset: asset/fonts/Pretendard-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Pretendard-SemiBold.ttf
+        - asset: asset/fonts/Pretendard-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Pretendard-Bold.ttf
+        - asset: asset/fonts/Pretendard-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Pretendard-ExtraBold.ttf
+        - asset: asset/fonts/Pretendard-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/Pretendard-Black.ttf
+        - asset: asset/fonts/Pretendard-Black.ttf
           weight: 900
-        - asset: assets/fonts/Pretendard-Thin.otf
+        - asset: asset/fonts/Pretendard-Thin.otf
           weight: 100
-        - asset: assets/fonts/Pretendard-ExtraLight.otf
+        - asset: asset/fonts/Pretendard-ExtraLight.otf
           weight: 200
-        - asset: assets/fonts/Pretendard-Light.otf
+        - asset: asset/fonts/Pretendard-Light.otf
           weight: 300
-        - asset: assets/fonts/Pretendard-Regular.otf
+        - asset: asset/fonts/Pretendard-Regular.otf
           weight: 400
-        - asset: assets/fonts/Pretendard-Medium.otf
+        - asset: asset/fonts/Pretendard-Medium.otf
           weight: 500
-        - asset: assets/fonts/Pretendard-SemiBold.otf
+        - asset: asset/fonts/Pretendard-SemiBold.otf
           weight: 600
-        - asset: assets/fonts/Pretendard-Bold.otf
+        - asset: asset/fonts/Pretendard-Bold.otf
           weight: 700
-        - asset: assets/fonts/Pretendard-ExtraBold.otf
+        - asset: asset/fonts/Pretendard-ExtraBold.otf
           weight: 800
-        - asset: assets/fonts/Pretendard-Black.otf
+        - asset: asset/fonts/Pretendard-Black.otf
           weight: 900
 
   #   - family: Schyler

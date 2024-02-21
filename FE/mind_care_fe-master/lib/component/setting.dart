@@ -12,7 +12,7 @@ TimeOfDay pick_time = TimeOfDay.now();
 
 Future<void> saveNotificationSetting(String userId, TimeOfDay notifyTime) async {
   // 서버 URL
-  final Uri serverUrl = Uri.parse('http://34.64.250.30:3000/schedule-notification');
+  final Uri serverUrl = Uri.parse('http://34.22.109.189:3000/schedule-notification');
   // 로컬 데이터베이스에 알림 정보 저장 로직 (생략)
 
   // 서버에 알림 설정 정보 전송

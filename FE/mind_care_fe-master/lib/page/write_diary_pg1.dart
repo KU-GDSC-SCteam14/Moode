@@ -148,7 +148,7 @@ class _WriteExperienceSate extends State<WriteExperience> {
 
   Future<void> sendAIRequestKeyword(String inputText) async {
     try {
-      String url = "http://34.64.250.30:3000/AIkeyword?input=$inputText";
+      String url = "http://34.22.109.189:3000/AIkeyword?input=$inputText";
       http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {

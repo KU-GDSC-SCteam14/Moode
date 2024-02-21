@@ -16,7 +16,7 @@ import 'screen/home_screen.dart';
 Future<void> saveUserAndFCMToken() async {
   final fcmToken = await FirebaseMessaging.instance.getToken(); // FCM 토큰 획득
 
-  final url = Uri.parse('http://34.64.250.30:3000/User');
+  final url = Uri.parse('http://34.22.109.189:3000/User');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     "Name": "Testname",
@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: "Pretendard"),
       // 앱의 런치 스크린을 나타내는 위젯
-      home: LaunchScreen(),
+      home: const LaunchScreen(),
     );
   }
 }
