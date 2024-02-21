@@ -14,7 +14,11 @@ import 'screen/home_screen.dart';
 
 // 사용자 정보 및 FCM 토큰을 서버에 저장
 Future<void> saveUserAndFCMToken() async {
+  
   final fcmToken = await FirebaseMessaging.instance.getToken(); // FCM 토큰 획득
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('fcmToken', fcmToken!);
+  print('Token saved: $fcmToken');
 
   final url = Uri.parse('http://34.22.109.189:3000/User');
   final headers = {'Content-Type': 'application/json'};
@@ -41,6 +45,7 @@ Future<void> saveUserAndFCMToken() async {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('userid', userid);
         print('User saved with ID: $userid');
+        print('Token saved: $fcmToken');
 
         // SQLite 데이터베이스에 유저 데이터와 FCM 토큰 저장
         await DatabaseService.insertUser({
@@ -57,7 +62,7 @@ Future<void> saveUserAndFCMToken() async {
           "FCM_Token": fcmToken, // 로컬 DB에도 FCM 토큰 저장
           "Profile_Picture_URL": "test_profile_picture_url"
         });
-        print('Local DB fetched and FCM token saved');
+        print('Local DB fetched and FCM token saved $fcmToken');
       }
     } else {
       print('Failed to save user and FCM token.');

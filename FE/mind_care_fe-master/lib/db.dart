@@ -494,5 +494,13 @@ class DatabaseService {
     return eventSource;
   }
 
+  // 메세지 삽입 메서드 (삽입된 data의 ID 반환)
+  static Future<int> insertMessaging(Map<String, dynamic> messagingdata) async {
+    final db = await database;
+    int id = await db.insert('Messaging', messagingdata,
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    return id; // 삽입된 data의 ID 반환
+  }
+
   // 여기에 추가 할거에요!!
 }

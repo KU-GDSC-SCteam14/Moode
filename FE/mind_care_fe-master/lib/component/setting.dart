@@ -1,57 +1,76 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:mind_care/screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mind_care/screen/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-bool _dummy = false;
-bool _isChecked = false;
-final _days = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
-String _selectedDay = '';
-TimeOfDay pick_time = TimeOfDay.now();
-
-Future<void> saveNotificationSetting(String userId, TimeOfDay notifyTime) async {
-  // 서버 URL
-  final Uri serverUrl = Uri.parse('http://34.22.109.189:3000/schedule-notification');
-  // 로컬 데이터베이스에 알림 정보 저장 로직 (생략)
-
-  // 서버에 알림 설정 정보 전송
-  final response = await http.post(
-    serverUrl,
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, dynamic>{
-      'User_ID': userId,
-      'NotifyTime': '${notifyTime.hour}:${notifyTime.minute}:00', // 예: '9:00:00'
-    }),
-  );
-
-  if (response.statusCode == 201) {
-    print('알림 설정 정보가 서버에 성공적으로 저장되었습니다.');
-  } else {
-    print('서버에 알림 설정 정보를 저장하는 데 실패했습니다: ${response.body}');
-  }
-}
+import 'package:intl/intl.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
 
   @override
-  State<Setting> createState() => _Setting();
+  State<Setting> createState() => _SettingState();
 }
 
-class _Setting extends State<Setting> {
+class _SettingState extends State<Setting> {
+  bool _dummy = false;
+  bool _isChecked = false;
+  final _days = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
+  String _selectedDay = '월요일';
+  TimeOfDay pick_time = TimeOfDay.now();
+
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _selectedDay = _days[0];
-    });
+  }
+
+  Future<void> saveNotificationSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int? userId = prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
+    String? fcmToken = prefs.getString('fcmtoken'); // SharedPreferences에서 FCM 토큰 불러오기
+
+    final String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final String formattedTime = '$formattedDate ${pick_time.hour}:${pick_time.minute}:00';
+
+    if (fcmToken == null) {
+    // FCM 토큰이 저장되어 있지 않은 경우 다시 불러오기 시도
+    fcmToken = await FirebaseMessaging.instance.getToken();
+    // 새로 얻은 FCM 토큰을 다시 SharedPreferences에 저장
+    await prefs.setString('fcmToken', fcmToken!);
+  }
+
+    print(fcmToken);
+    print(userId);
+    if (userId != null) {
+      final Uri serverUrl = Uri.parse('http://34.22.109.189:3000/schedule-notification');
+
+      final response = await http.post(
+        serverUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'User_ID': userId,
+          'NotifyTime': formattedTime,
+          'FCM_Token': fcmToken,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        print('알림 설정 정보가 서버에 성공적으로 저장되었습니다.');
+      } else {
+        print('서버에 알림 설정 정보를 저장하는 데 실패했습니다: ${response.body}');
+      }
+    } else {
+      print('Empty token or user ID');
+    }
   }
 
   // 계정 설정
-  final _accountSetting = Container(
+  final accountSetting = Container(
     //alignment: Alignment.centerLeft,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
     child: const Column(
@@ -110,7 +129,7 @@ class _Setting extends State<Setting> {
   );
 
   // 테마 설정
-  final _themeSetting = Container(
+  final themeSetting = Container(
     //alignment: Alignment.left,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
     child: const Column(
@@ -139,7 +158,7 @@ class _Setting extends State<Setting> {
   );
 
   // 언어 설정
-  final _langaugeSetting = Container(
+  final langaugeSetting = Container(
     //alignment: Alignment.centerLeft,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
     child: const Column(
@@ -200,7 +219,7 @@ class _Setting extends State<Setting> {
               child: SingleChildScrollView(
                   child: Column(
                 children: [
-                  _accountSetting,
+                  accountSetting,
                   Container(
                     //alignment: Alignment.left,
                     padding: const EdgeInsets.symmetric(
@@ -271,7 +290,7 @@ class _Setting extends State<Setting> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             const Text(
-                              '알림 받을 시간',
+                              '알림 받을 요일',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 17,
@@ -314,11 +333,15 @@ class _Setting extends State<Setting> {
                             ),
                           ],
                         ),
+                        ElevatedButton(
+                          onPressed: saveNotificationSetting,
+                          child: const Text('저장'),
+                        ),
                       ],
                     ),
                   ),
-                  _themeSetting,
-                  _langaugeSetting
+                  themeSetting,
+                  langaugeSetting
                 ],
               )),
             ),
@@ -328,3 +351,9 @@ class _Setting extends State<Setting> {
     );
   }
 }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
