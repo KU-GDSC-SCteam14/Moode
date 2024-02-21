@@ -99,6 +99,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
   await Firebase.initializeApp();
   initializeNotification();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
 
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
