@@ -8,8 +8,7 @@ import 'package:mind_care/db.dart';
 import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:provider/provider.dart';
-import 'package:mind_care/component/body_calendar.dart';
-import 'package:mind_care/component/happy_week_calendar.dart';
+
 //import 'dart:convert';
 //import 'package:http/http.dart' as http;
 
@@ -54,7 +53,7 @@ Future<void> modifyDiary(BuildContext context) async {
 
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const HomeScreen()),
+    MaterialPageRoute(builder: (context) => HomeScreen()),
   );
 }
 

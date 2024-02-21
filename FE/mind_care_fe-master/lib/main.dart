@@ -67,7 +67,6 @@ Future<void> saveUserAndFCMToken() async {
   }
 }
 
-
 //****************
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("백그라운드 메시지 처리.. ${message.notification!.body!}");
@@ -81,7 +80,8 @@ void initializeNotification() async {
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 
@@ -136,7 +136,6 @@ Future<void> main() async {
   initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
   saveUserAndFCMToken();
@@ -149,7 +148,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(fontFamily: "Pretendard"),
       // 앱의 런치 스크린을 나타내는 위젯
       home: LaunchScreen(),
     );
@@ -170,8 +170,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
   @override
   void initState() {
 // *************
-    
-    
 
     super.initState();
     //타이머를 사용하여 2초 후에 홈 화면으로 이동

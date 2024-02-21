@@ -42,10 +42,10 @@ class _DiaryCardState extends State<DiaryCard> {
   Widget build(BuildContext context) {
     return Container(
       width: 374,
-      //height: 151,
+      height: 151,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: const Color(0xfff0f1f1),
+        color: Color.fromRGBO(225, 226, 226, 0.8),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(

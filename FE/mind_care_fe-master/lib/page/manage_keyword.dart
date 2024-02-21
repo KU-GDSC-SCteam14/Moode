@@ -72,10 +72,10 @@ class _ManageKeyword extends State<ManageKeyword> {
                */
                     key: Key(keywordsFuture[index]),
                     // Dismissible의 배경색 설정
-                    background: Container(
-                      child: Text('수정'),
-                      color: Colors.blue,
-                    ), // Background for swipe right
+                    // background: Container(
+                    //   child: Text('수정'),
+                    //   color: Colors.blue,
+                    // ), // Background for swipe right
                     secondaryBackground: Container(
                         child: Text('삭제'),
                         color: Colors.red), // Background for swipe left
@@ -94,17 +94,17 @@ class _ManageKeyword extends State<ManageKeyword> {
                     child: ListTile(
                       title: Text(keywordsFuture[index]),
                       // 탭하면 수정 모달 실행, 화면에 반영, 로컬에도 반영
-                      onTap: () {
-                        // 수정 모달
-                        changeDialog(keywordsFuture[index]);
-                        // 로컬 반영
-                        DatabaseService.updateKeyword(
-                            keywordsFuture[index], change_keyword);
-                        // 즉시 반영
-                        setState(() {
-                          keywordsFuture[index] = change_keyword;
-                        });
-                      },
+                      // onTap: () {
+                      //   // 수정 모달
+                      //   changeDialog(keywordsFuture[index]);
+                      //   // 로컬 반영
+                      //   DatabaseService.updateKeyword(
+                      //       keywordsFuture[index], change_keyword);
+                      //   // 즉시 반영
+                      //   setState(() {
+                      //     keywordsFuture[index] = change_keyword;
+                      //   });
+                      // },
                     ),
                   );
                 },
