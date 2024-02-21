@@ -47,7 +47,7 @@ class DatabaseService {
       ''');
 
       await db.execute('''
-        ALTER TABLE User ADD INDEX idx_FCM_Token (FCM_Token);
+        CREATE INDEX idx_FCM_Token ON User (FCM_Token);
       ''');
 
       await db.execute('''
