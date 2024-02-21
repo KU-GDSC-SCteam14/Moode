@@ -41,8 +41,13 @@ class DatabaseService {
           Access_Token TEXT NOT NULL,
           Refresh_Token TEXT NOT NULL,
           Token_Expiry_Date TEXT NOT NULL,
+          FCM_Token TEXT,
           Profile_Picture_URL TEXT
         );
+      ''');
+
+      await db.execute('''
+        ALTER TABLE User ADD INDEX idx_FCM_Token (FCM_Token);
       ''');
 
       await db.execute('''
@@ -86,6 +91,19 @@ class DatabaseService {
           FOREIGN KEY (Keyword_ID) REFERENCES Keyword(Keyword_ID)
         );
       ''');
+
+      await db.execute('''
+        CREATE TABLE Messaging (
+          Messaging_ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          User_ID BIGINT UNSIGNED NOT NULL,
+          FCM_Token VARCHAR(255) NOT NULL,
+          NotifyTime DATETIME NOT NULL,
+          FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+          FOREIGN KEY (FCM_Token) REFERENCES User(FCM_Token)
+        );
+      ''');
+
+      
 
       await db.execute('''
         INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (1, 'very happy', 0.0, 0.0);
