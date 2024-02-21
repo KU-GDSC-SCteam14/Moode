@@ -38,34 +38,34 @@ class DiaryCard extends StatelessWidget {
           final keywords = diaryDetails['Keywords']?.split(',') ?? [];
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
-    return Container(
-      width: 374,
-      //height: 169,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: const Color(0xfff8f8f8),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DiaryTop(
-            titleController: titleController,
-            experienceTextController: experienceTextController,
-            moodName: moodName,
-          ),
-          const SizedBox(
-            // 여백
-            height: 18,
-          ),
-          DiaryBottom(
-            Date: Date,
-            keywords: keywords,
-          ),
-        ],
-      ),
-    );
-  } else {
+          return Container(
+            width: 374,
+            //height: 169,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color(0xfff8f8f8),
+            ),
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DiaryTop(
+                  titleController: titleController,
+                  experienceTextController: experienceTextController,
+                  moodName: moodName,
+                ),
+                const SizedBox(
+                  // 여백
+                  height: 18,
+                ),
+                DiaryBottom(
+                  Date: Date,
+                  keywords: keywords,
+                ),
+              ],
+            ),
+          );
+        } else {
           return const Center(child: Text("No diary details available"));
         }
       },
@@ -196,20 +196,27 @@ class DiaryTop extends StatelessWidget {
               ],
             ),
 
-            // 감정 이모티콘
-            // Container(
-            //   child: Image.asset(
-            //     'asset/img/logo.png',
-            //     width: 50,
-            //   ),
-            // ),
-            // 감정 이름
             Container(
-                child: Text(moodName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ))),
+              width: 64,
+              height: 64,
+              child: getImageWidget(moodName),
+            )
           ],
         ));
+  }
+
+  Widget getImageWidget(String moodName) {
+    switch (moodName) {
+      case 'very happy':
+        return Image.asset('asset/img/very_happy.png');
+      case 'happy':
+        return Image.asset('asset/img/happy.png');
+      case 'sad':
+        return Image.asset('asset/img/sad.png');
+      case 'very sad':
+        return Image.asset('asset/img/very_sad.png');
+      default:
+        return Container(); // 예외 처리 혹은 기본값 설정
+    }
   }
 }

@@ -69,14 +69,14 @@ class _SearchKeyword extends State<SearchKeyword> {
           ),
           centerTitle: true,
           actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CollectKeyword()),
-                  );
-                }, // floating
-                child: const Text('관리'))
+            // TextButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => CollectKeyword()),
+            //       );
+            //     }, // floating
+            //     child: const Text('관리'))
           ],
         ),
       ),

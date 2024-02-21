@@ -25,7 +25,8 @@ class _DiaryCardState extends State<DiaryCard> {
   }
 
   Future<void> _fetchDiaryDetails() async {
-    final diaryDetails = await DatabaseService.getDiaryDetailsById(widget.diaryID);
+    final diaryDetails =
+        await DatabaseService.getDiaryDetailsById(widget.diaryID);
     if (diaryDetails != null) {
       setState(() {
         titleController = diaryDetails['Title'];
@@ -130,49 +131,54 @@ class DiaryTop extends StatelessWidget {
     return SizedBox(
         width: 334,
         height: 64,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // 글(제목, 날짜)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 제목
-                SizedBox(
-                  width: 250,
-                  height: 26,
-                  child: Text(titleController),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          // 글(제목, 날짜)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 제목
+              SizedBox(
+                width: 250,
+                height: 26,
+                child: Text(titleController),
+              ),
+              // 여백
+              const SizedBox(
+                height: 14,
+              ),
+              // 날짜
+              Container(
+                  child: Text(
+                date,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff86858A),
                 ),
-                // 여백
-                const SizedBox(
-                  height: 14,
-                ),
-                // 날짜
-                Container(
-                    child: Text(
-                  date,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff86858A),
-                  ),
-                )),
-              ],
-            ),
+              )),
+            ],
+          ),
+          // 감정 이모티콘
+          Container(
+            width: 64,
+            height: 64,
+            child: getImageWidget(moodName),
+          )
+        ]));
+  }
 
-            // 감정 이모티콘
-            // Container(
-            //   child: Image.asset(
-            //     'asset/img/logo.png',
-            //     width: 50,
-            //   ),
-            // ),
-            // 감정 이름
-            Container(
-                child: Text(moodName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ))),
-          ],
-        ));
+  Widget getImageWidget(String moodName) {
+    switch (moodName) {
+      case 'very happy':
+        return Image.asset('asset/img/very_happy.png');
+      case 'happy':
+        return Image.asset('asset/img/happy.png');
+      case 'sad':
+        return Image.asset('asset/img/sad.png');
+      case 'very sad':
+        return Image.asset('asset/img/very_sad.png');
+      default:
+        return Container(); // 예외 처리 혹은 기본값 설정
+    }
   }
 }
