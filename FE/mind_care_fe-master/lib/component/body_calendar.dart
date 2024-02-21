@@ -5,17 +5,6 @@ import 'package:mind_care/db.dart';
 import 'package:mind_care/page/write_diary_pg4.dart';
 import 'package:mind_care/component/happy_week_calendar.dart';
 
-class Event {
-  int diaryID;
-
-  // String title;
-  // bool complete;
-  Event(this.diaryID);
-
-  // @override
-  // String toString() => title;
-}
-
 class BodyCalendar extends StatefulWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
   final DateTime selectedDate; // 선택된 날짜
@@ -35,7 +24,7 @@ class _BodyCalendarState extends State<BodyCalendar> {
   @override
   void initState() {
     super.initState();
-    eventSourceFuture = DatabaseService.getDiariesByDateForEvents() as Future<Map<DateTime, List<Event>>>;
+    eventSourceFuture = DatabaseService.getDiariesByDateForEvents();
   }
 
 

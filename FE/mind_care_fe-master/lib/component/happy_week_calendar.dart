@@ -4,11 +4,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 import 'package:mind_care/db.dart';
 
-class Event {
-  final int diaryID;
-  Event(this.diaryID);
-}
-
 class WeekCalendar extends StatefulWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
   DateTime selectedDate; // 선택된 날짜
@@ -29,7 +24,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
   void initState() {
     super.initState();
     // Fetch the events from the database
-    eventsFuture = DatabaseService.gethappyDiariesByDateForEvents() as Future<Map<DateTime, List<Event>>>;
+    eventsFuture = DatabaseService.gethappyDiariesByDateForEvents();
   }
 
   List<Event> _getEventsForDay(DateTime day, Map<DateTime, List<Event>> events) {
