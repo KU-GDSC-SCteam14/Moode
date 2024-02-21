@@ -146,13 +146,14 @@ app.post('/User', async (req, res) => {
     Access_Token,
     Refresh_Token,
     Token_Expiry_Date,
+    FCM_Token,
     Profile_Picture_URL,
   } = req.body
 
   try {
     console.log('User 저장 진입')
     const result = await db.query(
-      `INSERT INTO User (Name, email, Signup_date, is_Google, is_Apple, Provider_ID, Access_Token, Refresh_Token, Token_Expiry_Date, Profile_Picture_URL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO User (Name, email, Signup_date, is_Google, is_Apple, Provider_ID, Access_Token, Refresh_Token, Token_Expiry_Date, FCM_Token, Profile_Picture_URL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         Name,
         email,
@@ -163,6 +164,7 @@ app.post('/User', async (req, res) => {
         Access_Token,
         Refresh_Token,
         Token_Expiry_Date,
+        FCM_Token,
         Profile_Picture_URL,
       ],
     )
