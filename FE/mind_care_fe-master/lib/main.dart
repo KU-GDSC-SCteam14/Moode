@@ -101,7 +101,6 @@ Future<void> main() async {
   initializeNotification();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
   saveUser();

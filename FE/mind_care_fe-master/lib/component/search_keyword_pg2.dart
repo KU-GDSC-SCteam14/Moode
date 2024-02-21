@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mind_care/page/diary_from_search.dart';
 import 'package:mind_care/card/simple_diary_card.dart';
 import 'package:mind_care/db.dart';
+import 'package:mind_care/component/search_keyword_pg1.dart';
 
 class ResultKeyword extends StatefulWidget {
   final String find_keyword;
@@ -39,6 +40,14 @@ class _ResultKeyword extends State<ResultKeyword> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back), // 아이콘
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchKeyword()),
+                );
+              }),
           title: const Text(
             '검색 결과',
             style: TextStyle(
