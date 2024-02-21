@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/db.dart';
+import 'dart:math';
 
 // 감정일기 카드에 diary id 필요함, 이거를 diary from search에 넘겨줘야 함.
 // p.467 참고
@@ -88,7 +89,7 @@ class DiaryBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(keywords[0]),
+        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[0]),
         // child: Row(
         //   children: [
         //     Container(
