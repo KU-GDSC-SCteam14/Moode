@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors') // CORS 미들웨어를 위한 require
 const morgan = require('morgan') // morgan 미들웨어를 위한 require
+const { initializeApp } = require('firebase-admin/app')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const helmet = require('helmet')
@@ -12,8 +13,8 @@ const axios = require('axios')
 const admin = require('firebase-admin')
 const cron = require('node-cron')
 
-const serviceAccount = require('./path/to/your-firebase-adminsdk.json')
-admin.initializeApp({
+const serviceAccount = require('/home/junh1101/Mindfulness-app/BE/gdsc-solutionchallenge-team14-firebase-adminsdk-4gvqq-2f3b84a318.json')
+initializeApp({
   credential: admin.credential.cert(serviceAccount),
 })
 
