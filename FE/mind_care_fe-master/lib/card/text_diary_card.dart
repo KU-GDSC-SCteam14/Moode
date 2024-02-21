@@ -35,13 +35,13 @@ class DiaryCard extends StatelessWidget {
           // 일기의 제목, 내용, 날짜, 키워드, 기분 이름을 추출
           final titleController = diaryDetails['Title'];
           final experienceTextController = diaryDetails['Content_1'];
-          final Date = diaryDetails['Date'];
+          //final Date = diaryDetails['Date'];
           final keywords = diaryDetails['Keywords']?.split(',') ?? [];
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
           return Container(
             width: 374,
-            //height: 169,
+            height: 169,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Color.fromRGBO(225, 226, 226, 0.8),
@@ -60,7 +60,7 @@ class DiaryCard extends StatelessWidget {
                   height: 18,
                 ),
                 DiaryBottom(
-                  Date: Date,
+                  //ate: Date,
                   keywords: keywords,
                 ),
               ],
@@ -76,66 +76,50 @@ class DiaryCard extends StatelessWidget {
 
 class DiaryBottom extends StatelessWidget {
   // 날짜
-  final String Date;
+  //final String Date;
   final List<String> keywords;
 
   const DiaryBottom({
-    required this.Date,
+    //required this.Date,
     required this.keywords,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[0]),
-        // child: Row(
-        //   children: [
-        //     Container(
-        //         child: Row(
-        //               children: [
-        //                 ListView.builder(
-        //                   itemCount: keywords.length,
-        //                   itemBuilder: (context, index) {
-        //                     return Container(
-        // padding: const EdgeInsets.symmetric(
-        //   vertical: 6, horizontal: 19),
-        // decoration: BoxDecoration(
-        // color: const Color.fromRGBO(211, 212, 212, 1.0),
-
-        //                       // 로컬 keywords 쓰기
-        //                       decoration: BoxDecoration(
-        //                         borderRadius:
-        //                         BorderRadius.circular(100),
-        //                         color: const Color.fromRGBO(
-        //                             211, 212, 212, 1.0),
-        //                       ),
-        //                       child: Text(
-        //                         keywords[index],
-        //                         style: const TextStyle(
-        //                           fontSize: 14,
-        //                           color: Color.fromRGBO(
-        //                               0, 122, 255, 1.0),
-        //                         ),
-        //                       ),
-        //                     );
-        //                   },
-        //                 ),
-        //               ],
-        //             )
-        const SizedBox(
-          width: 35,
-        ),
-        Container(
-            child: Text(
-          Date,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xff86858A),
-          ),
-        )),
-      ],
+    return Container(
+      height: 29,
+      width: 334,
+      child: Row(
+        children: [
+          for (int i = 0; i < min(keywords.length, 3); i++)
+            Container(
+              height: 29,
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: const Color.fromRGBO(225, 226, 226, 0.8),
+                    ),
+                    child: Text(
+                      keywords[i],
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff007AFF),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                    height: 29,
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -158,7 +142,7 @@ class DiaryTop extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: 334,
-        height: 64,
+        height: 82,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -168,14 +152,17 @@ class DiaryTop extends StatelessWidget {
               children: [
                 // 제목
                 SizedBox(
-                    width: 250,
-                    height: 26,
+                    width: 273,
+                    height: 20,
                     child: Text(
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                      maxLines: 2,
                       titleController,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(83, 83, 84, 1.0),
+                        color: Color(0xff535354),
                       ),
                     )),
                 // 여백
@@ -183,11 +170,13 @@ class DiaryTop extends StatelessWidget {
                   height: 14,
                 ),
                 SizedBox(
-                  width: 250,
+                  width: 273,
                   child: Text(
                     experienceTextController,
                     style: const TextStyle(
+                      color: Color(0xff888888),
                       fontSize: 14,
+                      fontWeight: FontWeight.normal,
                     ),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.justify,
@@ -198,8 +187,9 @@ class DiaryTop extends StatelessWidget {
             ),
 
             Container(
-              width: 64,
-              height: 64,
+              alignment: Alignment.topRight,
+              width: 34,
+              height: 34,
               child: getImageWidget(moodName),
             )
           ],

@@ -77,39 +77,39 @@ class DiaryBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (int i = 0; i < min(keywords.length, 3); i++) Text(keywords[i])
-      ],
-      // child: Row(
-      //   children: [
-      //     Container(
-      //         child: Row(
-      //               children: [
-      //                 ListView.builder(
-      //                   itemCount: keywords.length,
-      //                   itemBuilder: (context, index) {
-      //                     return Container(
-      //                       // 로컬 keywords 쓰기
-      //                       decoration: BoxDecoration(
-      //                         borderRadius:
-      //                         BorderRadius.circular(100),
-      //                         color: const Color.fromRGBO(
-      //                             211, 212, 212, 1.0),
-      //                       ),
-      //                       child: Text(
-      //                         keywords[index],
-      //                         style: const TextStyle(
-      //                           fontSize: 14,
-      //                           color: Color.fromRGBO(
-      //                               0, 122, 255, 1.0),
-      //                         ),
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               ],
-      //             )
+    return Container(
+      height: 29,
+      width: 334,
+      child: Row(
+        children: [
+          for (int i = 0; i < min(keywords.length, 3); i++)
+            Container(
+              height: 29,
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: const Color.fromRGBO(225, 226, 226, 0.8),
+                    ),
+                    child: Text(
+                      keywords[i],
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff007AFF),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                    height: 29,
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -145,7 +145,17 @@ class DiaryTop extends StatelessWidget {
               SizedBox(
                 width: 250,
                 height: 26,
-                child: Text(titleController),
+                child: Text(
+                  titleController,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff535354),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.justify,
+                  maxLines: 1,
+                ),
               ),
               // 여백
               const SizedBox(
@@ -157,6 +167,7 @@ class DiaryTop extends StatelessWidget {
                 date,
                 style: const TextStyle(
                   fontSize: 14,
+                  fontWeight: FontWeight.normal,
                   color: Color(0xff86858A),
                 ),
               )),
