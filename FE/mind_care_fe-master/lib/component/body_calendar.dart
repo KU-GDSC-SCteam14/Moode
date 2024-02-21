@@ -56,8 +56,9 @@ class _BodyCalendarState extends State<BodyCalendar> {
               padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)),
+                color: Color(0xfff8f9f9),
               ),
               child: TableCalendar(
                 rowHeight: 48,

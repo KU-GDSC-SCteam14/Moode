@@ -57,23 +57,30 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // 주간 긍정일기 확인버튼 배너
             Container(
+              color: Color(0xfff8f9f9),
               width: 390,
               height: 77,
               padding: EdgeInsets.all(8),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('주간 긍정일기를 확인해보세요.'),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HappyDiaryScreen()),
-                          );
-                        },
-                        child: Text('확인하기')),
-                  ]),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('주간 긍정일기를 확인해보세요.'),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HappyDiaryScreen()),
+                            );
+                          },
+                          child: Text('확인하기')),
+                    ]),
+              ),
             ),
 
             BodyCalendar(
