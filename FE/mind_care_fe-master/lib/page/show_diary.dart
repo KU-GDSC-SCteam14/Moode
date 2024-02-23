@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/card/simple_diary_card.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mind_care/db.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 import 'package:mind_care/card/contents_card.dart';
 
-class ShowDiaryfromList extends StatefulWidget {
+class ShowDiary extends StatefulWidget {
   final int diaryID;
-  const ShowDiaryfromList({super.key, required this.diaryID});
+  const ShowDiary({super.key, required this.diaryID});
 
   @override
-  State<ShowDiaryfromList> createState() => _ShowDiaryfromList();
+  State<ShowDiary> createState() => _ShowDiary();
 }
 
-class _ShowDiaryfromList extends State<ShowDiaryfromList> {
+class _ShowDiary extends State<ShowDiary> {
   //***********************diaryID 기준으로 content1, content2, content3, content4 불러와주세요!!!!!
 
   String content1 = "";

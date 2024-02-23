@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mind_care/page/diary_from_search.dart';
+import 'package:mind_care/page/show_diary.dart';
 import 'package:mind_care/card/simple_diary_card.dart';
 import 'package:mind_care/db.dart';
 import 'package:mind_care/component/search_keyword_pg1.dart';
@@ -75,7 +75,7 @@ class _ResultKeyword extends State<ResultKeyword> {
             //             context,
             //             MaterialPageRoute(
             //                 builder: (context) =>
-            //                     ShowDiaryfromSearch(diaryID: diaryIDs[index])));
+            //                     ShowDiary(diaryID: diaryIDs[index])));
             //       },
             //       child: DiaryCard(
             //         diaryID: diaryIDs[index],
@@ -115,10 +115,8 @@ class _ResultKeyword extends State<ResultKeyword> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ShowDiaryfromSearch(
-                                                      diaryID:
-                                                          diaryIDs[index])));
+                                              builder: (context) => ShowDiary(
+                                                  diaryID: diaryIDs[index])));
                                     },
                                     child: DiaryCard(diaryID: diaryIDs[index]),
                                   );
