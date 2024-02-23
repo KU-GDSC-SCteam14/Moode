@@ -69,8 +69,8 @@ class _WeekCalendarState extends State<WeekCalendar> {
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
                 focusedDay: DateTime.now(),
-                selectedDayPredicate: (day) =>
-                    isSameDay(widget.selectedDate, day),
+                selectedDayPredicate: (date) =>
+                    isSameDay(widget.selectedDate, date),
                 onDaySelected: (selectedDay, focusedDay) {
                   widget.onDaySelected(selectedDay,
                       _getEventsForDay(selectedDay, events) as DateTime);

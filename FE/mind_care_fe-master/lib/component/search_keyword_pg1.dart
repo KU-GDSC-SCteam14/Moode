@@ -155,17 +155,20 @@ class _SearchKeyword extends State<SearchKeyword> {
                   //     onTap: () => cardClickEvent(context, keywords[index]),
                   //   ),
                   // );
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color.fromRGBO(225, 226, 226, 0.8),
-                    ),
-                    child: Text(
-                      keywords[index],
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff007AFF),
+                  return GestureDetector(
+                    onTap: () => cardClickEvent(context, keywords[index]),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: const Color.fromRGBO(225, 226, 226, 0.8),
+                      ),
+                      child: Text(
+                        keywords[index],
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff007AFF),
+                        ),
                       ),
                     ),
                   );

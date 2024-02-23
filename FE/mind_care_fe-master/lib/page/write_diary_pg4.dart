@@ -8,7 +8,7 @@ import 'package:mind_care/db.dart';
 import 'package:intl/intl.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:math';
 //import 'dart:convert';
 //import 'package:http/http.dart' as http;
 
@@ -123,16 +123,7 @@ class _Result extends State<Result> {
                     color: Colors.white,
                     height: 29,
                   ),
-                  // const LinearProgressIndicator(
-                  //   value: 1.0,
-                  //   backgroundColor: Colors.white,
-                  //   color: Colors.white,
-                  //   valueColor: AlwaysStoppedAnimation<Color>(
-                  //       Color.fromRGBO(0, 122, 255, 1.0)),
-                  //   minHeight: 2.0,
-                  //   semanticsLabel: 'semanticsLabel',
-                  //   semanticsValue: 'semanticsValue',
-                  // ),
+
                   // 멘트
                   Container(
                     //width: 390,
@@ -246,39 +237,42 @@ class _Result extends State<Result> {
                         const SizedBox(
                           height: 18,
                         ),
-                        // 아래 : 키워드들
-                        //Container(
-                        //child: Text(keywords[0]),
-                        // child: Row(
-                        //   children: [
-                        //     Container(
-                        //         child: Row(
-                        //               children: [
-                        //                 ListView.builder(
-                        //                   itemCount: keywords.length,
-                        //                   itemBuilder: (context, index) {
-                        //                     return Container(
-                        //                       // 로컬 keywords 쓰기
-                        //                       decoration: BoxDecoration(
-                        //                         borderRadius:
-                        //                         BorderRadius.circular(100),
-                        //                         color: const Color.fromRGBO(
-                        //                             211, 212, 212, 1.0),
-                        //                       ),
-                        //                       child: Text(
-                        //                         keywords[index],
-                        //                         style: const TextStyle(
-                        //                           fontSize: 14,
-                        //                           color: Color.fromRGBO(
-                        //                               0, 122, 255, 1.0),
-                        //                         ),
-                        //                       ),
-                        //                     );
-                        //                   },
-                        //                 ),
-                        //               ],
-                        //             )
-                        //),
+                        Container(
+                          height: 29,
+                          width: 334,
+                          child: Row(
+                            children: [
+                              for (int i = 0; i < min(keywords.length, 3); i++)
+                                Container(
+                                  height: 29,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          color: const Color.fromRGBO(
+                                              225, 226, 226, 0.8),
+                                        ),
+                                        child: Text(
+                                          keywords[i],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xff007AFF),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                        height: 29,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
