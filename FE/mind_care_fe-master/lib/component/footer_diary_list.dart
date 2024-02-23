@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:mind_care/component/body_calendar.dart';
-import 'package:mind_care/page/diary_from_list.dart';
+import 'package:mind_care/page/show_diary.dart';
 import 'package:intl/intl.dart';
 import 'package:mind_care/card/text_diary_card.dart';
 import 'package:mind_care/db.dart';
@@ -100,7 +100,7 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ShowDiaryfromList(
+                                        builder: (context) => ShowDiary(
                                             diaryID: diaryIDs[index])));
                               },
                               child: Container(
