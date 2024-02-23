@@ -45,7 +45,7 @@ class _DiaryCardState extends State<DiaryCard> {
       height: 151,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color.fromRGBO(225, 226, 226, 0.8),
+        color: const Color.fromRGBO(255, 255, 255, 0.5),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(

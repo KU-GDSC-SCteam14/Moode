@@ -238,7 +238,7 @@ class _Result extends State<Result> {
                           height: 18,
                         ),
                         Container(
-                          height: 29,
+                          //height: 29,
                           width: 334,
                           child: Row(
                             children: [
