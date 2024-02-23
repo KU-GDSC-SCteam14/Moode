@@ -24,6 +24,16 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
   }
 
   @override
+  void didUpdateWidget(covariant SelectedDiaryList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedDate != oldWidget.selectedDate) {
+      // Update diaryIds with the new selectedDate
+      diaryIds = DatabaseService.getDiariesByDate(widget.selectedDate.toString());
+      setState(() {}); // Trigger a rebuild with the new data
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<int>>(
       future: diaryIds,
@@ -64,12 +74,12 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                                 style: const TextStyle(
                                     fontSize: 17, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 7,
                               ),
                               Container(
                                   height: 20,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     vertical: 1.5,
                                   ),
                                   child: Text(
@@ -105,7 +115,7 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                               },
                               child: Container(
                                 height: 171,
-                                padding: EdgeInsets.only(bottom: 8),
+                                padding: const EdgeInsets.only(bottom: 8),
                                 child: DiaryCard(diaryID: diaryIDs[index]),
                               ),
                             );

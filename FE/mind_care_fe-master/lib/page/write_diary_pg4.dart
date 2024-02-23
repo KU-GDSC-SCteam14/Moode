@@ -14,9 +14,7 @@ import 'dart:math';
 
 final titleController = TextEditingController();
 DateTime pick_date = DateTime.now();
-final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(pick_date);
-const String Z = 'Z';
-final String Date = Now + Z;
+
 
 Future<void> modifyDiary() async {
   //final int diaryId = ; // 수정할 일기의 ID
@@ -32,6 +30,10 @@ Future<void> modifyDiary() async {
 
   if (userid != null) {
     // 사용자로부터 수정된 일기 데이터
+    final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(pick_date);
+    const String Z = 'Z';
+    final String Date = Now + Z;
+    
     Map<String, dynamic> updatedDiaryData = {
       //'User_ID': userid, // SharedPreferences에서 불러온 userid 사용
       'Title': titleController.text,
@@ -91,14 +93,14 @@ class _Result extends State<Result> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe2e3e4),
+      backgroundColor: const Color(0xffe2e3e4),
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back), // 아이콘
@@ -128,7 +130,7 @@ class _Result extends State<Result> {
                   Container(
                     //width: 390,
                     height: 126,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30),
@@ -145,7 +147,7 @@ class _Result extends State<Result> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   // 감정일기 카드,
@@ -198,7 +200,7 @@ class _Result extends State<Result> {
                                     TextButton(
                                       style: ButtonStyle(
                                         fixedSize: MaterialStateProperty.all(
-                                            Size(140.0, 17.0)),
+                                            const Size(140.0, 17.0)),
                                       ),
                                       onPressed: () async {
                                         final selectedDate =
@@ -217,7 +219,7 @@ class _Result extends State<Result> {
                                       },
                                       child: Text(
                                           '날짜 선택 : ${DateFormat('MMM dd, yyyy').format(pick_date)}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.normal,
                                               color: Color(0xff86858A))),
@@ -226,7 +228,7 @@ class _Result extends State<Result> {
                                 ),
 
                                 // 감정 이모티콘
-                                Container(
+                                SizedBox(
                                   width: 64,
                                   height: 64,
                                   child: getImageWidget(moodName),
@@ -276,7 +278,7 @@ class _Result extends State<Result> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   // 일기 내용

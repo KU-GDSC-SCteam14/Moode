@@ -36,7 +36,7 @@ class DiaryCard extends StatelessWidget {
           final titleController = diaryDetails['Title'];
           final experienceTextController = diaryDetails['Content_1'];
           //final Date = diaryDetails['Date'];
-          final keywords = diaryDetails['Keywords']?.split(',') ?? [];
+          final keywords = (diaryDetails['Keywords'] as String?)?.split(',').map((e) => e.trim()).toList() ?? [];
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
           return Container(
@@ -44,7 +44,7 @@ class DiaryCard extends StatelessWidget {
             height: 169,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color.fromRGBO(255, 255, 255, 0.5),
+              color: const Color.fromRGBO(225, 226, 226, 0.8),
             ),
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -87,13 +87,13 @@ class DiaryBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 29,
       width: 334,
       child: Row(
         children: [
           for (int i = 0; i < min(keywords.length, 3); i++)
-            Container(
+            SizedBox(
               height: 29,
               child: Row(
                 children: [
@@ -104,14 +104,14 @@ class DiaryBottom extends StatelessWidget {
                     ),
                     child: Text(
                       keywords[i],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Color(0xff007AFF),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                     height: 29,
                   ),
