@@ -41,36 +41,6 @@ class WriteThink extends StatefulWidget {
 }
 
 class _WriteThink extends State<WriteThink> {
-  // Future<void> uploadDiaryToServer() async {
-  //   final String apiUrl = "http://34.64.58.86:3000/Diary";
-
-  //   // 사용자 데이터를 Map 형식으로 정의
-  //   Map<String, dynamic> userData = {
-  //     'Content_4': thinkTextController.text,
-  //   };
-
-  //   // Map을 JSON 문자열로 변환
-  //   String jsonData = jsonEncode(userData);
-
-  //   try {
-  //     // HTTP POST 요청 보내기
-  //     final response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonData,
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       print('User created successfully.');
-  //     } else {
-  //       print('Error creating user. Status code: ${response.statusCode}');
-  //       print('Response body: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //   }
-  // }
-
   void onPressedHandler() async {
     // await modifyDiary(context); // 비동기 함수 호출을 기다립니다.
     Navigator.push(
@@ -110,8 +80,11 @@ class _WriteThink extends State<WriteThink> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
+                const SizedBox(
+                  height: 29,
+                ),
                 const LinearProgressIndicator(
-                  value: 0.9,
+                  value: 1,
                   backgroundColor: Colors.white,
                   color: Colors.white,
                   valueColor: AlwaysStoppedAnimation<Color>(
@@ -142,11 +115,18 @@ class _WriteThink extends State<WriteThink> {
                         border: InputBorder.none,
                         labelText:
                             'ex) 나는 왜 이런 방식으로 말했을까?\n      나에게 도움이 되는 선택이었나?',
+                        labelStyle: TextStyle(
+                          fontSize: 16.0, // 원하는 폰트 크기
+                          color: Color(0xffD1D3D9),
+                          fontWeight: FontWeight.normal, // 원하는 색상
+                          // 기타 스타일 속성들도 적용 가능
+                        ),
+                        contentPadding: EdgeInsets.only(top: 0),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                       ),
                       controller: thinkTextController,
                       maxLines: null, // <-- SEE HERE
-                      minLines: 5, // <-- SEE HERE
+                      minLines: 2, // <-- SEE HERE
                       maxLength: 1000,
                     ),
                   ),

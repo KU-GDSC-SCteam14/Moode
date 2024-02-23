@@ -40,7 +40,7 @@ class DiaryCard extends StatelessWidget {
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
           return Container(
-            width: 374,
+            width: 410,
             height: 169,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

@@ -39,7 +39,6 @@ class _ContentsCard extends State<ContentsCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 390,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: const Color.fromRGBO(255, 255, 255, 0.8),

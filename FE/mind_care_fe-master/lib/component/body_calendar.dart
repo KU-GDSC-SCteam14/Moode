@@ -52,7 +52,6 @@ class _BodyCalendarState extends State<BodyCalendar> {
           return SingleChildScrollView(
             child: Container(
               width: 390,
-              height: 358,
               padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -85,6 +84,28 @@ class _BodyCalendarState extends State<BodyCalendar> {
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                }, selectedBuilder: (context, day, events) {
+                  return Container(
+                    width: 48,
+                    height: 44,
+                    //margin: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      // 기본 평일 날짜 스타일
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: const Color(0xff007AFF),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${day.day}', // 날짜를 텍스트로 표시
+                        style: const TextStyle(
+                          // 기본 평일 글꼴
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -131,8 +152,19 @@ class _BodyCalendarState extends State<BodyCalendar> {
                       width: 48,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${date.day}', // 날짜를 텍스트로 표시
+                          style: const TextStyle(
+                            // 기본 평일 글꼴
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     );
                   }

@@ -18,7 +18,7 @@ final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(pick_date);
 const String Z = 'Z';
 final String Date = Now + Z;
 
-Future<void> modifyDiary(BuildContext context) async {
+Future<void> modifyDiary() async {
   //final int diaryId = ; // 수정할 일기의 ID
   final prefs = await SharedPreferences.getInstance();
   final userid = prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
@@ -50,11 +50,6 @@ Future<void> modifyDiary(BuildContext context) async {
   } else {
     print('User ID not found in SharedPreferences.');
   }
-
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
-  );
 }
 
 class Result extends StatefulWidget {
@@ -71,7 +66,7 @@ class _Result extends State<Result> {
     await DatabaseService.insertDiaryKeywords(diaryId, keywordIds);
     print('Keyword $keywords saved with ID $keywordIds in DiaryID: $diaryId');
 
-    modifyDiary(context);
+    modifyDiary();
 
     // SharedPreferences 인스턴스 가져오기
     final prefs = await SharedPreferences.getInstance();
@@ -93,11 +88,17 @@ class _Result extends State<Result> {
     emotionTextController.clear(); // '나에게 해주고 싶은 말' 컨트롤러 초기화
     reasonTextController.clear(); // '나에게 해주고 싶은 말' 컨트롤러 초기화
     thinkTextController.clear(); // '나에게 해주고 싶은 말' 컨트롤러 초기화
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffe2e3e4),
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back), // 아이콘
@@ -105,8 +106,8 @@ class _Result extends State<Result> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const WriteThink()));
             }),
-        title:
-            const Text('작성완료', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('작성완료',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
         centerTitle: true,
       ),
       body: Column(
@@ -118,27 +119,34 @@ class _Result extends State<Result> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const LinearProgressIndicator(
-                    value: 1.0,
-                    backgroundColor: Colors.white,
+                  Container(
                     color: Colors.white,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Color.fromRGBO(0, 122, 255, 1.0)),
-                    minHeight: 2.0,
-                    semanticsLabel: 'semanticsLabel',
-                    semanticsValue: 'semanticsValue',
+                    height: 29,
                   ),
-
+                  // const LinearProgressIndicator(
+                  //   value: 1.0,
+                  //   backgroundColor: Colors.white,
+                  //   color: Colors.white,
+                  //   valueColor: AlwaysStoppedAnimation<Color>(
+                  //       Color.fromRGBO(0, 122, 255, 1.0)),
+                  //   minHeight: 2.0,
+                  //   semanticsLabel: 'semanticsLabel',
+                  //   semanticsValue: 'semanticsValue',
+                  // ),
                   // 멘트
                   Container(
+                    //width: 390,
+                    height: 126,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
                     ),
                     alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 40),
+                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
                     child: const Text(
-                      '일기가 완성되었어요!\n작성한 일기에 제목을 붙여주세요.',
+                      '일기가 완성되었어요!\u{1f389}\n작성한 일기에 제목을 붙여주세요.',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 22,
@@ -146,14 +154,16 @@ class _Result extends State<Result> {
                       ),
                     ),
                   ),
-
-                  // 감정일기 카드
+                  SizedBox(
+                    height: 8,
+                  ),
+                  // 감정일기 카드,
                   Container(
-                    width: 374,
-                    //height: 151,
+                    width: 410,
+                    height: 151,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xfff0f1f1),
+                      color: const Color.fromRGBO(255, 255, 255, 0.5),
                     ),
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -161,14 +171,15 @@ class _Result extends State<Result> {
                       children: [
                         // 위 : 글(제목, 날짜), 감정 이모티콘
                         SizedBox(
-                            width: 334,
-                            height: 64,
+                            width: 370,
+                            //height: 64,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 // 글(제목, 날짜)
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     // 제목
                                     SizedBox(
@@ -178,18 +189,26 @@ class _Result extends State<Result> {
                                         controller: titleController,
                                         decoration: const InputDecoration(
                                           border: InputBorder.none,
-                                          labelText: '제목을 입력하세요.',
+                                          labelText: '제목을 입력하세요. \u{270f}',
+                                          labelStyle: TextStyle(
+                                            fontSize: 22.0, // 원하는 폰트 크기
+                                            color: Color(0xffD8D6D5),
+                                            fontWeight:
+                                                FontWeight.bold, // 원하는 색상
+                                            // 기타 스타일 속성들도 적용 가능
+                                          ),
                                           floatingLabelBehavior:
                                               FloatingLabelBehavior.never,
                                         ),
                                       ),
                                     ),
-                                    // 여백
-                                    // const SizedBox(
-                                    //   height: 14,
-                                    // ),
+
                                     // 날짜
                                     TextButton(
+                                      style: ButtonStyle(
+                                        fixedSize: MaterialStateProperty.all(
+                                            Size(140.0, 17.0)),
+                                      ),
                                       onPressed: () async {
                                         final selectedDate =
                                             await showDatePicker(
@@ -206,7 +225,11 @@ class _Result extends State<Result> {
                                         }
                                       },
                                       child: Text(
-                                          '날짜를 선택하세요 : ${DateFormat('MMM dd, yyyy').format(pick_date)}'),
+                                          '날짜 선택 : ${DateFormat('MMM dd, yyyy').format(pick_date)}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              color: Color(0xff86858A))),
                                     ),
                                   ],
                                 ),
@@ -224,44 +247,47 @@ class _Result extends State<Result> {
                           height: 18,
                         ),
                         // 아래 : 키워드들
-                        Container(
-                            //child: Text(keywords[0]),
-                            // child: Row(
-                            //   children: [
-                            //     Container(
-                            //         child: Row(
-                            //               children: [
-                            //                 ListView.builder(
-                            //                   itemCount: keywords.length,
-                            //                   itemBuilder: (context, index) {
-                            //                     return Container(
-                            //                       // 로컬 keywords 쓰기
-                            //                       decoration: BoxDecoration(
-                            //                         borderRadius:
-                            //                         BorderRadius.circular(100),
-                            //                         color: const Color.fromRGBO(
-                            //                             211, 212, 212, 1.0),
-                            //                       ),
-                            //                       child: Text(
-                            //                         keywords[index],
-                            //                         style: const TextStyle(
-                            //                           fontSize: 14,
-                            //                           color: Color.fromRGBO(
-                            //                               0, 122, 255, 1.0),
-                            //                         ),
-                            //                       ),
-                            //                     );
-                            //                   },
-                            //                 ),
-                            //               ],
-                            //             )
-                            ),
+                        //Container(
+                        //child: Text(keywords[0]),
+                        // child: Row(
+                        //   children: [
+                        //     Container(
+                        //         child: Row(
+                        //               children: [
+                        //                 ListView.builder(
+                        //                   itemCount: keywords.length,
+                        //                   itemBuilder: (context, index) {
+                        //                     return Container(
+                        //                       // 로컬 keywords 쓰기
+                        //                       decoration: BoxDecoration(
+                        //                         borderRadius:
+                        //                         BorderRadius.circular(100),
+                        //                         color: const Color.fromRGBO(
+                        //                             211, 212, 212, 1.0),
+                        //                       ),
+                        //                       child: Text(
+                        //                         keywords[index],
+                        //                         style: const TextStyle(
+                        //                           fontSize: 14,
+                        //                           color: Color.fromRGBO(
+                        //                               0, 122, 255, 1.0),
+                        //                         ),
+                        //                       ),
+                        //                     );
+                        //                   },
+                        //                 ),
+                        //               ],
+                        //             )
+                        //),
                       ],
                     ),
                   ),
-
+                  SizedBox(
+                    height: 8,
+                  ),
                   // 일기 내용
                   Container(
+                      //width: 390,
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
@@ -288,7 +314,8 @@ class _Result extends State<Result> {
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               fontSize: 17,
-                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff272727),
                             ),
                           ),
                           Container(
@@ -311,8 +338,8 @@ class _Result extends State<Result> {
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               fontSize: 17,
-                              //fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff272727),
                             ),
                           ),
                           Container(
@@ -335,8 +362,8 @@ class _Result extends State<Result> {
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               fontSize: 17,
-                              //fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff272727),
                             ),
                           ),
                           Container(
@@ -359,8 +386,8 @@ class _Result extends State<Result> {
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               fontSize: 17,
-                              //fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff272727),
                             ),
                           ),
                         ],

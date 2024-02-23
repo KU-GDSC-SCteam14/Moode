@@ -71,47 +71,6 @@ class _WriteEmotion extends State<WriteEmotion> {
     }
   }
 
-  // Future<void> _updateLocalMood() async {
-  //   // 로컬 데이터베이스 업데이트
-  //   await _database.rawInsert(
-  //     'INSERT INTO Mood(Mood_Name, Mood_ID) VALUES(?, ?)',
-  //     [moodName, moodId],
-  //   );
-  // }
-
-  // Future<void> uploadDiaryToServer() async {
-  //   final String apiUrl = "http://34.64.58.86:3000/Diary";
-
-  //   // 사용자 데이터를 Map 형식으로 정의
-  //   Map<String, dynamic> userData = {
-  //     'Content_2': emotionTextController.text,
-  //     'Content_3': reasonTextController.text,
-  //     'Mood_ID': moodId,
-
-  //   };
-
-  //   // Map을 JSON 문자열로 변환
-  //   String jsonData = jsonEncode(userData);
-
-  //   try {
-  //     // HTTP POST 요청 보내기
-  //     final response = await http.post(
-  //       Uri.parse(apiUrl),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonData,
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       print('User created successfully.');
-  //     } else {
-  //       print('Error creating user. Status code: ${response.statusCode}');
-  //       print('Response body: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //   }
-  // }
-
   void onPressedHandler() {
     sendMoodRequestMood(emotionTextController.text);
     //   _updateLocalMood();
@@ -150,8 +109,11 @@ class _WriteEmotion extends State<WriteEmotion> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 29,
+                  ),
                   const LinearProgressIndicator(
-                    value: 0.6,
+                    value: 2 / 3,
                     backgroundColor: Colors.white,
                     color: Colors.white,
                     valueColor: AlwaysStoppedAnimation<Color>(
@@ -179,16 +141,25 @@ class _WriteEmotion extends State<WriteEmotion> {
                       child: TextField(
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          labelText:
-                              'ex) 나는 왜 이런 방식으로 말했을까?\n      나에게 도움이 되는 선택이었나?',
+                          labelText: 'ex) 기대한 풍경을 보지 못해서 너무 아쉽고 속상했어.',
+                          labelStyle: TextStyle(
+                            fontSize: 16.0, // 원하는 폰트 크기
+                            color: Color(0xffD1D3D9),
+                            fontWeight: FontWeight.normal, // 원하는 색상
+                            // 기타 스타일 속성들도 적용 가능
+                          ),
+                          contentPadding: EdgeInsets.only(top: 0),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
                         controller: emotionTextController,
                         maxLines: null, // <-- SEE HERE
-                        minLines: 5, // <-- SEE HERE
-                        maxLength: 1000,
+                        minLines: 2, // <-- SEE HERE
+                        maxLength: 500,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 150,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -209,14 +180,20 @@ class _WriteEmotion extends State<WriteEmotion> {
                       child: TextField(
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          labelText:
-                              'ex) 나는 왜 이런 방식으로 말했을까?\n      나에게 도움이 되는 선택이었나?',
+                          labelText: 'ex) 오랜만에 온 가족여행이라 완벽하게 보내고 싶었던 것 같아.',
+                          labelStyle: TextStyle(
+                            fontSize: 16.0, // 원하는 폰트 크기
+                            color: Color(0xffD1D3D9),
+                            fontWeight: FontWeight.normal, // 원하는 색상
+                            // 기타 스타일 속성들도 적용 가능
+                          ),
+                          contentPadding: EdgeInsets.only(top: 0),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
                         controller: reasonTextController,
                         maxLines: null, // <-- SEE HERE
-                        minLines: 5, // <-- SEE HERE
-                        maxLength: 1000,
+                        minLines: 2, // <-- SEE HERE
+                        maxLength: 500,
                       ),
                     ),
                   ),

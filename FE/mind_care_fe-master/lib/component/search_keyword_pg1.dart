@@ -83,14 +83,21 @@ class _SearchKeyword extends State<SearchKeyword> {
       ),
       body: Column(
         children: <Widget>[
+          Container(
+            color: Colors.white,
+            height: 29,
+          ),
+
           // Expanded(
           //     child: SingleChildScrollView(
           //         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 8),
             child: TextField(
               style: const TextStyle(
+                fontWeight: FontWeight.normal,
                 fontSize: 14,
+                color: Colors.black,
               ),
               decoration: InputDecoration(
                 prefixIcon: const Icon(
@@ -101,13 +108,17 @@ class _SearchKeyword extends State<SearchKeyword> {
                   Icons.mic,
                   color: Color.fromRGBO(60, 60, 67, 0.6),
                 ),
-                fillColor: const Color(0xffA19FA1),
+                fillColor: const Color.fromRGBO(118, 118, 128, 0.12),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: '검색어를 입력해주세요.',
+                hintStyle: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: Color(0xffA19)),
               ),
               onChanged: (value) {
                 setState(() {
@@ -134,14 +145,28 @@ class _SearchKeyword extends State<SearchKeyword> {
                 }
                 // 검색어가 없을 경우, 모든 항목 표시
                 else {
-                  return Card(
-                    elevation: 3,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.elliptical(20, 20))),
-                    child: ListTile(
-                      title: Text(keywords[index]),
-                      onTap: () => cardClickEvent(context, keywords[index]),
+                  // return Card(
+                  //   elevation: 3,
+                  //   shape: const RoundedRectangleBorder(
+                  //       borderRadius:
+                  //           BorderRadius.all(Radius.elliptical(20, 20))),
+                  //   child: ListTile(
+                  //     title: Text(keywords[index]),
+                  //     onTap: () => cardClickEvent(context, keywords[index]),
+                  //   ),
+                  // );
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: const Color.fromRGBO(225, 226, 226, 0.8),
+                    ),
+                    child: Text(
+                      keywords[index],
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff007AFF),
+                      ),
                     ),
                   );
                 }

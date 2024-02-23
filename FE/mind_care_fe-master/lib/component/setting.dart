@@ -29,23 +29,28 @@ class _SettingState extends State<Setting> {
 
   Future<void> saveNotificationSetting() async {
     final prefs = await SharedPreferences.getInstance();
-    final int? userId = prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
-    String? fcmToken = prefs.getString('fcmtoken'); // SharedPreferences에서 FCM 토큰 불러오기
+    final int? userId =
+        prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
+    String? fcmToken =
+        prefs.getString('fcmtoken'); // SharedPreferences에서 FCM 토큰 불러오기
 
-    final String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final String formattedTime = '$formattedDate ${pick_time.hour}:${pick_time.minute}:00';
+    final String formattedDate =
+        DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final String formattedTime =
+        '$formattedDate ${pick_time.hour}:${pick_time.minute}:00';
 
     if (fcmToken == null) {
-    // FCM 토큰이 저장되어 있지 않은 경우 다시 불러오기 시도
-    fcmToken = await FirebaseMessaging.instance.getToken();
-    // 새로 얻은 FCM 토큰을 다시 SharedPreferences에 저장
-    await prefs.setString('fcmToken', fcmToken!);
-  }
+      // FCM 토큰이 저장되어 있지 않은 경우 다시 불러오기 시도
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      // 새로 얻은 FCM 토큰을 다시 SharedPreferences에 저장
+      await prefs.setString('fcmToken', fcmToken!);
+    }
 
     print(fcmToken);
     print(userId);
     if (userId != null) {
-      final Uri serverUrl = Uri.parse('http://34.22.109.189:3000/schedule-notification');
+      final Uri serverUrl =
+          Uri.parse('http://34.22.109.189:3000/schedule-notification');
 
       final response = await http.post(
         serverUrl,
@@ -74,55 +79,122 @@ class _SettingState extends State<Setting> {
   final accountSetting = Container(
     //alignment: Alignment.centerLeft,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
-    child: const Column(
+    color: Colors.white,
+
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '계정 설정',
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Color(0xff555555),
+            color: Color(0xffABB0BC),
           ),
         ),
         SizedBox(
           height: 24,
         ),
-        Text(
-          '연결된 계정',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '연결된 계정',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff555555),
+                ),
+              ),
+              Text(
+                'gdsc_sc_team14@gmail.com',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xffABB0BC),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
           height: 24,
         ),
-        Text(
-          '데이터 백업',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '데이터 백업',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff555555),
+                ),
+              ),
+              Text(
+                '>',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xffABB0BC),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
           height: 24,
         ),
-        Text(
-          '데이터 복원',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '데이터 복원',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff555555),
+                ),
+              ),
+              Text(
+                '>',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xffABB0BC),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
           height: 24,
         ),
-        Text(
-          '데이터 초기화',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '데이터 초기화',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff555555),
+                ),
+              ),
+              Text(
+                '>',
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xffABB0BC),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -131,29 +203,47 @@ class _SettingState extends State<Setting> {
 
   // 테마 설정
   final themeSetting = Container(
-    //alignment: Alignment.left,
+    //alignment: Alignment.centerLeft,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
-    child: const Column(
+    color: Colors.white,
+
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '테마 설정',
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Color(0xff555555),
+            color: Color(0xffABB0BC),
           ),
         ),
-        SizedBox(
+        Container(
           height: 24,
         ),
-        Text(
-          '테마',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
-          ),
-        ),
+        Container(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '테마',
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff555555),
+              ),
+            ),
+            Text(
+              '시스템 설정',
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+                color: Color(0xffABB0BC),
+              ),
+            ),
+          ],
+        )),
       ],
     ),
   );
@@ -162,27 +252,45 @@ class _SettingState extends State<Setting> {
   final langaugeSetting = Container(
     //alignment: Alignment.centerLeft,
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 28),
-    child: const Column(
+    color: Colors.white,
+
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           '언어 설정',
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Color(0xff555555),
+            color: Color(0xffABB0BC),
           ),
         ),
-        SizedBox(
+        Container(
           height: 24,
         ),
-        Text(
-          '언어',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 17,
-          ),
-        ),
+        Container(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '언어',
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff555555),
+              ),
+            ),
+            Text(
+              '한국어',
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+                color: Color(0xffABB0BC),
+              ),
+            ),
+          ],
+        )),
       ],
     ),
   );
@@ -220,12 +328,23 @@ class _SettingState extends State<Setting> {
               child: SingleChildScrollView(
                   child: Column(
                 children: [
+                  Container(
+                    color: Colors.white,
+                    height: 29,
+                  ),
                   accountSetting,
                   Container(
-                    //alignment: Alignment.left,
+                    height: 8,
+                    color: Color(0xffD9D9D9),
+                  ),
+                  Container(
+                    //alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 28),
+                    color: Colors.white,
+
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           '알림 설정',
@@ -233,115 +352,140 @@ class _SettingState extends State<Setting> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff555555),
+                            color: Color(0xffABB0BC),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 24,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              '우울한 날 긍정일기 알림',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 17,
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '우울한 날 긍정일기 알림',
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff555555),
+                                ),
                               ),
-                            ),
-                            CupertinoSwitch(
-                              value: _dummy,
-                              activeColor: CupertinoColors.activeBlue,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _dummy = value ?? false;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              '주간 긍정일기 알림',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 17,
-                              ),
-                            ),
-                            CupertinoSwitch(
-                              value: _isChecked,
-                              activeColor: CupertinoColors.activeBlue,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _isChecked = value ?? false;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              '알림 받을 요일',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 17,
-                              ),
-                            ),
-                            // 요일 드롭다운 버튼
-                            DropdownButton(
-                              value: _selectedDay,
-                              items: _days
-                                  .map((e) => DropdownMenuItem(
-                                        value:
-                                            e, // 선택 시 onChanged 를 통해 반환할 value
-                                        child: Text(e),
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                // items 의 DropdownMenuItem 의 value 반환
-                                setState(() {
-                                  _selectedDay = value!;
-                                });
-                              },
-                            ),
-                            // time picker
-                            // 버튼 누르면 요일/시간/분 선택 피커
-                            TextButton(
-                              onPressed: () async {
-                                final TimeOfDay? timeOfDay =
-                                    await showTimePicker(
-                                  context: context,
-                                  initialTime: pick_time,
-                                );
-                                if (timeOfDay != null) {
+                              CupertinoSwitch(
+                                value: _dummy,
+                                activeColor: CupertinoColors.activeBlue,
+                                onChanged: (bool? value) {
                                   setState(() {
-                                    pick_time = timeOfDay;
+                                    _dummy = value ?? false;
                                   });
-                                }
-                              },
-                              child:
-                                  Text('${pick_time.hour}:${pick_time.minute}'),
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '주간 긍정일기 알림',
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff555555),
+                                ),
+                              ),
+                              CupertinoSwitch(
+                                value: _isChecked,
+                                activeColor: CupertinoColors.activeBlue,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _isChecked = value ?? false;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '알림받을 시간',
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff555555),
+                                ),
+                              ),
+                              DropdownButton(
+                                value: _selectedDay,
+                                items: _days
+                                    .map((e) => DropdownMenuItem(
+                                          value:
+                                              e, // 선택 시 onChanged 를 통해 반환할 value
+                                          child: Text(e),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  // items 의 DropdownMenuItem 의 value 반환
+                                  setState(() {
+                                    _selectedDay = value!;
+                                  });
+                                },
+                              ),
+                              // time picker
+                              // 버튼 누르면 요일/시간/분 선택 피커
+                              TextButton(
+                                onPressed: () async {
+                                  final TimeOfDay? timeOfDay =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime: pick_time,
+                                  );
+                                  if (timeOfDay != null) {
+                                    setState(() {
+                                      pick_time = timeOfDay;
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                    '${pick_time.hour}:${pick_time.minute}'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all(0),
+                              ),
+                              onPressed: saveNotificationSetting,
+                              child: const Text('저장'),
                             ),
                           ],
-                        ),
-                        ElevatedButton(
-                          onPressed: saveNotificationSetting,
-                          child: const Text('저장'),
-                        ),
+                        )),
                       ],
                     ),
                   ),
+                  Container(
+                    height: 8,
+                    color: Color(0xffD9D9D9),
+                  ),
                   themeSetting,
+                  Container(
+                    height: 8,
+                    color: Color(0xffD9D9D9),
+                  ),
                   langaugeSetting
                 ],
               )),
@@ -353,8 +497,8 @@ class _SettingState extends State<Setting> {
   }
 }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+@override
+Widget build(BuildContext context) {
+  // TODO: implement build
+  throw UnimplementedError();
+}

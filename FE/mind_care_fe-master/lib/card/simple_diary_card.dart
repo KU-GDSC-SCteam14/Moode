@@ -41,7 +41,7 @@ class _DiaryCardState extends State<DiaryCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 374,
+      width: 410,
       height: 151,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

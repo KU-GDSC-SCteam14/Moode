@@ -74,9 +74,9 @@ Future<void> modifyDiary(BuildContext context) async {
 }
 
 Future<void> clearDataAndResetFields() async {
-
   // 로컬 데이터베이스에서 diaryId를 가진 데이터 삭제
-  if (diaryId != 0) { // diaryId가 초기값(0)이 아닌 경우에만 삭제 수행
+  if (diaryId != 0) {
+    // diaryId가 초기값(0)이 아닌 경우에만 삭제 수행
     await DatabaseService.deleteDiary(diaryId);
     print('diaryId:$diaryId deleted');
     diaryId = 0; // diaryId를 초기화
@@ -86,10 +86,10 @@ Future<void> clearDataAndResetFields() async {
 
   // UserID 값을 임시 변수에 저장
   final int? userId = prefs.getInt('userid');
-  
+
   // SharedPreferences에서 모든 데이터 삭제
   await prefs.clear();
-  
+
   // UserID를 제외한 모든 데이터를 초기화한 후, UserID 값을 다시 저장
   if (userId != null) {
     await prefs.setInt('userid', userId);
@@ -102,7 +102,6 @@ Future<void> clearDataAndResetFields() async {
   reasonTextController.clear();
   thinkTextController.clear();
 }
-
 
 class WriteExperience extends StatefulWidget {
   const WriteExperience({super.key});
@@ -171,22 +170,6 @@ class _WriteExperienceSate extends State<WriteExperience> {
     }
   }
 
-  // Future<void> _updateLocalDiaryKeyWord() async {
-  //   // 로컬 데이터베이스 업데이트
-  //   await _database.rawInsert(
-  //     'INSERT INTO DiaryKeyWord(Diary_ID, Keyword_ID) VALUES(?, ?)',
-  //     [diaryId, keywordId],
-  //   );
-  // }
-
-  // Future<void> _updateLocalKeyword() async {
-  //   // 로컬 데이터베이스 업데이트
-  //   await _database.rawInsert(
-  //     'INSERT INTO Keyword(Keyword) VALUES(?, ?)',
-  //     [keywords],
-  //   );
-  // }
-
   void onPressedHandler() {
     //  uploadDiaryToServer();
     sendAIRequestKeyword(experienceTextController.text);
@@ -208,42 +191,33 @@ class _WriteExperienceSate extends State<WriteExperience> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Container(
-                          //padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                            color: Colors.black,
-                            width: 1.0,
-                          ))),
-                          //width: 302,
-                          height: 134.5,
-                          child: const Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center, // 가운데 정렬
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                '일기 작성을 그만 두시겠어요?',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              //Container(
-                              //padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
-                              //child:
-                              Text(
-                                '작성 중인 일기 내용은 저장되지 않아요.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              ),
-                              //),
-                            ],
-                          )),
+                      title: Column(
+                        children: <Widget>[
+                          Text(
+                            '일기 작성을 그만 두시겠어요?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            '작성 중인 일기 내용은 저장되지 않아요.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff272727),
+                            ),
+                          ),
+                        ],
+                      ),
                       backgroundColor: const Color.fromRGBO(211, 211, 211, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -252,7 +226,7 @@ class _WriteExperienceSate extends State<WriteExperience> {
                         //Container(
                         //child:
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           // 가운데 정렬
                           children: [
@@ -268,10 +242,15 @@ class _WriteExperienceSate extends State<WriteExperience> {
                               child: const Text(
                                 '닫기',
                                 style: TextStyle(
+                                  fontWeight: FontWeight.normal,
                                   color: Color.fromRGBO(209, 11, 11, 1.0),
                                   fontSize: 17,
                                 ),
                               ),
+                            ),
+                            Container(
+                              height: 44.0, // 선의 높이
+                              color: Colors.black, // 선의 색상
                             ),
                             TextButton(
                               onPressed: () {
@@ -280,12 +259,13 @@ class _WriteExperienceSate extends State<WriteExperience> {
                                       ? isCompleted = false
                                       : isCompleted = true;
                                 });
-                                
+
                                 Navigator.of(context).pop();
                               },
                               child: const Text(
                                 '취소',
                                 style: TextStyle(
+                                  fontWeight: FontWeight.normal,
                                   color: Color.fromRGBO(0, 122, 255, 1.0),
                                   fontSize: 17,
                                 ),
@@ -317,8 +297,11 @@ class _WriteExperienceSate extends State<WriteExperience> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
+                const SizedBox(
+                  height: 29,
+                ),
                 const LinearProgressIndicator(
-                  value: 0.3,
+                  value: 1 / 3,
                   backgroundColor: Colors.white,
                   color: Colors.white,
                   valueColor: AlwaysStoppedAnimation<Color>(
@@ -348,12 +331,19 @@ class _WriteExperienceSate extends State<WriteExperience> {
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         labelText:
-                            'ex) 나는 왜 이런 방식으로 말했을까?\n      나에게 도움이 되는 선택이었나?',
+                            'ex) 오늘은 가족여행으로 바다를 보러왔어.\n      그런데 비바람이 쳐서 이쁜 바다 풍경을 못 봤어.',
+                        labelStyle: TextStyle(
+                          fontSize: 16.0, // 원하는 폰트 크기
+                          color: Color(0xffD1D3D9),
+                          fontWeight: FontWeight.normal, // 원하는 색상
+                          // 기타 스타일 속성들도 적용 가능
+                        ),
+                        contentPadding: EdgeInsets.only(top: 0),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                       ),
                       controller: experienceTextController,
                       maxLines: null, // <-- SEE HERE
-                      minLines: 5, // <-- SEE HERE
+                      minLines: 2, // <-- SEE HERE
                       maxLength: 1000,
                     ),
                   ),
