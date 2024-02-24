@@ -41,11 +41,12 @@ class _ShowDiary extends State<ShowDiary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffe2e3e4),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
           title: const Text(
-            '작성하기',
+            '일기 확인',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
@@ -61,6 +62,10 @@ class _ShowDiary extends State<ShowDiary> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
+                Container(
+                  height: 29,
+                  color: Colors.white,
+                ),
                 DiaryCard(diaryID: widget.diaryID),
                 ContentsCard(diaryID: widget.diaryID),
               ],

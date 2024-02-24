@@ -36,7 +36,11 @@ class DiaryCard extends StatelessWidget {
           final titleController = diaryDetails['Title'];
           final experienceTextController = diaryDetails['Content_1'];
           //final Date = diaryDetails['Date'];
-          final keywords = (diaryDetails['Keywords'] as String?)?.split(',').map((e) => e.trim()).toList() ?? [];
+          final keywords = (diaryDetails['Keywords'] as String?)
+                  ?.split(',')
+                  .map((e) => e.trim())
+                  .toList() ??
+              [];
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
           return Container(
@@ -44,7 +48,7 @@ class DiaryCard extends StatelessWidget {
             height: 169,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color.fromRGBO(225, 226, 226, 0.8),
+              color: const Color.fromRGBO(255, 255, 255, 0.5),
             ),
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -89,15 +93,18 @@ class DiaryBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 29,
-      width: 334,
+      //width: 334,
       child: Row(
         children: [
           for (int i = 0; i < min(keywords.length, 3); i++)
             SizedBox(
               height: 29,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                    height: 29,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: const Color.fromRGBO(225, 226, 226, 0.8),
@@ -141,59 +148,58 @@ class DiaryTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 334,
-        height: 82,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // 글(제목, 날짜)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 제목
-                SizedBox(
-                    width: 273,
-                    height: 20,
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.justify,
-                      maxLines: 2,
-                      titleController,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff535354),
-                      ),
-                    )),
-                // 여백
-                const SizedBox(
-                  height: 14,
-                ),
-                SizedBox(
+      //width: 370,
+      height: 82,
+      child:
+          // 글(제목, 날짜)
+          Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 제목, 이모티콘
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
                   width: 273,
+                  height: 34,
                   child: Text(
-                    experienceTextController,
-                    style: const TextStyle(
-                      color: Color(0xff888888),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    ),
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.justify,
                     maxLines: 2,
-                  ),
-                ),
-              ],
-            ),
+                    titleController,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff535354),
+                    ),
+                  )),
+              Container(
+                alignment: Alignment.topRight,
+                width: 34,
+                height: 34,
+                child: getImageWidget(moodName),
+              )
+            ],
+          ),
+          // 제목
 
-            Container(
-              alignment: Alignment.topRight,
-              width: 34,
-              height: 34,
-              child: getImageWidget(moodName),
-            )
-          ],
-        ));
+          SizedBox(
+            width: 273,
+            child: Text(
+              experienceTextController,
+              style: const TextStyle(
+                color: Color(0xff888888),
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.justify,
+              maxLines: 2,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget getImageWidget(String moodName) {

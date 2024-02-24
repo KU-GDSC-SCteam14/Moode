@@ -3,7 +3,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 import 'package:mind_care/db.dart';
 import 'package:mind_care/page/write_diary_pg4.dart';
-import 'package:mind_care/component/happy_week_calendar.dart';
 
 class BodyCalendar extends StatefulWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
@@ -38,7 +37,8 @@ class _BodyCalendarState extends State<BodyCalendar> {
           }
 
           if (!snapshot.hasData) {
-            return const Center(child: Text('No events found'));
+            // 여길 바꾸기
+            return const Center(child: Text('No events found='));
           }
 
           final events = LinkedHashMap(

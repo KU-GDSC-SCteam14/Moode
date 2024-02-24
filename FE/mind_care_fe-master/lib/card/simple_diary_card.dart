@@ -79,15 +79,18 @@ class DiaryBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 29,
-      width: 334,
+      //width: 334,
       child: Row(
         children: [
           for (int i = 0; i < min(keywords.length, 3); i++)
             Container(
               height: 29,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                    height: 29,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       color: const Color.fromRGBO(225, 226, 226, 0.8),
@@ -133,7 +136,7 @@ class DiaryTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 334,
+        //width: 334,
         height: 64,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

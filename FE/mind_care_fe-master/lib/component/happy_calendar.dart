@@ -29,11 +29,6 @@ class _WeekCalendarState extends State<WeekCalendar> {
     eventsFuture = DatabaseService.gethappyDiariesByDateForEvents();
   }
 
-  List<Event> _getEventsForDay(
-      DateTime day, Map<DateTime, List<Event>> events) {
-    return events[day] ?? [];
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<DateTime, List<Event>>>(
@@ -41,10 +36,8 @@ class _WeekCalendarState extends State<WeekCalendar> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          }
-
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No events found'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('아직 긍정일기가 없어요!'));
           }
 
           final events = LinkedHashMap<DateTime, List<Event>>(
@@ -52,6 +45,11 @@ class _WeekCalendarState extends State<WeekCalendar> {
             hashCode: (DateTime key) =>
                 key.day * 1000000 + key.month * 10000 + key.year,
           )..addAll(snapshot.data!);
+
+          List<Event> _getEventsForDay(
+              DateTime day, Map<DateTime, List<Event>> events) {
+            return events[day] ?? [];
+          }
 
           return SingleChildScrollView(
             child: Container(
@@ -63,7 +61,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
                     bottomRight: Radius.circular(30)),
                 color: Color(0xfff8f9f9),
               ),
-              child: TableCalendar<Event>(
+              child: TableCalendar(
                 rowHeight: 48,
                 daysOfWeekHeight: 17,
                 firstDay: DateTime.utc(2010, 10, 16),
@@ -71,13 +69,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
                 focusedDay: DateTime.now(),
                 selectedDayPredicate: (date) =>
                     isSameDay(widget.selectedDate, date),
-                onDaySelected: (selectedDay, focusedDay) {
-                  widget.onDaySelected(selectedDay,
-                      _getEventsForDay(selectedDay, events) as DateTime);
-                  setState(() {
-                    //widget.showDate = selectedDay;
-                  });
-                },
+                onDaySelected: widget.onDaySelected,
                 eventLoader: (day) => _getEventsForDay(day, events),
                 calendarFormat: CalendarFormat.week,
                 calendarStyle: CalendarStyle(

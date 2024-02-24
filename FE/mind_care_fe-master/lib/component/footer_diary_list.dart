@@ -4,6 +4,7 @@ import 'package:mind_care/page/show_diary.dart';
 import 'package:intl/intl.dart';
 import 'package:mind_care/card/text_diary_card.dart';
 import 'package:mind_care/db.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class SelectedDiaryList extends StatefulWidget {
   final DateTime selectedDate;
@@ -28,7 +29,8 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
     super.didUpdateWidget(oldWidget);
     if (widget.selectedDate != oldWidget.selectedDate) {
       // Update diaryIds with the new selectedDate
-      diaryIds = DatabaseService.getDiariesByDate(widget.selectedDate.toString());
+      diaryIds =
+          DatabaseService.getDiariesByDate(widget.selectedDate.toString());
       setState(() {}); // Trigger a rebuild with the new data
     }
   }
@@ -42,10 +44,73 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Container(
+            height: 300,
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
+            decoration: const BoxDecoration(
+              color: Color(0xffeceded),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            ),
+            child: Column(
+              ///crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  //height: double.infinity,
+                  child: Column(
+                    //crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        width: 390,
+                        height: 20,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 32),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                DateFormat('EEEE')
+                                    .format(widget.selectedDate)
+                                    .toUpperCase(),
+                                style: const TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 7,
+                              ),
+                              Container(
+                                  height: 20,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 1.5,
+                                  ),
+                                  child: Text(
+                                      DateFormat('MMM dd, yyyy')
+                                          .format(widget.selectedDate),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: Color(0xff86858A),
+                                      )))
+                            ]),
+                      ),
+                      const SizedBox(height: 80),
+                      Text(
+                        textAlign: TextAlign.center,
+                        '아직 작성한 일기가 없어요!',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
         } else if (snapshot.hasData) {
           List<int> diaryIDs = snapshot.data!;
-          String weekday =
-              DateFormat('E').format(widget.selectedDate).toUpperCase();
 
           return Container(
             padding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -113,10 +178,13 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                                         builder: (context) => ShowDiary(
                                             diaryID: diaryIDs[index])));
                               },
-                              child: Container(
-                                height: 171,
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: DiaryCard(diaryID: diaryIDs[index]),
+                              child: Column(
+                                children: [
+                                  DiaryCard(diaryID: diaryIDs[index]),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                ],
                               ),
                             );
                           }

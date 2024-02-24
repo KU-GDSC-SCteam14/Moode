@@ -15,7 +15,6 @@ import 'dart:math';
 final titleController = TextEditingController();
 DateTime pick_date = DateTime.now();
 
-
 Future<void> modifyDiary() async {
   //final int diaryId = ; // 수정할 일기의 ID
   final prefs = await SharedPreferences.getInstance();
@@ -33,7 +32,7 @@ Future<void> modifyDiary() async {
     final String Now = DateFormat('yyyy-MM-dd 00:00:00.000').format(pick_date);
     const String Z = 'Z';
     final String Date = Now + Z;
-    
+
     Map<String, dynamic> updatedDiaryData = {
       //'User_ID': userid, // SharedPreferences에서 불러온 userid 사용
       'Title': titleController.text,
@@ -284,10 +283,10 @@ class _Result extends State<Result> {
                   // 일기 내용
                   Container(
                       //width: 390,
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 56),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        color: const Color(0xfffbfbfb),
+                        borderRadius: BorderRadius.circular(30),
+                        color: const Color.fromRGBO(255, 255, 255, 0.8),
                       ),
                       alignment: Alignment.centerLeft,
                       child: Column(

@@ -20,6 +20,7 @@ class ShowDiaryfromList extends StatefulWidget {
 
 class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   List<int> diaryIds = [];
+  int happy_count = 0;
 
   @override
   void initState() {
@@ -29,8 +30,8 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
 
   Future<void> _loadDiaries() async {
     String dateString = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
-    List<int> diaryIds =
-        await DatabaseService.getDiariesByDateAndMood(dateString);
+    diaryIds = await DatabaseService.getDiariesByDateAndMood(dateString);
+    happy_count = diaryIds.length;
     setState(() {});
   }
 
@@ -42,6 +43,27 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
         Column(
             // 감정일기 페이지 요소
             children: [
+              SizedBox(
+                height: 8,
+              ),
+              // 일기 동그라미 개수
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < happy_count; i++)
+                    Container(
+                      height: 6,
+                      child: Icon(
+                        Icons.circle,
+                        size: 6,
+                        color: Color(0xff535354),
+                      ),
+                    ),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
               ListView.builder(
                 shrinkWrap: true, // 추가된 부분: ListView가 부모 위젯의 크기에 맞게 조절
                 physics:
@@ -52,7 +74,13 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       DiaryCard(diaryID: diaryIds[index]),
+                      SizedBox(
+                        height: 8,
+                      ),
                       ContentsCard(diaryID: diaryIds[index]),
+                      SizedBox(
+                        height: 8,
+                      ),
                     ],
                   );
                 },

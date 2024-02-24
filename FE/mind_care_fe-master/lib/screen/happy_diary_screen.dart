@@ -1,5 +1,5 @@
-import 'package:mind_care/component/happy_week_calendar.dart';
-import 'package:mind_care/component/happy_week_diary.dart';
+import 'package:mind_care/component/happy_calendar.dart';
+import 'package:mind_care/component/happy_diary_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:intl/intl.dart';
@@ -202,4 +202,12 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
       this.selectedDate = selectedDate;
     });
   }
+
+  // (selectedDay, focusedDay) {
+  //                 widget.onDaySelected(selectedDay,
+  //                     _getEventsForDay(selectedDay, events) as DateTime);
+  //                 setState(() {
+  //                   //widget.showDate = selectedDay;
+  //                 });
+  //               },
 }
