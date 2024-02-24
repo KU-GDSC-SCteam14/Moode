@@ -6,7 +6,7 @@ import 'package:mind_care/component/search_keyword_pg1.dart';
 //import 'package:mind_care/page/show_selectedfromlist_diary.dart';
 //import 'package:intl/intl.dart';
 import 'package:mind_care/component/setting.dart';
-import 'package:mind_care/screen/happy_diary_screen.dart';
+import 'package:mind_care/screen/happy_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mind_care/notification.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

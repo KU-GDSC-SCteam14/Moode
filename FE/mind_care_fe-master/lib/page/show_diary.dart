@@ -67,6 +67,9 @@ class _ShowDiary extends State<ShowDiary> {
                   color: Colors.white,
                 ),
                 DiaryCard(diaryID: widget.diaryID),
+                SizedBox(
+                  height: 8,
+                ),
                 ContentsCard(diaryID: widget.diaryID),
               ],
             )),

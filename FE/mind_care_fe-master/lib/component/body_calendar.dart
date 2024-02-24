@@ -57,7 +57,7 @@ class _BodyCalendarState extends State<BodyCalendar> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
-                color: Color(0xfff8f9f9),
+                color: Color.fromRGBO(255, 255, 255, 0.8),
               ),
               child: TableCalendar(
                 rowHeight: 48,

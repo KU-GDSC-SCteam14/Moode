@@ -5,6 +5,7 @@ import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
 import 'package:mind_care/db.dart';
 import 'package:mind_care/page/manage_keyword.dart';
+//import 'package:mind_care/component/show_diary.dart';
 
 String searchText = '';
 
@@ -118,7 +119,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                 hintStyle: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
-                    color: Color(0xffA19)),
+                    color: Color(0xffA19FA1)),
               ),
               onChanged: (value) {
                 setState(() {
