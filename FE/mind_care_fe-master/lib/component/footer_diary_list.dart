@@ -94,7 +94,7 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                                       )))
                             ]),
                       ),
-                      const SizedBox(height: 80),
+                      const SizedBox(height: 50),
                       Text(
                         textAlign: TextAlign.center,
                         '아직 작성한 일기가 없어요!',

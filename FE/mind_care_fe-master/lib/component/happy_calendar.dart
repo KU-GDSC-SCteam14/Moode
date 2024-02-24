@@ -37,9 +37,217 @@ class _WeekCalendarState extends State<WeekCalendar> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('아직 긍정일기가 없어요!'));
-          }
+            final events = LinkedHashMap<DateTime, List<Event>>(
+              equals: isSameDay,
+              hashCode: (DateTime key) =>
+                  key.day * 1000000 + key.month * 10000 + key.year,
+            )..addAll(snapshot.data!);
 
+            List<Event> _getEventsForDay(
+                DateTime day, Map<DateTime, List<Event>> events) {
+              return events[day] ?? [];
+            }
+
+            return SingleChildScrollView(
+                child: Column(
+              children: [
+                Container(
+                  width: 390,
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30)),
+                    color: Color(0xfff8f9f9),
+                  ),
+                  child: TableCalendar(
+                    rowHeight: 48,
+                    daysOfWeekHeight: 17,
+                    firstDay: DateTime.utc(2010, 10, 16),
+                    lastDay: DateTime.utc(2030, 3, 14),
+                    focusedDay: DateTime.now(),
+                    selectedDayPredicate: (date) =>
+                        isSameDay(widget.selectedDate, date),
+                    onDaySelected: widget.onDaySelected,
+                    eventLoader: (day) => _getEventsForDay(day, events),
+                    calendarFormat: CalendarFormat.week,
+                    calendarStyle: CalendarStyle(
+                      outsideDaysVisible: false,
+                      cellAlignment: Alignment.center,
+                      // 캘린더 스타일
+                      isTodayHighlighted: false,
+                      defaultDecoration: BoxDecoration(
+                        // 기본 평일 날짜 스타일
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color(0xffEAEAF0),
+                      ),
+                      weekendDecoration: BoxDecoration(
+                        // 주말 날짜 스타일
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color(0xffEAEAF0),
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        // 선택한 날짜 스타일
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color(0xff007AFF),
+                      ),
+                      defaultTextStyle: const TextStyle(
+                        // 기본 평일 글꼴
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                      weekendTextStyle: const TextStyle(
+                        // 주말 날짜 글꼴
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                      selectedTextStyle: const TextStyle(
+                        // 선택한 날짜 글꼴
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                    calendarBuilders: CalendarBuilders(
+                        defaultBuilder: (context, day, events) {
+                      return Container(
+                        width: 48,
+                        height: 44,
+                        //margin: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          // 기본 평일 날짜 스타일
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: const Color(0xffEAEAF0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${day.day}', // 날짜를 텍스트로 표시
+                            style: const TextStyle(
+                              // 기본 평일 글꼴
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    }, selectedBuilder: (context, day, events) {
+                      return Container(
+                        width: 48,
+                        height: 44,
+                        //margin: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          // 기본 평일 날짜 스타일
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: const Color(0xff007AFF),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${day.day}', // 날짜를 텍스트로 표시
+                            style: const TextStyle(
+                              // 기본 평일 글꼴
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    }, dowBuilder: (context, day) {
+                      late String dayStr;
+                      switch (day.weekday) {
+                        case 1:
+                          dayStr = 'Mon';
+                          break;
+                        case 2:
+                          dayStr = 'Tue';
+                          break;
+                        case 3:
+                          dayStr = 'Wed';
+                          break;
+                        case 4:
+                          dayStr = 'Thu';
+                          break;
+                        case 5:
+                          dayStr = 'Fri';
+                          break;
+                        case 6:
+                          dayStr = 'Sat';
+                          break;
+                        case 7:
+                          dayStr = 'Sun';
+                          break;
+                      }
+                      return Container(
+                        width: 43,
+                        height: 17,
+                        child: Text(dayStr.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      );
+                    }, markerBuilder: (context, date, dynamic event) {
+                      if (event.isNotEmpty) {
+                        return Container(
+                          width: 48,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${date.day}', // 날짜를 텍스트로 표시
+                              style: const TextStyle(
+                                // 기본 평일 글꼴
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return null;
+                    }),
+                    headerStyle: const HeaderStyle(
+                      // 달력 최상단 스타일
+                      titleCentered: true,
+                      formatButtonVisible: false,
+                      rightChevronVisible: false,
+                      leftChevronVisible: false,
+                      titleTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Container(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        '아직 긍정 일기가 없어요!',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ));
+          }
           final events = LinkedHashMap<DateTime, List<Event>>(
             equals: isSameDay,
             hashCode: (DateTime key) =>
