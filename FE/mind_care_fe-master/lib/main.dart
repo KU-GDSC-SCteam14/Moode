@@ -179,7 +179,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
     super.initState();
     //타이머를 사용하여 2초 후에 홈 화면으로 이동
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -202,10 +202,29 @@ class _LaunchScreenState extends State<LaunchScreen> {
             ],
           ),
         ),
-        alignment: Alignment.center,
-        child: Image.asset(
-          'asset/img/logo.png',
-          width: 86,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              'asset/img/screen_logo.png',
+              width: 86,
+              height: 86,
+            ),
+            Image.asset(
+              'asset/img/moode_white.png',
+              width: 144,
+              height: 48,
+            ),
+            Text('Your everyday moodies',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  //color: Color(0xff151619),
+                  color: Colors.white,
+                ))
+          ],
         ),
       ),
     );
