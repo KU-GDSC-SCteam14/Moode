@@ -3,6 +3,7 @@
 Mindfulness app that features AI-emotional diary
 
 < How to Run >
+
 This service is developed for mobile device.
 
 1. Enter https://github.com/KU-GDSC-SCteam14/Mindfulness-app/releases
