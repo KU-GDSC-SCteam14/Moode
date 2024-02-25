@@ -41,8 +41,8 @@ class WriteThink extends StatefulWidget {
 }
 
 class _WriteThink extends State<WriteThink> {
-  void onPressedHandler() async {
-    // await modifyDiary(context); // 비동기 함수 호출을 기다립니다.
+  void onPressedHandler() {
+    modifyDiary(context); // 비동기 함수 호출을 기다립니다.
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Result()),
