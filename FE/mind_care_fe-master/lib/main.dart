@@ -129,10 +129,9 @@ void initializeNotification() async {
     }
   });
 }
-
+//// 주석주석
 Future<void> main() async {
   // Database db = await DatabaseService.database;
-
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // String? firebaseToken = await fcmSetting();
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진이 초기화되었는지 확인
@@ -142,6 +141,7 @@ Future<void> main() async {
 
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
+  print('hi');
   saveUserAndFCMToken();
   await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
