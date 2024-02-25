@@ -115,6 +115,7 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(42.0),
         child: AppBar(
+          backgroundColor: Colors.white,
           leading: IconButton(
               icon: Icon(Icons.arrow_back), // 아이콘
               onPressed: () {

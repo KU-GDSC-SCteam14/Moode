@@ -52,9 +52,11 @@ class _WriteThink extends State<WriteThink> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
+          backgroundColor: Colors.white,
           leading: IconButton(
               icon: const Icon(Icons.arrow_back), // 아이콘
               onPressed: () {

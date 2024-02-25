@@ -52,7 +52,7 @@ class _WeekCalendarState extends State<WeekCalendar> {
                 child: Column(
               children: [
                 Container(
-                  width: 390,
+                  //width: 390,
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(

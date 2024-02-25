@@ -182,9 +182,11 @@ class _WriteExperienceSate extends State<WriteExperience> {
   Widget build(BuildContext context) {
     saveDiary();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
+          backgroundColor: Colors.white,
           leading: IconButton(
             onPressed: () {
               showDialog(

@@ -34,8 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Color(0xffe2e3e4),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Image.asset(
-          'asset/img/logo_text.png',
+          'asset/img/moode_mint.png',
           width: 100,
         ),
         centerTitle: true,

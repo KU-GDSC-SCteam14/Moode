@@ -101,6 +101,7 @@ class _Result extends State<Result> {
     return Scaffold(
       backgroundColor: const Color(0xffe2e3e4),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back), // 아이콘
             onPressed: () {
@@ -152,7 +153,7 @@ class _Result extends State<Result> {
                   // 감정일기 카드,
                   Container(
                     width: 410,
-                    height: 151,
+                    height: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: const Color.fromRGBO(255, 255, 255, 0.5),
@@ -236,19 +237,24 @@ class _Result extends State<Result> {
                             )),
                         // 여백
                         const SizedBox(
-                          height: 18,
+                          height: 12,
                         ),
                         Container(
-                          //height: 29,
-                          width: 334,
+                          height: 29,
+                          width: 370,
                           child: Row(
                             children: [
                               for (int i = 0; i < min(keywords.length, 3); i++)
                                 Container(
                                   height: 29,
                                   child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 6, horizontal: 19),
+                                        height: 29,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(100),

@@ -51,9 +51,11 @@ class _SearchKeyword extends State<SearchKeyword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
+          backgroundColor: Colors.white,
           leading: IconButton(
               icon: const Icon(Icons.arrow_back), // 아이콘
               onPressed: () {
@@ -92,8 +94,11 @@ class _SearchKeyword extends State<SearchKeyword> {
           // Expanded(
           //     child: SingleChildScrollView(
           //         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 8),
+
+          Container(
+            height: 42,
+            margin: EdgeInsets.fromLTRB(16, 3, 16, 3),
+            //padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 8),
             child: TextField(
               style: const TextStyle(
                 fontWeight: FontWeight.normal,
@@ -129,7 +134,7 @@ class _SearchKeyword extends State<SearchKeyword> {
             ),
           ),
           Container(
-            height: 32,
+            height: 29,
           ),
           // 키워드 리스트 보여주기
           Expanded(
@@ -146,31 +151,42 @@ class _SearchKeyword extends State<SearchKeyword> {
                 }
                 // 검색어가 없을 경우, 모든 항목 표시
                 else {
-                  // return Card(
-                  //   elevation: 3,
-                  //   shape: const RoundedRectangleBorder(
-                  //       borderRadius:
-                  //           BorderRadius.all(Radius.elliptical(20, 20))),
-                  //   child: ListTile(
-                  //     title: Text(keywords[index]),
-                  //     onTap: () => cardClickEvent(context, keywords[index]),
-                  //   ),
-                  // );
                   return GestureDetector(
+                    //alignment: Align.
                     onTap: () => cardClickEvent(context, keywords[index]),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color.fromRGBO(225, 226, 226, 0.8),
-                      ),
-                      child: Text(
-                        keywords[index],
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff007AFF),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 16,
+                          height: 37,
                         ),
-                      ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 6, horizontal: 19),
+                              height: 29,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: const Color.fromRGBO(225, 226, 226, 0.8),
+                              ),
+                              child: Text(
+                                keywords[index],
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff007AFF),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              //width: 16,
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   );
                 }

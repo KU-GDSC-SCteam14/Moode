@@ -43,14 +43,24 @@ class _ShowDiary extends State<ShowDiary> {
     return Scaffold(
       backgroundColor: Color(0xffe2e3e4),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(42.0),
+        preferredSize: const Size.fromHeight(71.0),
         child: AppBar(
-          title: const Text(
-            '일기 확인',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: AlignmentDirectional.center,
+                end: Alignment.bottomCenter,
+                colors: const <Color>[
+                  Colors.white,
+                  Color(0xffe2e3e4),
+                ],
+              ),
             ),
+          ),
+          backgroundColor: Colors.white,
+          title: Image.asset(
+            'asset/img/logo_text.png',
+            width: 100,
           ),
           centerTitle: true,
         ),
@@ -62,9 +72,8 @@ class _ShowDiary extends State<ShowDiary> {
             child: SingleChildScrollView(
                 child: Column(
               children: [
-                Container(
-                  height: 29,
-                  color: Colors.white,
+                SizedBox(
+                  height: 8,
                 ),
                 DiaryCard(diaryID: widget.diaryID),
                 SizedBox(

@@ -29,9 +29,11 @@ class _ManageKeyword extends State<ManageKeyword> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(42.0),
           child: AppBar(
+            backgroundColor: Colors.white,
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back), // 아이콘
                 onPressed: () {
@@ -65,20 +67,36 @@ class _ManageKeyword extends State<ManageKeyword> {
                 itemCount: keywordsFuture.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
-                    /**
-               * Key 클래스는 위젯이나 앨리먼트 등을 식별할 때 사용한다.
-               * Dismissible은 반드시 유니크한 key 값을 가져야 한다.
-               * Key 생성자는 String값을 아규먼트로 받아서 고유한 키를 생성한다.
-               */
                     key: Key(keywordsFuture[index]),
-                    // Dismissible의 배경색 설정
-                    // background: Container(
-                    //   child: Text('수정'),
-                    //   color: Colors.blue,
-                    // ), // Background for swipe right
+                    background: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        'Rename',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Color(0xff007AFF),
+                      alignment: Alignment.centerLeft,
+                    ),
                     secondaryBackground: Container(
-                        child: Text('삭제'),
-                        color: Colors.red), // Background for swipe left
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Color(0xffEB4D3C),
+                      alignment: Alignment.centerRight,
+                    ),
+                    // Background for swipe left
                     onDismissed: (direction) {
                       if (direction == DismissDirection.endToStart) {
                         // 삭제 기능
@@ -88,12 +106,21 @@ class _ManageKeyword extends State<ManageKeyword> {
                         });
                         DatabaseService.deleteKeywordAndReferences(
                             keywordsFuture[index]);
+                      } else {
+                        changeDialog(keywordsFuture[index]);
+                        // 로컬 반영
+                        DatabaseService.updateKeyword(
+                            keywordsFuture[index], change_keyword);
+                        // 즉시 반영
+                        setState(() {
+                          keywordsFuture[index] = change_keyword;
+                        });
                       }
                     },
                     // Dismissible의 자식으로 리스트타일을 생성. 리스튜뷰에 타일로 등록
                     child: ListTile(
                       title: Text(keywordsFuture[index]),
-                      // 탭하면 수정 모달 실행, 화면에 반영, 로컬에도 반영
+                      //탭하면 수정 모달 실행, 화면에 반영, 로컬에도 반영
                       // onTap: () {
                       //   // 수정 모달
                       //   changeDialog(keywordsFuture[index]);
@@ -103,8 +130,7 @@ class _ManageKeyword extends State<ManageKeyword> {
                       //   // 즉시 반영
                       //   setState(() {
                       //     keywordsFuture[index] = change_keyword;
-                      //   });
-                      // },
+                      //   }
                     ),
                   );
                 },

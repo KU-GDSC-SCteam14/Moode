@@ -179,7 +179,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
     super.initState();
     //타이머를 사용하여 2초 후에 홈 화면으로 이동
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -191,6 +191,17 @@ class _LaunchScreenState extends State<LaunchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: const <Color>[
+              Color.fromRGBO(68, 255, 221, 1.0),
+              Color.fromRGBO(45, 198, 237, 1.0),
+              Color.fromRGBO(19, 132, 255, 1.0),
+            ],
+          ),
+        ),
         alignment: Alignment.center,
         child: Image.asset(
           'asset/img/logo.png',
