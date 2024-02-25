@@ -71,19 +71,23 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                     const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
                 itemCount: diaryIds.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      DiaryCard(diaryID: diaryIds[index]),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      ContentsCard(diaryID: diaryIds[index]),
-                      SizedBox(
-                        height: 8,
-                      ),
-                    ],
-                  );
+                  if (diaryIds.length == 0) {
+                    return Text('no happy diary!');
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        DiaryCard(diaryID: diaryIds[index]),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        ContentsCard(diaryID: diaryIds[index]),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    );
+                  }
                 },
               )
             ]),
