@@ -21,6 +21,7 @@ Our solution is designed to address the pressing issue of depression, a major me
 * ~
 ## Demo Video
 [![Video Label](http://img.youtube.com/vi/HTaOtBzBpx4/0.jpg)](https://youtu.be/HTaOtBzBpx4)
+> Video Link: https://youtu.be/HTaOtBzBpx4?si=IiSrqbwl_BZaOk97
 
 ## How to Run
 
