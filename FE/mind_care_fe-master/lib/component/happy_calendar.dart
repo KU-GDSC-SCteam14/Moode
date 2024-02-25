@@ -8,7 +8,7 @@ class WeekCalendar extends StatefulWidget {
   final DateTime selectedDate; // 선택된 날짜
   //DateTime showDate;
 
-  WeekCalendar({
+  const WeekCalendar({
     super.key,
     required this.onDaySelected,
     required this.selectedDate,

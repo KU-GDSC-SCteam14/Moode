@@ -199,6 +199,7 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
 
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
     // 날짜 선택될 때마다(탭할 때마다) 실행할 함수
+    print(selectedDate);
     setState(() {
       this.selectedDate = selectedDate;
     });
