@@ -29,8 +29,9 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   }
 
   Future<void> _loadDiaries() async {
-    String dateString = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
-    diaryIds = await DatabaseService.getDiariesByDateAndMood(dateString);
+    //String dateString = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
+    diaryIds = await DatabaseService.getDiariesByDateAndMood(
+        widget.selectedDate.toString());
     happy_count = diaryIds.length;
     setState(() {});
   }
