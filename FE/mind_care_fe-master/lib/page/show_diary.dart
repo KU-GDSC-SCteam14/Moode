@@ -59,7 +59,7 @@ class _ShowDiary extends State<ShowDiary> {
           ),
           backgroundColor: Colors.white,
           title: Image.asset(
-            'asset/img/logo_text.png',
+            'asset/img/moode_mint.png',
             width: 100,
           ),
           centerTitle: true,
