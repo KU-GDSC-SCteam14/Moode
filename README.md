@@ -6,19 +6,11 @@
   <h1>Moode</h1>
 </div>
 
-~~
-* ~
-* ~
-* ~
 
 ## Problem Statement
 Our solution is designed to address the pressing issue of depression, a major mental health challenge globally. It is estimated that more than 264 million people in the world suffer from depression. Depression impacts interpersonal relationships and quality of life. Despite the prevalence of depression, many people don't seek treatment or even recognize their symptoms as depression. Our goal is to empower people with depression to take "mindful time for themselves" to overcome the challenges of depression.
 
-## Features
-* ~~
-* ~
-* ~
-* ~
+
 ## Demo Video
 [![Video Label](http://img.youtube.com/vi/HTaOtBzBpx4/0.jpg)](https://youtu.be/HTaOtBzBpx4)
 > Video Link: https://youtu.be/HTaOtBzBpx4?si=IiSrqbwl_BZaOk97
@@ -31,3 +23,9 @@ This service is developed for mobile device.
 2. Click the latest release.
 3. Download app-release.apk.
 4. Launch this app on Android devices.
+
+## Reference Repo
+* https://github.com/cjhutto/vaderSentiment
+* https://github.com/MaartenGr/KeyBERT
+* https://github.com/eagle705/pytorch-bert-crf-ner
+* https://github.com/bab2min/Kiwi
