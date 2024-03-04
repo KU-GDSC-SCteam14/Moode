@@ -44,6 +44,55 @@ async function testDBConnection() {
 // 앱 시작 시 DB 연결을 테스트합니다.
 testDBConnection()
 
+
+// 알림 테스트
+cron.schedule('* * * * *', async () => {
+  console.log('알림 예약 정보를 처리합니다.');
+
+  try {
+    // 현재 날짜와 시간을 가져오기
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
+    const currentDate = now.getDate();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
+    // 현재 시간에 맞는 알림 예약 데이터 조회
+    const notifications = await db.query(
+      'SELECT * FROM Messaging WHERE DATE(NotifyTime) = ? AND HOUR(NotifyTime) = ? AND MINUTE(NotifyTime) = ?',
+      [`${currentYear}-${currentMonth}-${currentDate}`, currentHour, currentMinute],
+    );
+
+    // 조회된 알림 예약 정보에 따라 FCM 메시지 전송
+    notifications.forEach(async (notification) => {
+      const { User_ID, FCM_Token } = notification;
+
+      // FCM 메시지 구성
+      const message = {
+        notification: {
+          title: '주간 긍정일기 알림',
+          body: '주간 긍정일기를 작성할 시간이에요!',
+        },
+        token: FCM_Token,
+      };
+
+      // FCM 메시지 전송
+      try {
+        const response = await admin.messaging().send(message);
+        console.log('성공적으로 메시지를 보냈습니다:', response);
+      } catch (error) {
+        console.log('메시지 전송 실패:', error);
+      }
+    });
+  } catch (error) {
+    console.error('알림 예약 처리 중 오류 발생:', error);
+  }
+});
+
+
+/*
+
 // 매일 23:59에 알림 예약
 cron.schedule('* * * * *', async () => {
   console.log('알림 예약을 처리합니다.')
@@ -125,6 +174,8 @@ cron.schedule('* * * * *', async () => {
     console.error('알림 예약 처리 중 오류 발생:', error)
   }
 })
+
+*/
 
 // Google OAuth
 app.get(
