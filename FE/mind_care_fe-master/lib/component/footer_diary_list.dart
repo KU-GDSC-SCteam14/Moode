@@ -4,7 +4,7 @@ import 'package:mind_care/page/show_diary.dart';
 import 'package:intl/intl.dart';
 import 'package:mind_care/card/text_diary_card.dart';
 import 'package:mind_care/db.dart';
-import 'package:table_calendar/table_calendar.dart';
+// import 'package:table_calendar/table_calendar.dart';
 
 class SelectedDiaryList extends StatefulWidget {
   final DateTime selectedDate;
@@ -95,7 +95,7 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                             ]),
                       ),
                       const SizedBox(height: 50),
-                      Text(
+                      const Text(
                         textAlign: TextAlign.center,
                         '아직 작성한 일기가 없어요!',
                         style: TextStyle(
@@ -181,7 +181,7 @@ class _SelectedDiaryListState extends State<SelectedDiaryList> {
                               child: Column(
                                 children: [
                                   DiaryCard(diaryID: diaryIDs[index]),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                 ],

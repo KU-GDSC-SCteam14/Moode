@@ -4,7 +4,6 @@ import 'package:mind_care/page/manage_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
 import 'package:mind_care/db.dart';
-import 'package:mind_care/page/manage_keyword.dart';
 //import 'package:mind_care/component/show_diary.dart';
 
 String searchText = '';
@@ -77,7 +76,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ManageKeyword()),
+                    MaterialPageRoute(builder: (context) => const ManageKeyword()),
                   );
                 }, // floating
                 child: const Text('관리'))
@@ -97,7 +96,7 @@ class _SearchKeyword extends State<SearchKeyword> {
 
           Container(
             height: 42,
-            margin: EdgeInsets.fromLTRB(16, 3, 16, 3),
+            margin: const EdgeInsets.fromLTRB(16, 3, 16, 3),
             //padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 8),
             child: TextField(
               style: const TextStyle(
@@ -121,7 +120,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: '검색어를 입력해주세요.',
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
                     color: Color(0xffA19FA1)),
@@ -156,7 +155,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                     onTap: () => cardClickEvent(context, keywords[index]),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 16,
                           height: 37,
                         ),
@@ -164,7 +163,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 6, horizontal: 19),
                               height: 29,
                               decoration: BoxDecoration(
@@ -173,14 +172,14 @@ class _SearchKeyword extends State<SearchKeyword> {
                               ),
                               child: Text(
                                 keywords[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff007AFF),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               //width: 16,
                               height: 8,
                             ),

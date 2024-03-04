@@ -2,27 +2,27 @@ import 'package:mind_care/component/happy_calendar.dart';
 import 'package:mind_care/component/happy_diary_list.dart';
 import 'package:flutter/material.dart';
 import 'package:mind_care/screen/home_screen.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 DateTime today = DateTime.now();
 
 int weekOfMonthForSimple(DateTime date) {
   // 월의 첫번째 날짜.
-  DateTime _firstDay = DateTime(date.year, date.month, 1);
+  DateTime firstDay = DateTime(date.year, date.month, 1);
 
   // 월중에 첫번째 월요일인 날짜.
-  DateTime _firstMonday = _firstDay
-      .add(Duration(days: (DateTime.monday + 7 - _firstDay.weekday) % 7));
+  DateTime firstMonday = firstDay
+      .add(Duration(days: (DateTime.monday + 7 - firstDay.weekday) % 7));
 
   // 첫번째 날짜와 첫번째 월요일인 날짜가 동일한지 판단.
   // 동일할 경우: 1, 동일하지 않은 경우: 2 를 마지막에 더한다.
-  final bool isFirstDayMonday = _firstDay == _firstMonday;
+  final bool isFirstDayMonday = firstDay == firstMonday;
 
-  final _different = calculateDaysBetween(from: _firstMonday, to: date);
+  final different = calculateDaysBetween(from: firstMonday, to: date);
 
   // 주차 계산.
-  int _weekOfMonth = (_different / 7 + (isFirstDayMonday ? 1 : 2)).toInt();
-  return _weekOfMonth;
+  int weekOfMonth = (different / 7 + (isFirstDayMonday ? 1 : 2)).toInt();
+  return weekOfMonth;
 }
 
 int calculateDaysBetween({required DateTime from, required DateTime to}) {
@@ -30,55 +30,55 @@ int calculateDaysBetween({required DateTime from, required DateTime to}) {
 }
 
 bool isSameWeek(DateTime dateTime1, DateTime dateTime2) {
-  final int _dateTime1WeekOfMonth = weekOfMonthForSimple(dateTime1);
-  final int _dateTime2WeekOfMonth = weekOfMonthForSimple(dateTime2);
-  return _dateTime1WeekOfMonth == _dateTime2WeekOfMonth;
+  final int dateTime1WeekOfMonth = weekOfMonthForSimple(dateTime1);
+  final int dateTime2WeekOfMonth = weekOfMonthForSimple(dateTime2);
+  return dateTime1WeekOfMonth == dateTime2WeekOfMonth;
 }
 
 int weekOfMonthForStandard(DateTime date) {
   // 월 주차.
-  late int _weekOfMonth;
+  late int weekOfMonth;
 
   // 선택한 월의 첫번째 날짜.
-  final _firstDay = DateTime(date.year, date.month, 1);
+  final firstDay = DateTime(date.year, date.month, 1);
 
   // 선택한 월의 마지막 날짜.
-  final _lastDay = DateTime(date.year, date.month + 1, 0);
+  final lastDay = DateTime(date.year, date.month + 1, 0);
 
   // 첫번째 날짜가 목요일보다 작은지 판단.
-  final _isFirstDayBeforeThursday = _firstDay.weekday <= DateTime.thursday;
+  final isFirstDayBeforeThursday = firstDay.weekday <= DateTime.thursday;
 
   // 선택한 날짜와 첫번째 날짜가 같은 주에 위치하는지 판단.
-  if (isSameWeek(date, _firstDay)) {
+  if (isSameWeek(date, firstDay)) {
     // 첫번째 날짜가 목요일보다 작은지 판단.
-    if (_isFirstDayBeforeThursday) {
+    if (isFirstDayBeforeThursday) {
       // 1주차.
-      _weekOfMonth = 1;
+      weekOfMonth = 1;
     }
 
     // 저번달의 마지막 날짜의 주차와 동일.
     else {
-      final _lastDayOfPreviousMonth = DateTime(date.year, date.month, 0);
+      final lastDayOfPreviousMonth = DateTime(date.year, date.month, 0);
 
       // n주차.
-      _weekOfMonth = weekOfMonthForStandard(_lastDayOfPreviousMonth);
+      weekOfMonth = weekOfMonthForStandard(lastDayOfPreviousMonth);
     }
   } else {
     // 선택한 날짜와 마지막 날짜가 같은 주에 위치하는지 판단.
-    if (isSameWeek(date, _lastDay)) {
+    if (isSameWeek(date, lastDay)) {
       // 마지막 날짜가 목요일보다 큰지 판단.
-      final _isLastDayBeforeThursday = _lastDay.weekday >= DateTime.thursday;
-      if (_isLastDayBeforeThursday) {
+      final isLastDayBeforeThursday = lastDay.weekday >= DateTime.thursday;
+      if (isLastDayBeforeThursday) {
         // 주차를 단순 계산 후 첫번째 날짜의 위치에 따라서 0/-1 결합.
         // n주차.
-        _weekOfMonth =
-            weekOfMonthForSimple(date) + (_isFirstDayBeforeThursday ? 0 : -1);
+        weekOfMonth =
+            weekOfMonthForSimple(date) + (isFirstDayBeforeThursday ? 0 : -1);
       }
 
       // 다음달 첫번째 날짜의 주차와 동일.
       else {
         // 1주차.
-        _weekOfMonth = 1;
+        weekOfMonth = 1;
       }
     }
 
@@ -86,16 +86,16 @@ int weekOfMonthForStandard(DateTime date) {
     else {
       // 주차를 단순 계산 후 첫번째 날짜의 위치에 따라서 0/-1 결합.
       // n주차.
-      _weekOfMonth =
-          weekOfMonthForSimple(date) + (_isFirstDayBeforeThursday ? 0 : -1);
+      weekOfMonth =
+          weekOfMonthForSimple(date) + (isFirstDayBeforeThursday ? 0 : -1);
     }
   }
 
-  return _weekOfMonth;
+  return weekOfMonth;
 }
 
 class HappyDiaryScreen extends StatefulWidget {
-  const HappyDiaryScreen({Key? key}) : super(key: key);
+  const HappyDiaryScreen({super.key});
 
   @override
   State<HappyDiaryScreen> createState() => _HappyDiaryScreen();
@@ -111,20 +111,20 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe2e3e4),
+      backgroundColor: const Color(0xffe2e3e4),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(42.0),
+        preferredSize: const Size.fromHeight(42.0),
         child: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-              icon: Icon(Icons.arrow_back), // 아이콘
+              icon: const Icon(Icons.arrow_back), // 아이콘
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               }),
-          title: Text(
+          title: const Text(
             '주간 긍정일기',
             style: TextStyle(
               fontSize: 17,
@@ -143,7 +143,7 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
             ),
             Container(
                 color: Colors.white,
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 24,
                 ),
@@ -152,7 +152,7 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
                   children: [
                     TextSpan(
                       text: '${selectedDate.month}월 ',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff007AFF),
@@ -160,13 +160,13 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
                     ),
                     TextSpan(
                       text: '${weekOfMonthForStandard(today)}주',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff007AFF),
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: '의 행복했던 순간들을',
                       style: TextStyle(
                         fontSize: 22,
@@ -174,7 +174,7 @@ class _HappyDiaryScreen extends State<HappyDiaryScreen> {
                         color: Color(0xff555555),
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: '\n되돌아보세요.',
                       style: TextStyle(
                         fontSize: 22,

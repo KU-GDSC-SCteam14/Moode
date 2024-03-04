@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mind_care/component/search_keyword_pg1.dart';
 import 'package:mind_care/db.dart';
 //import 'performance.dart';
-import 'dart:convert';
+// import 'dart:convert';
 
 class ManageKeyword extends StatefulWidget {
   const ManageKeyword({super.key});
@@ -39,7 +39,7 @@ class _ManageKeyword extends State<ManageKeyword> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SearchKeyword()),
+                    MaterialPageRoute(builder: (context) => const SearchKeyword()),
                   );
                 }),
             title: const Text(
@@ -70,8 +70,10 @@ class _ManageKeyword extends State<ManageKeyword> {
                     key: Key(keywordsFuture[index]),
                     background: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      color: const Color(0xff007AFF),
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
                         'Rename',
                         style: TextStyle(
                           fontSize: 14,
@@ -79,13 +81,13 @@ class _ManageKeyword extends State<ManageKeyword> {
                           color: Colors.white,
                         ),
                       ),
-                      color: Color(0xff007AFF),
-                      alignment: Alignment.centerLeft,
                     ),
                     secondaryBackground: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      color: const Color(0xffEB4D3C),
+                      alignment: Alignment.centerRight,
+                      child: const Text(
                         'Delete',
                         style: TextStyle(
                           fontSize: 14,
@@ -93,8 +95,6 @@ class _ManageKeyword extends State<ManageKeyword> {
                           color: Colors.white,
                         ),
                       ),
-                      color: Color(0xffEB4D3C),
-                      alignment: Alignment.centerRight,
                     ),
                     // Background for swipe left
                     onDismissed: (direction) {
@@ -155,9 +155,9 @@ class _ManageKeyword extends State<ManageKeyword> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             //Dialog Main Title
-            title: Column(
+            title: const Column(
               children: <Widget>[
-                new Text("키워드 수정하기"),
+                Text("키워드 수정하기"),
               ],
             ),
             //
@@ -177,7 +177,7 @@ class _ManageKeyword extends State<ManageKeyword> {
             ),
             actions: <Widget>[
               TextButton(
-                child: Text("확인"),
+                child: const Text("확인"),
                 onPressed: () {
                   change_keyword = keywordController.text;
                   Navigator.of(context).pop();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:collection';
 import 'package:mind_care/db.dart';
-import 'package:mind_care/page/write_diary_pg4.dart';
+// import 'package:mind_care/page/write_diary_pg4.dart';
 
 class BodyCalendar extends StatefulWidget {
   final OnDaySelected onDaySelected; // 날짜 선택 시 실행할 함수
@@ -52,8 +52,8 @@ class _BodyCalendarState extends State<BodyCalendar> {
           return SingleChildScrollView(
             child: Container(
               width: 390,
-              padding: EdgeInsets.fromLTRB(15, 0, 15, 32),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 32),
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
@@ -135,12 +135,12 @@ class _BodyCalendarState extends State<BodyCalendar> {
                       dayStr = 'Sun';
                       break;
                   }
-                  return Container(
+                  return SizedBox(
                     width: 43,
                     height: 17,
                     child: Text(dayStr.toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.normal,

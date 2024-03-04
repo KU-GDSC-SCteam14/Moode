@@ -6,8 +6,8 @@ import 'package:mind_care/page/write_diary_pg3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mind_care/db.dart';
 import 'package:intl/intl.dart';
-import 'package:timer_builder/timer_builder.dart';
-import 'package:provider/provider.dart';
+// import 'package:timer_builder/timer_builder.dart';
+// import 'package:provider/provider.dart';
 import 'dart:math';
 //import 'dart:convert';
 //import 'package:http/http.dart' as http;
@@ -239,20 +239,20 @@ class _Result extends State<Result> {
                         const SizedBox(
                           height: 12,
                         ),
-                        Container(
+                        SizedBox(
                           height: 29,
                           width: 370,
                           child: Row(
                             children: [
                               for (int i = 0; i < min(keywords.length, 3); i++)
-                                Container(
+                                SizedBox(
                                   height: 29,
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 6, horizontal: 19),
                                         height: 29,
                                         decoration: BoxDecoration(
@@ -263,14 +263,14 @@ class _Result extends State<Result> {
                                         ),
                                         child: Text(
                                           keywords[i],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff007AFF),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 16,
                                         height: 29,
                                       ),

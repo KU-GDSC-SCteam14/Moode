@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,16 +93,16 @@ class _SettingState extends State<Setting> {
             color: Color(0xffABB0BC),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Container(
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '연결된 계정',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff555555),
@@ -110,7 +110,7 @@ class _SettingState extends State<Setting> {
               ),
               Text(
                 'gdsc_sc_team14@gmail.com',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
                   color: Color(0xffABB0BC),
@@ -119,16 +119,16 @@ class _SettingState extends State<Setting> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Container(
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '데이터 백업',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff555555),
@@ -136,7 +136,7 @@ class _SettingState extends State<Setting> {
               ),
               Text(
                 '>',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
                   color: Color(0xffABB0BC),
@@ -145,16 +145,16 @@ class _SettingState extends State<Setting> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Container(
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '데이터 복원',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff555555),
@@ -162,7 +162,7 @@ class _SettingState extends State<Setting> {
               ),
               Text(
                 '>',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
                   color: Color(0xffABB0BC),
@@ -171,16 +171,16 @@ class _SettingState extends State<Setting> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Container(
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '데이터 초기화',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff555555),
@@ -188,7 +188,7 @@ class _SettingState extends State<Setting> {
               ),
               Text(
                 '>',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.normal,
                   color: Color(0xffABB0BC),
@@ -223,12 +223,12 @@ class _SettingState extends State<Setting> {
           height: 24,
         ),
         Container(
-            child: Row(
+            child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               '테마',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
                 color: Color(0xff555555),
@@ -236,7 +236,7 @@ class _SettingState extends State<Setting> {
             ),
             Text(
               '시스템 설정',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.normal,
                 color: Color(0xffABB0BC),
@@ -270,12 +270,12 @@ class _SettingState extends State<Setting> {
           height: 24,
         ),
         Container(
-            child: Row(
+            child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               '언어',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
                 color: Color(0xff555555),
@@ -283,7 +283,7 @@ class _SettingState extends State<Setting> {
             ),
             Text(
               '한국어',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.normal,
                 color: Color(0xffABB0BC),
@@ -336,7 +336,7 @@ class _SettingState extends State<Setting> {
                   accountSetting,
                   Container(
                     height: 8,
-                    color: Color(0xffD9D9D9),
+                    color: const Color(0xffD9D9D9),
                   ),
                   Container(
                     //alignment: Alignment.centerLeft,
@@ -356,16 +356,16 @@ class _SettingState extends State<Setting> {
                             color: Color(0xffABB0BC),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 24,
                         ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 '우울한 날 긍정일기 알림',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff555555),
@@ -383,16 +383,16 @@ class _SettingState extends State<Setting> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 24,
                         ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 '주간 긍정일기 알림',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff555555),
@@ -410,16 +410,16 @@ class _SettingState extends State<Setting> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 24,
                         ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 '알림받을 시간',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff555555),
@@ -480,12 +480,12 @@ class _SettingState extends State<Setting> {
                   ),
                   Container(
                     height: 8,
-                    color: Color(0xffD9D9D9),
+                    color: const Color(0xffD9D9D9),
                   ),
                   themeSetting,
                   Container(
                     height: 8,
-                    color: Color(0xffD9D9D9),
+                    color: const Color(0xffD9D9D9),
                   ),
                   langaugeSetting
                 ],

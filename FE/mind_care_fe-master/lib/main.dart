@@ -10,7 +10,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'screen/home_screen.dart';
 
 // 사용자 정보 및 FCM 토큰을 서버에 저장
 Future<void> saveUserAndFCMToken() async {

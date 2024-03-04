@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:mind_care/page/show_diary.dart';
 import 'package:mind_care/card/text_diary_card.dart';
 import 'package:mind_care/db.dart';
@@ -40,7 +40,7 @@ class _ResultKeyword extends State<ResultKeyword> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchKeyword()),
+                  MaterialPageRoute(builder: (context) => const SearchKeyword()),
                 );
               }),
           title: const Text(
@@ -57,12 +57,12 @@ class _ResultKeyword extends State<ResultKeyword> {
         child: ListView(
           shrinkWrap: true,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Container(
                 color: Colors.white,
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 16,
                 ),
@@ -71,13 +71,13 @@ class _ResultKeyword extends State<ResultKeyword> {
                   children: [
                     TextSpan(
                       text: '\'${widget.find_keyword}\'',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff007AFF),
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: '이/가 포함된 감정일기',
                       style: TextStyle(
                         fontSize: 21,

@@ -7,10 +7,10 @@ import 'package:mind_care/component/search_keyword_pg1.dart';
 //import 'package:intl/intl.dart';
 import 'package:mind_care/component/setting.dart';
 import 'package:mind_care/screen/happy_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:provider/provider.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:slider_button/slider_button.dart';
-import 'dart:math';
+// import 'dart:math';
 import 'package:flutter/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe2e3e4),
+      backgroundColor: const Color(0xffe2e3e4),
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Image.asset(
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Setting()),
+                MaterialPageRoute(builder: (context) => const Setting()),
               );
             }),
         actions: [
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchKeyword()),
+                  MaterialPageRoute(builder: (context) => const SearchKeyword()),
                 );
               }),
         ],
@@ -66,12 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // 주간 긍정일기 확인버튼 배너
               Container(
-                color: Color(0xfff8f9f9),
+                color: const Color(0xfff8f9f9),
                 width: 390,
                 height: 77,
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
@@ -79,22 +79,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           '주간 긍정일기를 확인해보세요.',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                               color: Color(0xff626262)),
                         ),
-                        Container(
+                        SizedBox(
                           width: 73,
                           height: 41,
                           child: ElevatedButton(
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(12)),
+                                    const EdgeInsets.all(12)),
                                 backgroundColor:
-                                    MaterialStatePropertyAll<Color>(
+                                    const MaterialStatePropertyAll<Color>(
                                   Color.fromRGBO(49, 200, 201, 0.15),
                                 ),
                                 elevation: MaterialStateProperty.all(0),
@@ -107,10 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HappyDiaryScreen()),
+                                      builder: (context) => const HappyDiaryScreen()),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 '확인하기',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 selectedDate: selectedDate, // 날짜 전달하기
                 onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
               ),
-              SizedBox(
+              const SizedBox(
                 height: 4,
               ),
               SelectedDiaryList(
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return true;
               },
-              label: Row(
+              label: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -166,13 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              icon: Icon(
+              icon: const Icon(
                 Icons.add,
                 color: Colors.white,
                 size: 40,
               ),
-              backgroundColor: Color.fromRGBO(30, 30, 30, 0.75),
-              buttonColor: Color(0xff0A84FF),
+              backgroundColor: const Color.fromRGBO(30, 30, 30, 0.75),
+              buttonColor: const Color(0xff0A84FF),
               shimmer: true,
               highlightedColor: Colors.grey,
               buttonSize: 58,

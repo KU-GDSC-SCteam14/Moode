@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_care/db.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 //import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/card/simple_diary_card.dart';
 import 'package:mind_care/card/contents_card.dart';
@@ -44,7 +44,7 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
         Column(
             // 감정일기 페이지 요소
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               // 일기 동그라미 개수
@@ -52,7 +52,7 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   for (int i = 0; i < happy_count; i++)
-                    Container(
+                    const SizedBox(
                       height: 6,
                       child: Icon(
                         Icons.circle,
@@ -62,7 +62,7 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                     ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               ListView.builder(
@@ -71,18 +71,18 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
                     const NeverScrollableScrollPhysics(), // 추가된 부분: 스크롤을 방지
                 itemCount: diaryIds.length,
                 itemBuilder: (context, index) {
-                  if (diaryIds.length == 0) {
-                    return Text('no happy diary!');
+                  if (diaryIds.isEmpty) {
+                    return const Text('no happy diary!');
                   } else {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         DiaryCard(diaryID: diaryIds[index]),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         ContentsCard(diaryID: diaryIds[index]),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                       ],
