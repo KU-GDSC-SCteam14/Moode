@@ -37,6 +37,17 @@ class _ShowDiaryfromList extends State<ShowDiaryfromList> {
   }
 
   @override
+    void didUpdateWidget(covariant ShowDiaryfromList oldWidget) {
+      super.didUpdateWidget(oldWidget);
+      // selectedDate가 변경되었는지 확인
+      if (widget.selectedDate != oldWidget.selectedDate) {
+        // selectedDate가 변경된 경우, 다시 데이터를 로드합니다.
+        diaryIds.clear();
+        _loadDiaries();
+      }
+    }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

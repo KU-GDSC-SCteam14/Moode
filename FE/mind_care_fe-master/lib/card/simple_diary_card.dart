@@ -23,6 +23,7 @@ class _DiaryCardState extends State<DiaryCard> {
   void initState() {
     super.initState();
     _fetchDiaryDetails();
+    Date = "2000-01-01";
   }
 
   Future<void> _fetchDiaryDetails() async {
@@ -135,6 +136,8 @@ class DiaryTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = "${getDateWidget(date)} ${date.substring(8, 10)}, ${date.substring(0, 4)}";
+
     return SizedBox(
         //width: 334,
         height: 64,
@@ -167,11 +170,7 @@ class DiaryTop extends StatelessWidget {
               // 날짜
               Container(
                   child: Text(
-                getDateWidget(date) +
-                    ' ' +
-                    date.substring(8, 10) +
-                    ', ' +
-                    date.substring(0, 4),
+                formattedDate,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
@@ -208,44 +207,33 @@ class DiaryTop extends StatelessWidget {
     String month;
     switch (date.substring(5, 7)) {
       case '01':
-        month = 'Jan';
-        return month;
+        month = 'Jan'; break;
       case '02':
-        month = 'Feb';
-        return month;
+        month = 'Feb'; break;
       case '03':
-        month = 'Mar';
-        return month;
+        month = 'Mar'; break;
       case '04':
-        month = 'Apr';
-        return month;
+        month = 'Apr'; break;
       case '05':
-        month = 'May';
-        return month;
+        month = 'May'; break;
       case '06':
-        month = 'Jun';
-        return month;
+        month = 'Jun'; break;
       case '07':
-        month = 'Jul';
-        return month;
+        month = 'Jul'; break;
       case '08':
-        month = 'Aug';
-        return month;
+        month = 'Aug'; break;
       case '09':
-        month = 'Sep';
-        return month;
+        month = 'Sep'; break;
       case '10':
-        month = 'Oct';
-        return month;
+        month = 'Oct'; break;
       case '11':
-        month = 'Nov';
-        return month;
+        month = 'Nov'; break;
       case '12':
-        month = 'Dec';
-        return month;
+        month = 'Dec'; break;
 // 예외 처리 혹은 기본값 설정
       default:
-        return 'Jan';
+        month = 'Jan';
     }
+    return month;
   }
 }
