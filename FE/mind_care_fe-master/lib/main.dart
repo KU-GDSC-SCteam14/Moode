@@ -24,7 +24,7 @@ Future<void> saveUserAndFCMToken() async {
   final body = json.encode({
     "Name": "Testname",
     "email": "adjlsakj-testd212@example.testtest.com",
-    "Signup_date": "2024-02-13 12:00:00",
+    "Signusp_date": "2024-02-13 12:00:00",
     "is_Google": true,
     "is_Apple": false,
     "Provider_ID": "test_provider_id",
@@ -141,7 +141,6 @@ Future<void> main() async {
 
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
-  print('hi');
   saveUserAndFCMToken();
   await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
@@ -191,11 +190,11 @@ class _LaunchScreenState extends State<LaunchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: const <Color>[
+            colors: <Color>[
               Color.fromRGBO(68, 255, 221, 1.0),
               Color.fromRGBO(45, 198, 237, 1.0),
               Color.fromRGBO(19, 132, 255, 1.0),
@@ -216,7 +215,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
               width: 144,
               height: 48,
             ),
-            Text('Your everyday moodies',
+            const Text('Your everyday moodies',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,
