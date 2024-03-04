@@ -45,7 +45,7 @@ async function testDBConnection() {
 testDBConnection()
 
 // 매일 23:59에 알림 예약
-cron.schedule('59 23 * * *', async () => {
+cron.schedule('* * * * *', async () => {
   console.log('알림 예약을 처리합니다.')
 
   function getTomorrow() {
