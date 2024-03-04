@@ -23,7 +23,7 @@ Future<void> saveUserAndFCMToken() async {
   final body = json.encode({
     "Name": "Testname",
     "email": "adjlsakj-testd212@example.testtest.com",
-    "Signusp_date": "2024-02-13 12:00:00",
+    "Signup_date": "2024-02-13 12:00:00",
     "is_Google": true,
     "is_Apple": false,
     "Provider_ID": "test_provider_id",
