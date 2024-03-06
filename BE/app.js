@@ -120,7 +120,9 @@ cron.schedule('* * * * *', async () => {
       const now = new Date(GMTnow.getTime() - timezoneOffset + gmt8Offset);
       console.log('Current time in GMT+9:');
       console.log(now);
-      if (now == scheduleTime) {
+      const diff = Math.abs(now - scheduleTime);
+      console.log(diff);
+      if (diff < 60000) {
         console.log('Notification sending state : 1');
         const delay = scheduleTime.getTime() - now.getTime();
         console.log('Notification sending state : 2');
