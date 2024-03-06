@@ -101,7 +101,9 @@ cron.schedule('* * * * *', async () => {
 
     for (const notification of notifications) {
       const { User_ID, NotifyTime, FCM_Token } = notification;
-      const [hours, minutes] = NotifyTime.split(' ')[1].split(':');
+      // NotifyTime을 문자열로 취급하여 split 함수를 사용합니다.
+      const [dateString, timeString] = NotifyTime.toString().split('T');
+      const [hours, minutes] = timeString.split(':');
       console.log(notification);
 
       const scheduleTime = new Date();
