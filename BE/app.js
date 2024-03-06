@@ -47,32 +47,21 @@ testDBConnection()
 
 // 알림 테스트
 cron.schedule('* * * * *', async () => {
-  console.log('알림 예약 정보를 처리합니다.');
+  console.log('알림을 처리합니다.');
 
   try {
-    // 현재 날짜와 시간을 가져오기
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
-    const currentDate = now.getDate();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
+    // Messaging 테이블에서 모든 알림 예약 정보 조회
+    const notifications = await db.query('SELECT * FROM Messaging');
 
-    // 현재 시간에 맞는 알림 예약 데이터 조회
-    const notifications = await db.query(
-      'SELECT * FROM Messaging WHERE DATE(NotifyTime) = ? AND HOUR(NotifyTime) = ? AND MINUTE(NotifyTime) = ?',
-      [`${currentYear}-${currentMonth}-${currentDate}`, currentHour, currentMinute],
-    );
-
-    // 조회된 알림 예약 정보에 따라 FCM 메시지 전송
+    // 조회된 모든 알림 예약 정보에 따라 FCM 메시지 전송
     notifications.forEach(async (notification) => {
-      const { User_ID, FCM_Token } = notification;
+      const { FCM_Token } = notification;
 
       // FCM 메시지 구성
       const message = {
         notification: {
           title: '주간 긍정일기 알림',
-          body: '주간 긍정일기를 작성할 시간이에요!',
+          body: '주간 긍정일기를 확인해보세요!',
         },
         token: FCM_Token,
       };
@@ -86,7 +75,7 @@ cron.schedule('* * * * *', async () => {
       }
     });
   } catch (error) {
-    console.error('알림 예약 처리 중 오류 발생:', error);
+    console.error('알림 처리 중 오류 발생:', error);
   }
 });
 
@@ -415,43 +404,59 @@ app.get('/AImood', (req, res) => {
 })
 
 app.post('/schedule-notification', async (req, res) => {
-  const { User_ID, Notifyday, NotifyTime } = req.body
+  const { User_ID, Notifyday, NotifyTime } = req.body;
 
   try {
     // User 테이블에서 해당 User_ID의 FCM_Token 조회
     const userResult = await db.query(
       'SELECT FCM_Token FROM User WHERE User_ID = ?',
-      [User_ID],
-    )
+      [User_ID]
+    );
 
     if (userResult.length === 0) {
       return res.status(404).json({
         success: false,
-        message: '해당 사용자의 토큰을 찾을 수 없습니다.',
-      })
+        message: '해당 사용자의 토큰을 찾을 수 없습니다.'
+      });
     }
 
-    const FCM_Token = userResult[0].FCM_Token
+    const FCM_Token = userResult[0].FCM_Token;
 
-    // Messaging 테이블에 알림 예약 정보 및 FCM_Token 저장
-    const insertResult = await db.query(
-      'INSERT INTO Messaging (User_ID, Notifyday, NotifyTime, FCM_Token) VALUES (?, ?, ?, ?)',
-      [User_ID, Notifyday, NotifyTime, FCM_Token],
-    )
-    console.log('알림 예약 정보가 성공적으로 저장되었습니다:', insertResult)
+    // Messaging 테이블에 User_ID가 이미 존재하는지 확인
+    const existingNotification = await db.query(
+      'SELECT * FROM Messaging WHERE User_ID = ?',
+      [User_ID]
+    );
+
+    if (existingNotification.length > 0) {
+      // 기존 데이터가 있으면 시간, NotifyDay, FCM_Token 업데이트
+      await db.query(
+        'UPDATE Messaging SET Notifyday = ?, NotifyTime = ?, FCM_Token = ? WHERE User_ID = ?',
+        [Notifyday, NotifyTime, FCM_Token, User_ID]
+      );
+    } else {
+      // 새로운 데이터 삽입
+      await db.query(
+        'INSERT INTO Messaging (User_ID, Notifyday, NotifyTime, FCM_Token) VALUES (?, ?, ?, ?)',
+        [User_ID, Notifyday, NotifyTime, FCM_Token]
+      );
+    }
+
+    console.log('알림 예약 정보가 성공적으로 저장되었습니다.');
 
     res.status(201).json({
       success: true,
-      message: '알림 예약이 성공적으로 저장되었습니다.',
-    })
+      message: '알림 예약이 성공적으로 저장되었습니다.'
+    });
   } catch (error) {
-    console.error('알림 예약 정보 저장 중 오류 발생:', error)
+    console.error('알림 예약 정보 저장 중 오류 발생:', error);
     res.status(500).json({
       success: false,
-      message: '알림 예약 정보를 저장하는 동안 오류가 발생했습니다.',
-    })
+      message: '알림 예약 정보를 저장하는 동안 오류가 발생했습니다.'
+    });
   }
-})
+});
+
 
 /*
 
