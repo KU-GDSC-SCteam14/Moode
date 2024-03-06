@@ -44,7 +44,7 @@ async function testDBConnection() {
 // 앱 시작 시 DB 연결을 테스트합니다.
 testDBConnection()
 
-
+/*
 // 알림 테스트
 cron.schedule('* * * * *', async () => {
   console.log('알림을 처리합니다.');
@@ -78,9 +78,8 @@ cron.schedule('* * * * *', async () => {
     console.error('알림 처리 중 오류 발생:', error);
   }
 });
+*/
 
-
-/*
 
 // 매일 23:59에 알림 예약
 cron.schedule('* * * * *', async () => {
@@ -164,7 +163,7 @@ cron.schedule('* * * * *', async () => {
   }
 })
 
-*/
+
 
 // Google OAuth
 app.get(
