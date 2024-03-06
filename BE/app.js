@@ -90,6 +90,7 @@ cron.schedule('* * * * *', async () => {
     const todayIndex = new Date().getDay() + 1;
     const tomorrowIndex = (todayIndex + 0) % 7;
     console.log(days[tomorrowIndex]);
+    console.log('Notification sending state : day');
     return days[tomorrowIndex];
   }
 
@@ -103,18 +104,16 @@ cron.schedule('* * * * *', async () => {
       // NotifyTime을 문자열로 취급하여 split 함수를 사용합니다.
       const [dateString, timeString] = NotifyTime.toString().split('T');
       const [hours, minutes] = timeString.split(':');
-      console.log('Notification sending state : noti');
-      console.log(notification);
 
       const scheduleTime = new Date();
-      scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
+      //scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
       scheduleTime.setHours(hours, minutes, 0); // Set to specific time
       console.log('Notification sending state : time');
       console.log(scheduleTime);
 
       const now = new Date();
       console.log(now);
-      if (now < scheduleTime) {
+      if (now == scheduleTime) {
         console.log('Notification sending state : 1');
         const delay = scheduleTime.getTime() - now.getTime();
         console.log('Notification sending state : 2');
