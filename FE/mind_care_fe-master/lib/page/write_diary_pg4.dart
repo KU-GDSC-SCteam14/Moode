@@ -17,6 +17,7 @@ DateTime pick_date = DateTime.now();
 
 Future<void> modifyDiary() async {
   //final int diaryId = ; // 수정할 일기의 ID
+  final title = titleController.text;
   final prefs = await SharedPreferences.getInstance();
   final userid = prefs.getInt('userid'); // SharedPreferences에서 userid 불러오기
 
@@ -35,7 +36,7 @@ Future<void> modifyDiary() async {
 
     Map<String, dynamic> updatedDiaryData = {
       //'User_ID': userid, // SharedPreferences에서 불러온 userid 사용
-      'Title': titleController.text,
+      'Title': title,
       //'Content_1': experienceTextController.text,
       //'Content_2': emotionTextController.text,
       //'Content_3': reasonTextController.text,
@@ -80,6 +81,13 @@ class _Result extends State<Result> {
       context,
       MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 사용자가 다른 화면으로 이동했다가 돌아올 때마다 오늘 날짜로 초기화
+    pick_date = DateTime.now();
   }
 
   @override
