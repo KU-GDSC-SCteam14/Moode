@@ -49,26 +49,50 @@ class _SettingState extends State<Setting> {
     print(fcmToken);
     print(userId);
     if (userId != null) {
-      final Uri serverUrl =
-          Uri.parse('http://34.22.109.189:3000/schedule-notification');
+      if (_isChecked) {
+        final Uri serverUrl =
+            Uri.parse('http://34.22.109.189:3000/schedule-notification');
 
-      final response = await http.post(
-        serverUrl,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'User_ID': userId,
-          'Notifyday': _selectedDay,
-          'NotifyTime': formattedTime,
-          'FCM_Token': fcmToken,
-        }),
-      );
+        final response = await http.post(
+          serverUrl,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'User_ID': userId,
+            'Notifyday': _selectedDay,
+            'NotifyTime': formattedTime,
+            'FCM_Token': fcmToken,
+          }),
+        );
 
-      if (response.statusCode == 201) {
-        print('알림 설정 정보가 서버에 성공적으로 저장되었습니다.');
+        if (response.statusCode == 201) {
+          print('알림 설정 정보가 서버에 성공적으로 저장되었습니다.');
+        } else {
+          print('서버에 알림 설정 정보를 저장하는 데 실패했습니다: ${response.body}');
+        }
       } else {
-        print('서버에 알림 설정 정보를 저장하는 데 실패했습니다: ${response.body}');
+        // If the notification toggle is off
+        final Uri serverUrl =
+            Uri.parse('http://34.22.109.189:3000/delete-notification');
+
+        final response = await http.post(
+          serverUrl,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'User_ID': userId,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          print(
+              'Notification settings were successfully deleted on the server.');
+        } else {
+          print(
+              'Failed to delete notification settings on the server: ${response.body}');
+        }
       }
     } else {
       print('Empty token or user ID');
