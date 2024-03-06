@@ -104,7 +104,7 @@ cron.schedule('* * * * *', async () => {
       // NotifyTime을 문자열로 취급하여 split 함수를 사용합니다.
       console.log(NotifyTime);
       console.log(NotifyTime.toISOString());
-      const [dateString, timeString] = NotifyTime.split('T');
+      const [dateString, timeString] = NotifyTime.toISOString().split('T');
       const [hours, minutes] = timeString.split(':');
 
       const hoursInt = parseInt(hours, 10);
