@@ -106,8 +106,11 @@ cron.schedule('* * * * *', async () => {
 
       const now = new Date();
       if (now < scheduleTime) {
+        console.log('Notification sending state : 1');
         const delay = scheduleTime.getTime() - now.getTime();
+        console.log('Notification sending state : 2');
         setTimeout(async () => {
+          console.log('Notification sending state : 3');
           const message = {
             notification: {
               title: '주간 긍정일기 알림',
@@ -116,6 +119,7 @@ cron.schedule('* * * * *', async () => {
             token: FCM_Token,
           };
           try {
+            console.log('Notification sending state : 4');
             const response = await admin.messaging().send(message);
             console.log('Notification sent successfully:', response);
           } catch (error) {
