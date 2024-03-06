@@ -87,7 +87,7 @@ cron.schedule('* * * * *', async () => {
 
   function getTomorrow() {
     const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-    const todayIndex = new Date().getDay();
+    const todayIndex = new Date().getDay() + 1;
     const tomorrowIndex = (todayIndex + 0) % 7;
     console.log(days[tomorrowIndex]);
     return days[tomorrowIndex];
