@@ -122,7 +122,7 @@ cron.schedule('* * * * *', async () => {
       console.log(now);
       const diff = Math.abs(now - scheduleTime);
       console.log(diff);
-      if (diff < 60000) {
+      if (diff < 30000) {
         console.log('Notification sending state : 1');
         const delay = scheduleTime.getTime() - now.getTime();
         console.log('Notification sending state : 2');
