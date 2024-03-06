@@ -107,6 +107,10 @@ cron.schedule('* * * * *', async () => {
 
       const hoursInt = parseInt(hours, 10);
       const minutesInt = parseInt(minutes, 10);
+      console.log(hours);
+      console.log(minutes);
+      console.log(hoursInt);
+      console.log(minutesInt);
       const scheduleTime = new Date();
       scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
       scheduleTime.setHours(hoursInt, minutesInt, 0); // Set to specific time
