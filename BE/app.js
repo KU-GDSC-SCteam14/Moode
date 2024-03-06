@@ -89,22 +89,28 @@ cron.schedule('* * * * *', async () => {
     const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     const todayIndex = new Date().getDay();
     const tomorrowIndex = (todayIndex + 0) % 7;
+    console.log(days[tomorrowIndex]);
     return days[tomorrowIndex];
   }
 
   try {
     const tomorrow = getTomorrow();
     const notifications = await db.query('SELECT * FROM Messaging WHERE Notifyday = ?', [tomorrow]);
+    console.log(notifications);
+
 
     for (const notification of notifications) {
       const { User_ID, NotifyTime, FCM_Token } = notification;
       const [hours, minutes] = NotifyTime.split(' ')[1].split(':');
+      console.log(notification);
 
       const scheduleTime = new Date();
       scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
       scheduleTime.setHours(hours, minutes, 0); // Set to specific time
+      console.log(scheduleTime);
 
       const now = new Date();
+      console.log(now);
       if (now < scheduleTime) {
         console.log('Notification sending state : 1');
         const delay = scheduleTime.getTime() - now.getTime();
