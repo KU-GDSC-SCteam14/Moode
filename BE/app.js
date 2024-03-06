@@ -82,7 +82,7 @@ cron.schedule('* * * * *', async () => {
 
 
 // 매일 23:59에 알림 예약
-cron.schedule('* * * * *', async () => {
+cron.schedule('59 23 * * *', async () => {
   console.log('Scheduling notifications for 23:59.');
 
   function getTomorrow() {
