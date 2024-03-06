@@ -457,6 +457,26 @@ app.post('/schedule-notification', async (req, res) => {
   }
 });
 
+app.post('/delete-notification', async (req, res) => {
+  const { User_ID } = req.body;
+
+  try {
+    await db.query('DELETE FROM Messaging WHERE User_ID = ?', [User_ID]);
+    console.log('Notification settings were successfully deleted.');
+    res.status(200).json({
+      success: true,
+      message: 'Notification settings were successfully deleted.'
+    });
+  } catch (error) {
+    console.error('Failed to delete notification settings:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete notification settings.'
+    });
+  }
+});
+
+
 
 /*
 
