@@ -109,17 +109,16 @@ cron.schedule('* * * * *', async () => {
 
       const hoursInt = parseInt(hours, 10);
       const minutesInt = parseInt(minutes, 10);
-      console.log(hours);
-      console.log(minutes);
-      console.log(hoursInt);
-      console.log(minutesInt);
-      const scheduleTime = new Date();
-      scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
-      scheduleTime.setHours(hoursInt, minutesInt, 0); // Set to specific time
+      const scheduleDateParts = dateString.split('-').map(part => parseInt(part, 10));
+      const scheduleTime = new Date(scheduleDateParts[0], scheduleDateParts[1] - 1, scheduleDateParts[2], hoursInt, minutesInt, 0);
       console.log('Notification sending state : time');
       console.log(scheduleTime);
 
-      const now = new Date();
+      const GMTnow = new Date();
+      const timezoneOffset = GMTnow.getTimezoneOffset() * 60000; // 현재 로컬 시간대와 UTC의 차이(분)를 밀리초로 변환
+      const gmt8Offset = 8 * 60 * 60000; // GMT+8 시간대의 밀리초 값
+      const now = new Date(GMTnow.getTime() - timezoneOffset + gmt8Offset);
+      console.log('Current time in GMT+8:');
       console.log(now);
       if (now == scheduleTime) {
         console.log('Notification sending state : 1');
