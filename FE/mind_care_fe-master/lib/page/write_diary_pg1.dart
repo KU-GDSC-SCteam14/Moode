@@ -82,19 +82,6 @@ Future<void> clearDataAndResetFields() async {
     diaryId = 0; // diaryId를 초기화
   }
 
-  final prefs = await SharedPreferences.getInstance();
-
-  // UserID 값을 임시 변수에 저장
-  final int? userId = prefs.getInt('userid');
-
-  // SharedPreferences에서 모든 데이터 삭제
-  await prefs.clear();
-
-  // UserID를 제외한 모든 데이터를 초기화한 후, UserID 값을 다시 저장
-  if (userId != null) {
-    await prefs.setInt('userid', userId);
-  }
-
   // 필드 초기화
   titleController.clear();
   experienceTextController.clear();

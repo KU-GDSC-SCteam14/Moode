@@ -25,6 +25,28 @@ class _SettingState extends State<Setting> {
   @override
   void initState() {
     super.initState();
+    _loadNotificationSettings();
+  }
+
+  Future<void> _loadNotificationSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedHour = prefs.getInt('notification_hour');
+    final savedMinute = prefs.getInt('notification_minute');
+    final savedDay = prefs.getString('notification_day');
+    final savedChecked = prefs.getBool('notification_enabled') ?? false;
+
+    // Update the state with saved values if they exist
+    if (savedHour != null && savedMinute != null) {
+      setState(() {
+        pick_time = TimeOfDay(hour: savedHour, minute: savedMinute);
+      });
+    }
+    if (savedDay != null) {
+      setState(() {
+        _selectedDay = savedDay;
+      });
+    }
+    _isChecked = savedChecked; // Load and set the saved toggle state
   }
 
   Future<void> saveNotificationSetting() async {
@@ -38,6 +60,12 @@ class _SettingState extends State<Setting> {
         DateFormat('yyyy-MM-dd').format(DateTime.now());
     final String formattedTime =
         '$formattedDate ${pick_time.hour}:${pick_time.minute}:00';
+
+    await prefs.setString('notification_day', _selectedDay);
+    await prefs.setInt('notification_hour', pick_time.hour);
+    await prefs.setInt('notification_minute', pick_time.minute);
+    await prefs.setBool(
+        'notification_enabled', _isChecked); // Save the toggle state
 
     if (fcmToken == null) {
       // FCM 토큰이 저장되어 있지 않은 경우 다시 불러오기 시도
