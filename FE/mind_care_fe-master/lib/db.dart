@@ -104,8 +104,6 @@ class DatabaseService {
         );
       ''');
 
-      
-
       await db.execute('''
         INSERT INTO Mood (Mood_ID, Mood_name, Mood_value_min, Mood_value_max) VALUES (1, 'very happy', 0.0, 0.0);
       ''');
@@ -273,10 +271,12 @@ class DatabaseService {
   // 모든 고유 키워드를 리스트로 반환하는 메서드
   static Future<List<String>> getAllKeywords() async {
     final db = await database;
-    final List<Map<String, dynamic>> results = await db.query('Keyword', orderBy: 'keyword ASC'); // 키워드를 알파벳 순으로 정렬
+    final List<Map<String, dynamic>> results =
+        await db.query('Keyword', orderBy: 'keyword ASC'); // 키워드를 알파벳 순으로 정렬
 
     // 결과에서 키워드만 추출하여 리스트로 변환
-    List<String> keywords = results.map((row) => row['keyword'] as String).toList();
+    List<String> keywords =
+        results.map((row) => row['keyword'] as String).toList();
     return keywords;
   }
 
@@ -304,7 +304,8 @@ class DatabaseService {
     );
 
     // 결과에서 일기 ID만 추출하여 리스트로 변환
-    List<int> diaryIds = diaryKeywordResult.map((row) => row['Diary_ID'] as int).toList();
+    List<int> diaryIds =
+        diaryKeywordResult.map((row) => row['Diary_ID'] as int).toList();
     return diaryIds;
   }
 
@@ -338,7 +339,8 @@ class DatabaseService {
   }
 
   // 키워드 수정 메서드
-  static Future<void> updateKeyword(String oldKeyword, String newKeyword) async {
+  static Future<void> updateKeyword(
+      String oldKeyword, String newKeyword) async {
     final db = await database;
     // 먼저 oldKeyword의 Keyword_ID를 찾습니다.
     final List<Map<String, dynamic>> oldKeywordResult = await db.query(
@@ -387,7 +389,7 @@ class DatabaseService {
     }
   }
 
-    // 키워드 추가 메서드
+  // 키워드 추가 메서드
   static Future<void> addKeyword(String keyword, int diaryId) async {
     final db = await database;
     // 키워드가 Keyword 테이블에 이미 존재하는지 확인합니다.
@@ -433,7 +435,7 @@ class DatabaseService {
       WHERE Date LIKE ?
       AND (Mood_ID = 1 OR Mood_ID = 2)
     ''', ['$dateString%']);
-    
+
     // Extracting and returning the diary IDs from the query results
     return results.map((row) => row['Diary_ID'] as int).toList();
   }
@@ -471,7 +473,8 @@ class DatabaseService {
     return eventSource;
   }
 
-  static Future<Map<DateTime, List<Event>>> gethappyDiariesByDateForEvents() async {
+  static Future<Map<DateTime, List<Event>>>
+      gethappyDiariesByDateForEvents() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db.rawQuery('''
       SELECT Date, GROUP_CONCAT(Diary_ID) as DiaryIDs
@@ -501,6 +504,12 @@ class DatabaseService {
     int id = await db.insert('Messaging', messagingdata,
         conflictAlgorithm: ConflictAlgorithm.replace);
     return id; // 삽입된 data의 ID 반환
+  }
+
+  // User 테이블에서 모든 사용자 정보를 조회하는 메서드
+  static Future<List<Map<String, dynamic>>> getAllUsers() async {
+    final db = await database; // 데이터베이스 인스턴스를 가져옵니다.
+    return await db.query('User'); // User 테이블의 모든 데이터를 조회합니다.
   }
 
   // 여기에 추가 할거에요!!

@@ -70,6 +70,30 @@ Future<void> saveUserAndFCMToken() async {
   }
 }
 
+// 사용자 정보 및 FCM 토큰 확인
+Future<void> checkUserAndToken() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  // SQLite 데이터베이스에서 모든 사용자 정보 조회
+  List<Map<String, dynamic>> users = await DatabaseService.getAllUsers();
+
+  if (users.length == 1) {
+    // 사용자 정보가 정확히 하나만 존재하는 경우
+    int userId = users.first['User_ID'];
+    String fcmToken = users.first['FCM_Token'];
+    await prefs.setInt('userid', userId); // SharedPreferences에 저장
+    await prefs.setString('fcmToken', fcmToken); // SharedPreferences에 저장
+    print('User already exists with ID: $userId');
+    print('Token already exists: $fcmToken');
+  } else if (users.isEmpty) {
+    // 사용자 정보가 없는 경우
+    saveUserAndFCMToken(); // 사용자 정보 및 FCM 토큰 저장
+  } else {
+    // 사용자 정보가 여러 개 존재하는 경우 (예상치 못한 상황)
+    print('Error: Multiple user records found.');
+  }
+}
+
 //****************
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("백그라운드 메시지 처리.. ${message.notification!.body!}");
@@ -128,6 +152,7 @@ void initializeNotification() async {
     }
   });
 }
+
 //// 주석주석
 Future<void> main() async {
   // Database db = await DatabaseService.database;
@@ -140,7 +165,7 @@ Future<void> main() async {
 
   String? token = await FirebaseMessaging.instance.getToken();
   print('현재 등록된 토큰: $token');
-  saveUserAndFCMToken();
+  await checkUserAndToken();
   await DatabaseService.printTableContents('Mood');
   runApp(const MyApp());
 }
