@@ -96,7 +96,6 @@ cron.schedule('* * * * *', async () => {
   try {
     const tomorrow = getTomorrow();
     const notifications = await db.query('SELECT * FROM Messaging WHERE Notifyday = ?', [tomorrow]);
-    console.log(notifications);
 
 
     for (const notification of notifications) {
@@ -104,11 +103,13 @@ cron.schedule('* * * * *', async () => {
       // NotifyTime을 문자열로 취급하여 split 함수를 사용합니다.
       const [dateString, timeString] = NotifyTime.toString().split('T');
       const [hours, minutes] = timeString.split(':');
+      console.log('Notification sending state : noti');
       console.log(notification);
 
       const scheduleTime = new Date();
       scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
       scheduleTime.setHours(hours, minutes, 0); // Set to specific time
+      console.log('Notification sending state : time');
       console.log(scheduleTime);
 
       const now = new Date();
