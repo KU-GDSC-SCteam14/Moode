@@ -116,9 +116,9 @@ cron.schedule('* * * * *', async () => {
 
       const GMTnow = new Date();
       const timezoneOffset = GMTnow.getTimezoneOffset() * 60000; // 현재 로컬 시간대와 UTC의 차이(분)를 밀리초로 변환
-      const gmt8Offset = 8 * 60 * 60000; // GMT+8 시간대의 밀리초 값
+      const gmt8Offset = 9 * 60 * 60000; // GMT+9 시간대의 밀리초 값
       const now = new Date(GMTnow.getTime() - timezoneOffset + gmt8Offset);
-      console.log('Current time in GMT+8:');
+      console.log('Current time in GMT+9:');
       console.log(now);
       if (now == scheduleTime) {
         console.log('Notification sending state : 1');
