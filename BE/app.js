@@ -89,8 +89,8 @@ cron.schedule('* * * * *', async () => {
     const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
     const todayIndex = new Date().getDay() + 1;
     const tomorrowIndex = (todayIndex + 0) % 7;
-    console.log(days[tomorrowIndex]);
     console.log('Notification sending state : day');
+    console.log(days[tomorrowIndex]);
     return days[tomorrowIndex];
   }
 
@@ -105,9 +105,11 @@ cron.schedule('* * * * *', async () => {
       const [dateString, timeString] = NotifyTime.toString().split('T');
       const [hours, minutes] = timeString.split(':');
 
+      const hoursInt = parseInt(hours, 10);
+      const minutesInt = parseInt(minutes, 10);
       const scheduleTime = new Date();
-      //scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
-      scheduleTime.setHours(hours, minutes, 0); // Set to specific time
+      scheduleTime.setDate(scheduleTime.getDate() + 0); // Set to tomorrow
+      scheduleTime.setHours(hoursInt, minutesInt, 0); // Set to specific time
       console.log('Notification sending state : time');
       console.log(scheduleTime);
 
