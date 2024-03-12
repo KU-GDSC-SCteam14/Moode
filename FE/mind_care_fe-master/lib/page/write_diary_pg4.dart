@@ -147,94 +147,88 @@ class _Result extends State<Result> {
                   // 감정일기 카드,
                   Container(
                     width: 410,
-                    height: 160,
+                    //height: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: const Color.fromRGBO(255, 255, 255, 0.5),
                     ),
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // 위 : 글(제목, 날짜), 감정 이모티콘
-                        SizedBox(
-                            width: 370,
-                            //height: 64,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // 글(제목, 날짜)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    // 제목
-                                    SizedBox(
-                                      width: 250,
-                                      height: 26,
-                                      child: TextField(
-                                        controller: titleController,
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          labelText: '제목을 입력하세요. \u{270f}',
-                                          labelStyle: TextStyle(
-                                            fontSize: 22.0, // 원하는 폰트 크기
-                                            color: Color(0xffD8D6D5),
-                                            fontWeight:
-                                                FontWeight.bold, // 원하는 색상
-                                            // 기타 스타일 속성들도 적용 가능
-                                          ),
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // 글(제목, 날짜)
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // 제목
+                                  TextField(
+                                    controller: titleController,
+                                    maxLength: 50,
+                                    maxLines: null,
+                                    keyboardType: TextInputType.multiline,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                      labelText: '제목을 입력하세요. \u{270f}',
+                                      labelStyle: TextStyle(
+                                        fontSize: 22.0, // 원하는 폰트 크기
+                                        color: Color(0xffD8D6D5),
+                                        fontWeight: FontWeight.bold, // 원하는 색상
+                                        // 기타 스타일 속성들도 적용 가능
                                       ),
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
                                     ),
+                                  ),
 
-                                    // 날짜
-                                    TextButton(
-                                      style: ButtonStyle(
-                                        fixedSize: MaterialStateProperty.all(
-                                            const Size(140.0, 17.0)),
-                                      ),
-                                      onPressed: () async {
-                                        final selectedDate =
-                                            await showDatePicker(
-                                          context: context,
-                                          initialDate: pick_date,
-                                          firstDate:
-                                              DateTime(1900, 1, 1), // 첫째 날
-                                          lastDate: DateTime.now(),
-                                        );
-                                        if (selectedDate != null) {
-                                          setState(() {
-                                            pick_date = selectedDate;
-                                          });
-                                        }
-                                      },
-                                      child: Text(
-                                          '날짜 선택 : ${DateFormat('MMM dd, yyyy').format(pick_date)}',
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xff86858A))),
+                                  // 날짜
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      fixedSize: MaterialStateProperty.all(
+                                          const Size(140.0, 17.0)),
                                     ),
-                                  ],
-                                ),
-
-                                // 감정 이모티콘
-                                SizedBox(
-                                  width: 64,
-                                  height: 64,
-                                  child: getImageWidget(moodName),
-                                )
-                              ],
-                            )),
+                                    onPressed: () async {
+                                      final selectedDate = await showDatePicker(
+                                        context: context,
+                                        initialDate: pick_date,
+                                        firstDate: DateTime(1900, 1, 1), // 첫째 날
+                                        lastDate: DateTime.now(),
+                                      );
+                                      if (selectedDate != null) {
+                                        setState(() {
+                                          pick_date = selectedDate;
+                                        });
+                                      }
+                                    },
+                                    child: Text(
+                                        '날짜 선택 : ${DateFormat('MMM dd, yyyy').format(pick_date)}',
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xff86858A))),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // 감정 이모티콘
+                            SizedBox(
+                              width: 64,
+                              height: 64,
+                              child: getImageWidget(moodName),
+                            )
+                          ],
+                        ),
                         // 여백
                         const SizedBox(
-                          height: 12,
+                          height: 0,
                         ),
                         SizedBox(
-                          height: 29,
+                          height: 50,
                           width: 370,
                           child: Row(
                             children: [

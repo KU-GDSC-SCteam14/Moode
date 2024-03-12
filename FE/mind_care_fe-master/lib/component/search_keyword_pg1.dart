@@ -76,7 +76,8 @@ class _SearchKeyword extends State<SearchKeyword> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ManageKeyword()),
+                    MaterialPageRoute(
+                        builder: (context) => const ManageKeyword()),
                   );
                 }, // floating
                 child: const Text('관리'))
@@ -171,7 +172,9 @@ class _SearchKeyword extends State<SearchKeyword> {
                                 color: const Color.fromRGBO(225, 226, 226, 0.8),
                               ),
                               child: Text(
-                                keywords[index],
+                                keywords[index].length > 30
+                                    ? keywords[index].substring(0, 30) + '...'
+                                    : keywords[index],
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,

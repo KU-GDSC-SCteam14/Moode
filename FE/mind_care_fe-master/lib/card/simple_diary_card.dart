@@ -42,8 +42,6 @@ class _DiaryCardState extends State<DiaryCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 410,
-      height: 151,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: const Color.fromRGBO(255, 255, 255, 0.5),
@@ -51,6 +49,7 @@ class _DiaryCardState extends State<DiaryCard> {
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // 위 : 글(제목, 날짜), 감정 이모티콘
           DiaryTop(
@@ -78,42 +77,28 @@ class DiaryBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 29,
-      //width: 334,
-      child: Row(
-        children: [
-          for (int i = 0; i < min(keywords.length, 3); i++)
-            Container(
-              height: 29,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
-                    height: 29,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color.fromRGBO(225, 226, 226, 0.8),
-                    ),
-                    child: Text(
-                      keywords[i],
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff007AFF),
-                      ),
-                    ),
+    return Wrap(
+      spacing: 16,
+      runSpacing: 8,
+      children: keywords
+          .map((keyword) => Container(
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color.fromRGBO(225, 226, 226, 0.8),
+                ),
+                child: Text(
+                  keyword.length > 30
+                      ? '${keyword.substring(0, 30)}...'
+                      : keyword,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff007AFF),
                   ),
-                  SizedBox(
-                    width: 16,
-                    height: 29,
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+                ),
+              ))
+          .toList(),
     );
   }
 }
@@ -136,56 +121,48 @@ class DiaryTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = "${getDateWidget(date)} ${date.substring(8, 10)}, ${date.substring(0, 4)}";
+    final formattedDate =
+        "${getDateWidget(date)} ${date.substring(8, 10)}, ${date.substring(0, 4)}";
 
-    return SizedBox(
-        //width: 334,
-        height: 64,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          // 글(제목, 날짜)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 제목
-              SizedBox(
-                width: 250,
-                height: 26,
-                child: Text(
-                  titleController,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff535354),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.justify,
-                  maxLines: 1,
-                ),
-              ),
-              // 여백
-              const SizedBox(
-                height: 14,
-              ),
-              // 날짜
-              Container(
-                  child: Text(
-                formattedDate,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: Color(0xff86858A),
-                ),
-              )),
-            ],
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      // 글(제목, 날짜)
+      Expanded(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // 제목
+        RichText(
+          text: TextSpan(
+            text: titleController,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff535354),
+            ),
           ),
-          // 감정 이모티콘
-          Container(
-            width: 64,
-            height: 64,
-            child: getImageWidget(moodName),
-          )
-        ]));
+        ),
+        // 여백
+        const SizedBox(
+          height: 14,
+        ),
+        // 날짜
+        Container(
+            child: Text(
+          formattedDate,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Color(0xff86858A),
+          ),
+        )),
+      ])),
+      const SizedBox(width: 10),
+      // 감정 이모티콘
+      Container(
+        width: 64,
+        height: 64,
+        child: getImageWidget(moodName),
+      )
+    ]);
   }
 
   Widget getImageWidget(String moodName) {
@@ -207,29 +184,41 @@ class DiaryTop extends StatelessWidget {
     String month;
     switch (date.substring(5, 7)) {
       case '01':
-        month = 'Jan'; break;
+        month = 'Jan';
+        break;
       case '02':
-        month = 'Feb'; break;
+        month = 'Feb';
+        break;
       case '03':
-        month = 'Mar'; break;
+        month = 'Mar';
+        break;
       case '04':
-        month = 'Apr'; break;
+        month = 'Apr';
+        break;
       case '05':
-        month = 'May'; break;
+        month = 'May';
+        break;
       case '06':
-        month = 'Jun'; break;
+        month = 'Jun';
+        break;
       case '07':
-        month = 'Jul'; break;
+        month = 'Jul';
+        break;
       case '08':
-        month = 'Aug'; break;
+        month = 'Aug';
+        break;
       case '09':
-        month = 'Sep'; break;
+        month = 'Sep';
+        break;
       case '10':
-        month = 'Oct'; break;
+        month = 'Oct';
+        break;
       case '11':
-        month = 'Nov'; break;
+        month = 'Nov';
+        break;
       case '12':
-        month = 'Dec'; break;
+        month = 'Dec';
+        break;
 // 예외 처리 혹은 기본값 설정
       default:
         month = 'Jan';

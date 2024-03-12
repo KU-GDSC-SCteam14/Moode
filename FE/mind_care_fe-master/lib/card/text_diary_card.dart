@@ -43,33 +43,27 @@ class DiaryCard extends StatelessWidget {
               [];
           final moodName = diaryDetails['Mood_name'] ?? 'Soso';
 
-          return Container(
-            width: 410,
-            height: 169,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: const Color.fromRGBO(255, 255, 255, 0.5),
-            ),
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DiaryTop(
-                  titleController: titleController,
-                  experienceTextController: experienceTextController,
-                  moodName: moodName,
-                ),
-                const SizedBox(
-                  // 여백
-                  height: 18,
-                ),
-                DiaryBottom(
-                  //ate: Date,
-                  keywords: keywords,
-                ),
-              ],
-            ),
-          );
+          return LayoutBuilder(builder: (context, constraints) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color.fromRGBO(255, 255, 255, 0.5),
+              ),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DiaryTop(
+                    titleController: titleController,
+                    experienceTextController: experienceTextController,
+                    moodName: moodName,
+                  ),
+                  const SizedBox(height: 18),
+                  DiaryBottom(keywords: keywords),
+                ],
+              ),
+            );
+          });
         } else {
           return const Center(child: Text("No diary details available"));
         }
@@ -91,42 +85,28 @@ class DiaryBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 29,
-      //width: 334,
-      child: Row(
-        children: [
-          for (int i = 0; i < min(keywords.length, 3); i++)
-            SizedBox(
-              height: 29,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
-                    height: 29,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color.fromRGBO(225, 226, 226, 0.8),
-                    ),
-                    child: Text(
-                      keywords[i],
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff007AFF),
-                      ),
-                    ),
+    return Wrap(
+      spacing: 8, // 키워드 사이 간격
+      runSpacing: 4, // 키워드 줄 사이 간격
+      children: keywords
+          .map((keyword) => Container(
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color.fromRGBO(225, 226, 226, 0.8),
+                ),
+                child: Text(
+                  keyword.length > 30
+                      ? '${keyword.substring(0, 30)}...'
+                      : keyword,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff007AFF),
                   ),
-                  const SizedBox(
-                    width: 16,
-                    height: 29,
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+                ),
+              ))
+          .toList(),
     );
   }
 }
@@ -147,58 +127,52 @@ class DiaryTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      //width: 370,
-      height: 82,
-      child:
-          // 글(제목, 날짜)
-          Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 제목, 이모티콘
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                  width: 273,
-                  height: 34,
-                  child: Text(
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.justify,
-                    maxLines: 2,
-                    titleController,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff535354),
-                    ),
-                  )),
-              Container(
-                alignment: Alignment.topRight,
-                width: 34,
-                height: 34,
-                child: getImageWidget(moodName),
-              )
-            ],
-          ),
-          // 제목
-
-          SizedBox(
-            width: 273,
-            child: Text(
-              experienceTextController,
+    String displayTitle = titleController.length > 30
+        ? '${titleController.substring(0, 30)}...'
+        : titleController;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 제목, 이모티콘
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: Text(
+              displayTitle,
               style: const TextStyle(
-                color: Color(0xff888888),
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff535354),
               ),
               overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.justify,
-              maxLines: 2,
+              maxLines: 1,
+            )),
+            Container(
+              alignment: Alignment.topRight,
+              width: 34,
+              height: 34,
+              child: getImageWidget(moodName),
+            )
+          ],
+        ),
+        // 제목
+
+        SizedBox(
+          width: 273,
+          child: Text(
+            experienceTextController,
+            style: const TextStyle(
+              color: Color(0xff888888),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
             ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.justify,
+            maxLines: 2,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
