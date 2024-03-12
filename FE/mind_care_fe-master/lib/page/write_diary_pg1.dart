@@ -180,6 +180,11 @@ class _WriteExperienceSate extends State<WriteExperience> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
+                      buttonPadding: EdgeInsets.all(0),
+                      insetPadding: EdgeInsets.all(60),
+                      contentPadding: EdgeInsets.all(0),
+                      iconPadding: EdgeInsets.zero,
+                      // titlePadding: EdgeInsets.zero,
                       title: Column(
                         children: <Widget>[
                           Text(
@@ -190,80 +195,100 @@ class _WriteExperienceSate extends State<WriteExperience> {
                               fontSize: 17,
                             ),
                           ),
-                        ],
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '작성 중인 일기 내용은 저장되지 않아요.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.normal,
-                              color: Color(0xff272727),
-                            ),
+                          SizedBox(
+                            height: 10,
                           ),
                         ],
                       ),
-                      backgroundColor: const Color.fromRGBO(211, 211, 211, 1.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      actions: <Widget>[
-                        //Container(
-                        //child:
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          // 가운데 정렬
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                await clearDataAndResetFields();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomeScreen()),
-                                );
-                              },
-                              child: const Text(
-                                '닫기',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Color.fromRGBO(209, 11, 11, 1.0),
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 44.0, // 선의 높이
-                              color: Colors.black, // 선의 색상
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  isCompleted == true
-                                      ? isCompleted = false
-                                      : isCompleted = true;
-                                });
 
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text(
-                                '취소',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Color.fromRGBO(0, 122, 255, 1.0),
-                                  fontSize: 17,
-                                ),
+                      content: Container(
+                        // 여기서 대화상자의 내부 크기를 조정합니다.
+                        width: double.maxFinite,
+                        height: 82,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '작성 중인 일기 내용은 저장되지 않아요.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xff272727),
                               ),
                             ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Divider(
+                              color: Colors.grey,
+                              height: 0,
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 1.0, horizontal: 50.0),
+                                    ),
+                                    onPressed: () async {
+                                      await clearDataAndResetFields();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomeScreen()),
+                                      );
+                                    },
+                                    child: const Text(
+                                      '닫기',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Color.fromRGBO(209, 11, 11, 1.0),
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 1,
+                                    height: 55.0, // 선의 높이
+                                    color: Colors.grey, // 선의 색상
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 1.0, horizontal: 50.0),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isCompleted == true
+                                            ? isCompleted = false
+                                            : isCompleted = true;
+                                      });
+
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      '취소',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Color.fromRGBO(0, 122, 255, 1.0),
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ])
                           ],
                         ),
-                        //),
-                      ],
+                      ),
+                      backgroundColor: Color.fromARGB(255, 233, 234, 228),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      actionsPadding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     );
                   });
             },

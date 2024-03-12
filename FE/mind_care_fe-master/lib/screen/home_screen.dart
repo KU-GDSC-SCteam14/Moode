@@ -21,7 +21,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   // 선택된 날짜를 관리할 변수
   DateTime selectedDate = DateTime.utc(
     DateTime.now().year,
@@ -29,7 +30,40 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime.now().day,
   );
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
   ValueNotifier<double> iconPositionNotifier = ValueNotifier<double>(0.0);
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500), // 애니메이션 지속 시간 설정
+      vsync: this,
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 0.0).animate(_controller)
+      ..addListener(() {
+        iconPositionNotifier.value = _animation.value;
+      });
+  }
+
+  @override
+  void dispose() {
+    iconPositionNotifier.dispose();
+    _controller.dispose(); // 리소스 해제
+    super.dispose();
+  }
+
+  void startSlideBackAnimation(double startPosition) {
+    _animation = Tween<double>(begin: startPosition, end: 0.0)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
+      ..addListener(() {
+        iconPositionNotifier.value = _animation.value;
+      });
+    _controller.reset();
+    _controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(
                         builder: (context) => const WriteExperience()),
                   );
+                } else {
+                  startSlideBackAnimation(iconPositionNotifier.value);
                 }
                 iconPositionNotifier.value = 0;
               },
@@ -232,12 +268,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       )),
     );
-  }
-
-  @override
-  void dispose() {
-    iconPositionNotifier.dispose();
-    super.dispose();
   }
 
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
