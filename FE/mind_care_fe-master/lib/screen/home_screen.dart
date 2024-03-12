@@ -145,15 +145,15 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                height: 184.0,
+                height: 174.0,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
                       Color.fromARGB(255, 149, 149, 149),
-                      Color.fromARGB(255, 134, 134, 134),
-                      Colors.transparent,
+                      Color.fromARGB(255, 164, 164, 164),
+                      Color.fromARGB(0, 177, 177, 177),
                     ],
                     stops: [0.0, 0.3, 1.0],
                   ),
