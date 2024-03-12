@@ -12,6 +12,7 @@ import 'package:mind_care/screen/happy_screen.dart';
 import 'package:slider_button/slider_button.dart';
 // import 'dart:math';
 import 'package:flutter/widgets.dart';
+import 'dart:ui';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime.now().month,
     DateTime.now().day,
   );
+
+  bool isButtonTouched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchKeyword()),
+                  MaterialPageRoute(
+                      builder: (context) => const SearchKeyword()),
                 );
               }),
         ],
@@ -71,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 77,
                 padding: const EdgeInsets.all(8),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
@@ -107,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HappyDiaryScreen()),
+                                      builder: (context) =>
+                                          const HappyDiaryScreen()),
                                 );
                               },
                               child: const Text(
@@ -134,6 +140,28 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: 154.0,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      const Color.fromARGB(255, 221, 220, 220),
+                      Color.fromARGB(23, 78, 78, 78),
+                      Colors.transparent,
+                    ],
+                    stops: [0.4, 0.85, 1.0],
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             right: 8,
             left: 8,
@@ -155,13 +183,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "                슬라이드 해 오늘의 일기를 작성하세요.    ",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 175, 175, 175),
                         fontWeight: FontWeight.w500,
                         fontSize: 14),
                   ),
                   Icon(
                     Icons.keyboard_double_arrow_right,
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 175, 175, 175),
                     size: 40,
                   ),
                 ],
@@ -171,10 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 size: 40,
               ),
-              backgroundColor: const Color.fromRGBO(30, 30, 30, 0.75),
+              backgroundColor: Color.fromARGB(255, 88, 88, 88),
               buttonColor: const Color(0xff0A84FF),
-              shimmer: true,
-              highlightedColor: Colors.grey,
+              shimmer: false,
+              highlightedColor: Color.fromARGB(255, 175, 175, 175),
               buttonSize: 58,
             ),
           ),
