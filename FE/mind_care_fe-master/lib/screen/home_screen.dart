@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime.now().day,
   );
 
-  bool isButtonTouched = false;
+  ValueNotifier<double> iconPositionNotifier = ValueNotifier<double>(0.0);
 
   @override
   Widget build(BuildContext context) {
@@ -129,15 +129,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               BodyCalendar(
-                selectedDate: selectedDate, // 날짜 전달하기
-                onDaySelected: onDaySelected, // 날짜 선택됐을 때 실행할 함수
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              SelectedDiaryList(
-                selectedDate: selectedDate,
-              ),
+                  selectedDate: selectedDate,
+                  onDaySelected: (DateTime selected, DateTime focused) {
+                    setState(() {
+                      selectedDate = selected;
+                    });
+                  }),
+              const SizedBox(height: 4),
+              SelectedDiaryList(selectedDate: selectedDate),
             ],
           ),
           Positioned.fill(
@@ -146,17 +145,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                height: 154.0,
+                height: 184.0,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      const Color.fromARGB(255, 221, 220, 220),
-                      Color.fromARGB(23, 78, 78, 78),
+                      Color.fromARGB(255, 149, 149, 149),
+                      Color.fromARGB(255, 134, 134, 134),
                       Colors.transparent,
                     ],
-                    stops: [0.4, 0.85, 1.0],
+                    stops: [0.0, 0.3, 1.0],
                   ),
                 ),
               ),
@@ -166,44 +165,66 @@ class _HomeScreenState extends State<HomeScreen> {
             right: 8,
             left: 8,
             bottom: 50,
-            child: SliderButton(
-              width: 374,
-              height: 74,
-              action: () async {
-                Navigator.push(
+            child: GestureDetector(
+              onHorizontalDragUpdate: (details) {
+                double newExtent =
+                    iconPositionNotifier.value + details.primaryDelta!;
+                double newPosition = newExtent;
+                if (newPosition < 0) {
+                  newPosition = 0;
+                } else if (newPosition > 300) {
+                  newPosition = 300;
+                }
+                iconPositionNotifier.value = newPosition;
+              },
+              onHorizontalDragEnd: (details) {
+                if (iconPositionNotifier.value >= 300) {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const WriteExperience()));
-
-                return true;
+                        builder: (context) => const WriteExperience()),
+                  );
+                }
+                iconPositionNotifier.value = 0;
               },
-              label: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "                슬라이드 해 오늘의 일기를 작성하세요.    ",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 175, 175, 175),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14),
+              child: Container(
+                width: 374,
+                height: 74,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("asset/img/slider_background.png"),
+                    fit: BoxFit.cover,
                   ),
-                  Icon(
-                    Icons.keyboard_double_arrow_right,
-                    color: Color.fromARGB(255, 175, 175, 175),
-                    size: 40,
-                  ),
-                ],
+                ),
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    ValueListenableBuilder<double>(
+                      valueListenable: iconPositionNotifier,
+                      builder: (context, value, child) {
+                        return SliderIcon(iconPosition: value);
+                      },
+                    ),
+                    Positioned(
+                      left: 85,
+                      child: ValueListenableBuilder<double>(
+                        valueListenable: iconPositionNotifier,
+                        builder: (context, value, child) {
+                          // 슬라이더 이동 거리에 따른 텍스트 투명도 조절
+                          double opacity =
+                              (1 - value / 40); // 0에서 300까지 이동 시 1에서 0으로 변경
+                          return Opacity(
+                            opacity: opacity.clamp(
+                                0.0, 1.0), // 투명도는 0.0에서 1.0 사이 값으로 제한
+                            child: Image.asset("asset/img/slider_text.png",
+                                height: 25),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              icon: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 40,
-              ),
-              backgroundColor: Color.fromARGB(255, 88, 88, 88),
-              buttonColor: const Color(0xff0A84FF),
-              shimmer: false,
-              highlightedColor: Color.fromARGB(255, 175, 175, 175),
-              buttonSize: 58,
             ),
           ),
         ],
@@ -211,11 +232,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    iconPositionNotifier.dispose();
+    super.dispose();
+  }
+
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
-    // 날짜 선택될 때마다(탭할 때마다) 실행할 함수
     print(selectedDate);
     setState(() {
       this.selectedDate = selectedDate;
     });
+  }
+}
+
+class SliderIcon extends StatefulWidget {
+  final double iconPosition;
+
+  const SliderIcon({Key? key, required this.iconPosition}) : super(key: key);
+
+  @override
+  _SliderIconState createState() => _SliderIconState();
+}
+
+class _SliderIconState extends State<SliderIcon> {
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(widget.iconPosition, 0),
+      child: Image.asset("asset/img/slider_icon.png", width: 75, height: 75),
+    );
   }
 }
