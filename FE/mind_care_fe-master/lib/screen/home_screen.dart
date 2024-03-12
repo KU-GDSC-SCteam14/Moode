@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
         children: [
           ListView(
+            padding: EdgeInsets.only(bottom: 105),
             children: [
               // 주간 긍정일기 확인버튼 배너
               Container(
