@@ -141,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Positioned.fill(
+              child: IgnorePointer(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -161,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-          ),
+          )),
           Positioned(
             right: 8,
             left: 8,
