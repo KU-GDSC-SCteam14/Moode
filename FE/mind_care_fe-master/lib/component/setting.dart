@@ -28,6 +28,13 @@ class _SettingState extends State<Setting> {
     _loadNotificationSettings();
   }
 
+  String formatTimeOfDay(TimeOfDay tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat("HH:mm"); // 24시간 형식으로 포맷
+    return format.format(dt);
+  }
+
   Future<void> _loadNotificationSettings() async {
     final prefs = await SharedPreferences.getInstance();
     final savedHour = prefs.getInt('notification_hour');
@@ -502,14 +509,14 @@ class _SettingState extends State<Setting> {
                                     context: context,
                                     initialTime: pick_time,
                                   );
-                                  if (timeOfDay != null) {
+                                  if (timeOfDay != null &&
+                                      timeOfDay != pick_time) {
                                     setState(() {
                                       pick_time = timeOfDay;
                                     });
                                   }
                                 },
-                                child: Text(
-                                    '${pick_time.hour}:${pick_time.minute}'),
+                                child: Text(formatTimeOfDay(pick_time)),
                               ),
                             ],
                           ),
