@@ -4,10 +4,13 @@ import 'package:mind_care/page/manage_keyword.dart';
 import 'package:mind_care/screen/home_screen.dart';
 import 'package:mind_care/component/search_keyword_pg2.dart';
 import 'package:mind_care/db.dart';
+import 'package:collection/collection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:mind_care/component/show_diary.dart';
 
 String searchText = '';
 Map<String, int> keywordUsageCount = {};
+List<String> recentSearches = [];
 
 // *******keywords 리스트 불러와주세요 ****************
 List<String> keywords = [];
@@ -25,6 +28,7 @@ class _SearchKeyword extends State<SearchKeyword> {
   void initState() {
     super.initState();
     _loadAllKeywords();
+    _loadRecentSearches();
   }
 
   Future<void> _loadAllKeywords() async {
@@ -34,6 +38,8 @@ class _SearchKeyword extends State<SearchKeyword> {
       List<int> ids = await DatabaseService.getDiaryIdsByKeyword(keyword);
       localKeywordUsageCount[keyword] = ids.length;
     }
+    // Sort keywords alphabetically
+    loadedKeywords.sort((a, b) => compareNatural(a, b));
     setState(() {
       keywords = loadedKeywords;
       keywordUsageCount = localKeywordUsageCount;
@@ -41,7 +47,8 @@ class _SearchKeyword extends State<SearchKeyword> {
   }
 
   // 키워드 누르면
-  void cardClickEvent(BuildContext context, String keyword) {
+  void cardClickEvent(BuildContext context, String keyword) async {
+    await _saveRecentSearch(keyword);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -56,31 +63,218 @@ class _SearchKeyword extends State<SearchKeyword> {
 
   // 가장 많이 사용된 키워드 위젯을 만드는 메서드
   Widget _buildTopKeywords(BuildContext context, List<String> topKeywords) {
-    return Wrap(
-      spacing: 8.0, // 가로 간격
-      runSpacing: 4.0, // 세로 간격
-      children: topKeywords.map((keyword) {
-        return GestureDetector(
-          onTap: () => cardClickEvent(context, keyword),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 19),
-            margin: const EdgeInsets.only(bottom: 8), // 하단 여백 추가
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: const Color.fromRGBO(225, 226, 226, 0.8),
+    return Padding(
+        padding: const EdgeInsets.only(
+            right: 18.0), // Padding for the entire Wrap widget
+        child: Wrap(
+          spacing: 8.0, // 가로 간격
+          runSpacing: 4.0, // 세로 간격
+          children: topKeywords.map((keyword) {
+            return GestureDetector(
+              onTap: () => cardClickEvent(context, keyword),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                margin: const EdgeInsets.only(bottom: 8), // 하단 여백 추가
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color.fromRGBO(225, 226, 226, 0.8),
+                ),
+                child: Text(
+                  keyword.length > 30
+                      ? keyword.substring(0, 30) + '...'
+                      : keyword,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff007AFF),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ));
+  }
+
+  // 최근 사용된 키워드 위젯을 만드는 메서드
+  Widget _recentKeywords(BuildContext context, List<String> RecentKeywords) {
+    if (RecentKeywords.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 1, left: 3.0),
+        child: Text(
+          '검색한 키워드가 없어요 ...',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+          padding: const EdgeInsets.only(
+              right: 18.0), // Padding for the entire Wrap widget
+          child: Wrap(
+            spacing: 8.0, // 가로 간격
+            runSpacing: 4.0, // 세로 간격
+            children: recentSearches.map((keyword) {
+              return GestureDetector(
+                onTap: () => cardClickEvent(context, keyword),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 19),
+                  margin: const EdgeInsets.only(bottom: 8), // 하단 여백 추가
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: const Color.fromRGBO(225, 226, 226, 0.8),
+                  ),
+                  child: Text(
+                    keyword.length > 30
+                        ? keyword.substring(0, 30) + '...'
+                        : keyword,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff007AFF),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ));
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Clear the search text when coming back to this screen
+    if (searchText.isNotEmpty) {
+      setState(() {
+        searchText = '';
+      });
+    }
+  }
+
+  Future<void> _loadRecentSearches() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      recentSearches = prefs.getStringList('recentSearches') ?? [];
+    });
+  }
+
+  Future<void> _clearRecentSearches() async {
+    bool confirm = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            buttonPadding: EdgeInsets.all(0),
+            insetPadding: EdgeInsets.all(60),
+            contentPadding: EdgeInsets.all(0),
+            iconPadding: EdgeInsets.zero,
+            // titlePadding: EdgeInsets.zero,
+            title: Column(
+              children: <Widget>[
+                Text(
+                  '검색 기록을 전부 지우시겠어요?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
             ),
-            child: Text(
-              keyword.length > 30 ? keyword.substring(0, 30) + '...' : keyword,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff007AFF),
+
+            content: Container(
+              // 여기서 대화상자의 내부 크기를 조정합니다.
+              width: double.maxFinite,
+              height: 63,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                    height: 0,
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 40.0),
+                          ),
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setStringList('recentSearches', []);
+                            setState(() {
+                              recentSearches = [];
+                            });
+                          },
+                          child: const Text(
+                            '지우기',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Color.fromRGBO(209, 11, 11, 1.0),
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 55.0, // 선의 높이
+                          color: Colors.grey, // 선의 색상
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 50.0),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text(
+                            '취소',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Color.fromRGBO(0, 122, 255, 1.0),
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                      ])
+                ],
               ),
             ),
-          ),
-        );
-      }).toList(),
-    );
+            backgroundColor: Color.fromARGB(255, 233, 234, 228),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            actionsPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          );
+        });
+  }
+
+  Future<void> _saveRecentSearch(String keyword) async {
+    final prefs = await SharedPreferences.getInstance();
+    // 새로운 검색어를 기존 목록에 추가합니다.
+    final updatedSearches = [keyword, ...recentSearches]
+        .toSet() // 중복 제거
+        .toList(); // 다시 리스트로 변환
+    if (updatedSearches.length > 8) {
+      updatedSearches.removeRange(8, updatedSearches.length); // 8개만 유지
+    }
+    await prefs.setStringList('recentSearches', updatedSearches);
+    setState(() {
+      recentSearches = updatedSearches;
+    });
   }
 
   @override
@@ -211,7 +405,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 6, horizontal: 19),
+                                        vertical: 5, horizontal: 19),
                                     height: 29,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
@@ -232,7 +426,7 @@ class _SearchKeyword extends State<SearchKeyword> {
                                   ),
                                   const SizedBox(
                                     //width: 16,
-                                    height: 8,
+                                    height: 10,
                                   ),
                                 ],
                               ),
@@ -242,6 +436,47 @@ class _SearchKeyword extends State<SearchKeyword> {
                       }
                     },
                   ),
+                )
+              : SizedBox.shrink(),
+          searchText.isEmpty
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 16.0, bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '최근 검색한 키워드',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: _clearRecentSearches,
+                            tooltip: '검색 기록 지우기',
+                            iconSize: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 14.0), // 왼쪽으로 이동시킬 너비
+                        Expanded(
+                          child: _recentKeywords(context, recentSearches),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    )
+                  ],
                 )
               : SizedBox.shrink(),
           searchText.isEmpty
