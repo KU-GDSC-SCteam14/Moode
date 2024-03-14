@@ -12,6 +12,7 @@ import 'package:mind_care/screen/happy_screen.dart';
 import 'package:slider_button/slider_button.dart';
 // import 'dart:math';
 import 'package:flutter/widgets.dart';
+import 'package:mind_care/db.dart';
 import 'dart:ui';
 
 class HomeScreen extends StatefulWidget {
@@ -33,6 +34,33 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
   ValueNotifier<double> iconPositionNotifier = ValueNotifier<double>(0.0);
+  bool showPositiveDiaryBanner = false;
+
+  void _checkForPositiveDiaries() async {
+    DateTime now = DateTime.now();
+    // Find the last Sunday
+    DateTime lastSunday = now.subtract(Duration(days: now.weekday % 7));
+    // Find next Saturday
+    DateTime nextSaturday = lastSunday.add(Duration(days: 6));
+
+    bool foundPositiveDiary = false;
+    for (DateTime date = lastSunday;
+        date.isBefore(nextSaturday.add(Duration(days: 1)));
+        date = date.add(Duration(days: 1))) {
+      String dateString =
+          "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      List<int> diaries =
+          await DatabaseService.getDiariesByDateAndMood(dateString);
+      if (diaries.isNotEmpty) {
+        foundPositiveDiary = true;
+        break;
+      }
+    }
+
+    setState(() {
+      showPositiveDiaryBanner = foundPositiveDiary;
+    });
+  }
 
   @override
   void initState() {
@@ -46,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen>
       ..addListener(() {
         iconPositionNotifier.value = _animation.value;
       });
+    _checkForPositiveDiaries();
   }
 
   @override
@@ -103,66 +132,67 @@ class _HomeScreenState extends State<HomeScreen>
           ListView(
             padding: EdgeInsets.only(bottom: 105),
             children: [
-              // 주간 긍정일기 확인버튼 배너
-              Container(
-                color: const Color(0xfff8f9f9),
-                width: 390,
-                height: 77,
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          '주간 긍정일기를 확인해보세요.',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Color(0xff626262)),
+              showPositiveDiaryBanner
+                  // 주간 긍정일기 확인버튼 배너
+                  ? Container(
+                      color: const Color(0xfff8f9f9),
+                      width: 390,
+                      height: 77,
+                      padding: const EdgeInsets.all(8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        SizedBox(
-                          width: 73,
-                          height: 41,
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsets.all(12)),
-                                backgroundColor:
-                                    const MaterialStatePropertyAll<Color>(
-                                  Color.fromRGBO(49, 200, 201, 0.15),
-                                ),
-                                elevation: MaterialStateProperty.all(0),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                )),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HappyDiaryScreen()),
-                                );
-                              },
-                              child: const Text(
-                                '확인하기',
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                '주간 긍정일기를 확인해보세요.',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
-                                    color: Color(0xff007AFF)),
-                              )),
-                        )
-                      ]),
-                ),
-              ),
-
+                                    color: Color(0xff626262)),
+                              ),
+                              SizedBox(
+                                width: 73,
+                                height: 41,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.all(12)),
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll<Color>(
+                                        Color.fromRGBO(49, 200, 201, 0.15),
+                                      ),
+                                      elevation: MaterialStateProperty.all(0),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                      )),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HappyDiaryScreen()),
+                                      );
+                                    },
+                                    child: const Text(
+                                      '확인하기',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: Color(0xff007AFF)),
+                                    )),
+                              )
+                            ]),
+                      ),
+                    )
+                  : SizedBox.shrink(),
               BodyCalendar(
                   selectedDate: selectedDate,
                   onDaySelected: (DateTime selected, DateTime focused) {
